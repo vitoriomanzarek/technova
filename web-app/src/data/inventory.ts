@@ -120,6 +120,44 @@ export const INVENTORY: InventoryItem[] = [
         trigger: 'Atención 24/7'
     },
 
+    // CATEGORÍA 3: Features & Sitemap (Extension)
+    {
+        id: 'DV-05',
+        category: 'DV',
+        name: 'Integración Pasarela de Pagos',
+        roles: ['Web Developer'],
+        effortHours: 8,
+        cost: 350,
+        trigger: 'Pagos Online'
+    },
+    {
+        id: 'DV-06',
+        category: 'DV',
+        name: 'Sistema de Reservas',
+        roles: ['Web Developer'],
+        effortHours: 12,
+        cost: 500,
+        trigger: 'Agendar Citas'
+    },
+    {
+        id: 'DV-07',
+        category: 'DV',
+        name: 'Multi-idioma',
+        roles: ['Web Developer'],
+        effortHours: 10,
+        cost: 450,
+        trigger: 'Idiomas múltiples'
+    },
+    {
+        id: 'DV-08',
+        category: 'DV',
+        name: 'Integración CRM Externa',
+        roles: ['Web Developer'],
+        effortHours: 6,
+        cost: 300,
+        trigger: 'HubSpot/Salesforce'
+    },
+
     // CATEGORÍA 5: Gestión (PM)
     {
         id: 'PM-01',
@@ -135,13 +173,45 @@ export const INVENTORY: InventoryItem[] = [
 export interface WizardState {
     step: number;
     answers: {
-        domainStatus: 'owned_ok' | 'owned_lost' | 'none';
-        brandStatus: 'complete' | 'basic' | 'none';
+        // Dimensión 1: Misión (Tipo)
         projectType: 'landing' | 'ecommerce' | 'lms' | 'webapp';
-        features: string[]; // e.g., 'chatbot', 'blog'
-        marketing: string[]; // e.g., 'seo', 'analytics'
+
+        // Dimensión 2: Identidad (Brand)
+        brandStatus: 'complete' | 'basic' | 'none';
+
+        // Dimensión 3: Infraestructura (Dominio)
+        domainStatus: 'owned_ok' | 'owned_lost' | 'none';
+
+        // Dimensión 4: Marketing & Features
+        features: string[]; // seo, analytics, chatbot, etc.
+
+        // Dimensión 5: Coordenadas
+        deadline: 'urgent' | 'normal' | 'long';
+        budgetRange: 'seed' | 'takeoff' | 'expansion';
+
+        // Dimensión 6: Lead Data
+        name: string;
+        company: string;
+        email: string;
+        whatsapp: string;
+
+        // Optional / Legacy fields (kept for type safety if referenced elsewhere temporarily)
+        hostingType?: any;
+        securityLevel?: any;
+        designStyle?: any;
+        references?: any;
+        sitemap?: any;
+        seoStatus?: any;
+        analytics?: any;
+        contactPreference?: any;
     };
     recommendations: InventoryItem[];
     totalCost: number;
     totalHours: number;
+    generatedPlan: {
+        diagnosis: string;
+        techStack: string[];
+        team: string[];
+        roadmap: string[];
+    };
 }

@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#1A1F71', // Deep Blue
-        accent: '#6A0DAD', // Nebula Purple
-        dark: '#121212', // Space Black
+        primary: 'hsl(var(--primary))', // Cyan Glow (was dark blue)
+        accent: 'hsl(var(--accent))', // Nebula Purple
+        dark: 'hsl(var(--background))', // Space Black
         darker: '#0a0a0a',
         highlight: '#00D4FF', // Bright Cyan
         light: '#F5F5F5',

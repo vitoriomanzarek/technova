@@ -82,13 +82,14 @@ const Navbar = () => {
 
                     <a href="/#beneficios" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Beneficios</a>
                     <a href="/#proyectos" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Proyectos</a>
-                    <a href="/#proceso" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Proceso</a>
-
                     <Link
                         to="/start-project"
-                        className="bg-gradient-to-r from-primary to-accent text-white px-6 py-2 rounded-lg font-bold shadow-[0_4px_15px_rgba(106,13,173,0.3)] hover:shadow-[0_6px_20px_rgba(106,13,173,0.5)] hover:-translate-y-0.5 transition-all text-sm lg:text-base uppercase tracking-wide"
+                        className="group relative overflow-hidden bg-gradient-to-r from-primary via-accent to-blue-500 text-white px-8 py-2.5 rounded-full font-bold shadow-[0_0_20px_rgba(106,13,173,0.5)] hover:shadow-[0_0_35px_rgba(0,212,255,0.6)] transition-all duration-300 hover:-translate-y-1 border border-white/20"
                     >
-                        Empezar
+                        <span className="relative z-10 flex items-center gap-2 text-sm lg:text-base uppercase tracking-wider">
+                            🚀 Empezar Proyecto
+                        </span>
+                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                     </Link>
                 </nav>
 
@@ -144,9 +145,9 @@ const Navbar = () => {
                         <Link
                             to="/start-project"
                             onClick={() => setMobileMenuOpen(false)}
-                            className="bg-primary text-center text-white py-3 rounded-lg font-bold mt-4 shadow-lg"
+                            className="bg-gradient-to-r from-primary via-accent to-blue-500 text-white text-center py-4 rounded-xl font-bold mt-6 shadow-[0_0_20px_rgba(106,13,173,0.4)] hover:shadow-[0_0_30px_rgba(106,13,173,0.6)] border border-white/20 flex justify-center items-center gap-2 text-lg"
                         >
-                            Empezar Proyecto
+                            🚀 Empezar Proyecto
                         </Link>
                     </div>
                 </div>

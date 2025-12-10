@@ -1,18 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-dark text-white font-body;
+  :root {
+    /* Space Tech Color Palette */
+    --background: 240 10% 7%;
+    --foreground: 0 0% 100%;
+
+    --card: 240 15% 12%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 240 15% 12%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 189 100% 50%;
+    --primary-foreground: 240 10% 7%;
+
+    --secondary: 274 89% 37%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 240 15% 20%;
+    --muted-foreground: 240 10% 70%;
+
+    --accent: 274 89% 37%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 15% 25%;
+    --input: 240 15% 20%;
+    --ring: 189 100% 50%;
+
+    --radius: 1rem;
+
+    /* Custom Space Colors */
+    --space-black: 0 0% 7%;
+    --deep-blue: 230 61% 27%;
+    --cyan-glow: 189 100% 50%;
+    --nebula-purple: 274 89% 37%;
+    --star-white: 0 0% 100%;
+    --text-gray: 240 10% 75%;
+
+    /* Glassmorphism */
+    --glass-bg: 240 15% 15%;
+    --glass-border: 240 15% 30%;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading font-bold;
+  .dark {
+    --background: 240 10% 7%;
+    --foreground: 0 0% 100%;
   }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(135deg, hsl(var(--space-black)) 0%, hsl(var(--deep-blue)) 50%, hsl(var(--space-black)) 100%);
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+
+  /* Glassmorphism Card */
+  .glass-card {
+    background-color: hsl(var(--card) / 0.3);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    box-shadow:
+      0 8px 32px rgba(0, 212, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Cyan Glow Effect */
+  .glow-cyan {
+    box-shadow:
+      0 0 20px hsl(var(--cyan-glow) / 0.4),
+      0 0 40px hsl(var(--cyan-glow) / 0.2),
+      0 0 60px hsl(var(--cyan-glow) / 0.1);
+  }
+
+  /* Purple Glow Effect */
+  .glow-purple {
+    box-shadow:
+      0 0 20px hsl(var(--nebula-purple) / 0.4),
+      0 0 40px hsl(var(--nebula-purple) / 0.2);
+  }
+
+  /* Hover Glow */
+  .hover-glow {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  .hover-glow:hover {
+    box-shadow:
+      0 0 25px hsl(var(--cyan-glow) / 0.5),
+      0 0 50px hsl(var(--cyan-glow) / 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* Text Gradient */
+  .text-gradient {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(135deg, hsl(var(--cyan-glow)) 0%, hsl(var(--nebula-purple)) 100%);
+  }
+
+  /* Border Gradient */
+  .border-gradient {
+    position: relative;
+  }
+
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, hsl(var(--cyan-glow) / 0.5), hsl(var(--nebula-purple) / 0.5));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* Animations */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px hsl(var(--cyan-glow) / 0.4), 0 0 40px hsl(var(--cyan-glow) / 0.2);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 30px hsl(var(--cyan-glow) / 0.6), 0 0 60px hsl(var(--cyan-glow) / 0.3);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes progress-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px hsl(var(--cyan-glow) / 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 20px hsl(var(--cyan-glow) / 0.8), 0 0 30px hsl(var(--cyan-glow) / 0.4);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-200px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-drift {
+  animation: drift 20s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+.animate-progress-glow {
+  animation: progress-glow 2s ease-in-out infinite;
+}
+
+/* Star animation delays */
+.star-delay-1 {
+  animation-delay: 0s;
+}
+
+.star-delay-2 {
+  animation-delay: 0.5s;
+}
+
+.star-delay-3 {
+  animation-delay: 1s;
+}
+
+.star-delay-4 {
+  animation-delay: 1.5s;
+}
+
+.star-delay-5 {
+  animation-delay: 2s;
 }

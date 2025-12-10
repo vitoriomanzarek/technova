@@ -1,222 +1,169 @@
 import { useProjectCalculator } from '@/hooks/useProjectCalculator';
-import NavigatorLayout from '@/components/navigator/NavigatorLayout';
-import { motion } from 'framer-motion';
+import StarBackground from '@/components/StarBackground';
+import WizardCard from '@/components/WizardCard';
+import WizardProgress from '@/components/WizardProgress';
+import StepWelcome from '@/components/wizard/StepWelcome';
+import StepMissionType from '@/components/wizard/StepMissionType';
+import StepVisualIdentity from '@/components/wizard/StepVisualIdentity';
+import StepInfrastructure from '@/components/wizard/StepInfrastructure';
+import StepSystems from '@/components/wizard/StepSystems';
+import StepLaunch from '@/components/wizard/StepLaunch';
+import StepContact from '@/components/wizard/StepContact';
+import StepSuccess from '@/components/wizard/StepSuccess';
 
 const StartProject = () => {
-    const { state, setAnswer, nextStep, prevStep } = useProjectCalculator();
-    const { step, answers, recommendations, totalCost, totalHours } = state;
+    const { state, setAnswer, nextStep, prevStep, startWizard } = useProjectCalculator();
+    const { step, answers } = state;
+
+    // --- MAPPERS ---
+    // Map component values to internal logic values
+    const mapBrandToLogic = (val: string) => {
+        if (val === 'logo-only') return 'basic';
+        if (val === 'from-scratch') return 'none';
+        return 'complete';
+    };
+
+    const mapInfraToLogic = (val: string) => {
+        if (val === 'domain-only') return 'owned_lost';
+        if (val === 'nothing') return 'none';
+        return 'owned_ok';
+    };
+
+    const mapTimelineToLogic = (val: string) => {
+        return val === 'standard' ? 'normal' : 'urgent';
+    };
+
+    const mapBudgetToLogic = (val: string) => {
+        if (val === 'small') return 'seed';
+        if (val === 'medium') return 'takeoff';
+        return 'expansion';
+    };
+
+    // --- REVERSE MAPPERS (Logic -> Component) ---
+    const getBrandValue = () => {
+        if (answers.brandStatus === 'basic') return 'logo-only';
+        if (answers.brandStatus === 'none') return 'from-scratch';
+        return 'complete';
+    };
+
+    const getInfraValue = () => {
+        if (answers.domainStatus === 'owned_lost') return 'domain-only';
+        if (answers.domainStatus === 'none') return 'nothing';
+        return 'complete';
+    };
+
+    const renderStep = () => {
+        switch (step) {
+            case 0:
+                return <StepWelcome onNext={startWizard} />;
+            case 1:
+                return (
+                    <StepMissionType
+                        selected={answers.projectType}
+                        onSelect={(val) => setAnswer('projectType', val)}
+                        onNext={nextStep}
+                        onBack={() => prevStep()} // Should go to welcome? No, welcome is step 0.
+                    />
+                );
+            case 2:
+                return (
+                    <StepVisualIdentity
+                        selected={getBrandValue()}
+                        onSelect={(val) => setAnswer('brandStatus', mapBrandToLogic(val))}
+                        onNext={nextStep}
+                        onBack={prevStep}
+                    />
+                );
+            case 3:
+                return (
+                    <StepInfrastructure
+                        selected={getInfraValue()}
+                        onSelect={(val) => setAnswer('domainStatus', mapInfraToLogic(val))}
+                        onNext={nextStep}
+                        onBack={prevStep}
+                    />
+                );
+            case 4:
+                return (
+                    <StepSystems
+                        selected={answers.features.map(f => f === 'multilanguage' ? 'multilang' : f)}
+                        onToggle={(val) => {
+                            const logicVal = val === 'multilang' ? 'multilanguage' : val;
+                            const newFeats = answers.features.includes(logicVal)
+                                ? answers.features.filter(f => f !== logicVal)
+                                : [...answers.features, logicVal];
+                            setAnswer('features', newFeats);
+                        }}
+                        onNext={nextStep}
+                        onBack={prevStep}
+                    />
+                );
+            case 5:
+                // Split logic: StepLaunch combines Time and Budget.
+                // Our logic expected separate steps maybe?
+                // The new component StepLaunch handles BOTH.
+                // So we just map both here.
+                return (
+                    <StepLaunch
+                        timeline={answers.deadline === 'normal' ? 'standard' : 'urgent'}
+                        budget={answers.budgetRange === 'seed' ? 'small' : answers.budgetRange === 'takeoff' ? 'medium' : 'large'} // approx mapping
+                        onTimelineSelect={(val) => setAnswer('deadline', mapTimelineToLogic(val))}
+                        onBudgetSelect={(val) => setAnswer('budgetRange', mapBudgetToLogic(val))}
+                        onNext={nextStep}
+                        onBack={prevStep}
+                    />
+                );
+            case 6:
+                return (
+                    <StepContact
+                        onSubmit={(data) => {
+                            setAnswer('name', data.name);
+                            setAnswer('email', data.email);
+                            setAnswer('whatsapp', data.whatsapp);
+                            // Submit logic or next step?
+                            // Logic usually generates plan here.
+                            nextStep(); // This moves to step 7 (Success)
+                        }}
+                        onBack={prevStep}
+                    />
+                );
+            case 7:
+                return <StepSuccess />;
+            default:
+                return null;
+        }
+    };
 
     return (
-        <>
-            {step === 1 && (
-                <NavigatorLayout currentStep={1} totalSteps={5} title="Infraestructura y Cimientos" onNext={nextStep}>
-                    <div className="space-y-6">
-                        <p className="text-gray-300 text-lg text-center mb-8">¿Cuál es el estado actual de tu dominio web (el nombre de tu sitio)?</p>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <OptionCard
-                                selected={answers.domainStatus === 'none'}
-                                onClick={() => setAnswer('domainStatus', 'none')}
-                                icon="🌐"
-                                title="No tengo dominio"
-                                desc="Necesito ayuda para comprarlo Configurar todo."
-                            />
-                            <OptionCard
-                                selected={answers.domainStatus === 'owned_lost'}
-                                onClick={() => setAnswer('domainStatus', 'owned_lost')}
-                                icon="🤷‍♂️"
-                                title="Lo tengo pero no sé"
-                                desc="Tengo el nombre pero no sé acceder a los DNS."
-                            />
-                            <OptionCard
-                                selected={answers.domainStatus === 'owned_ok'}
-                                onClick={() => setAnswer('domainStatus', 'owned_ok')}
-                                icon="✅"
-                                title="Tengo el control"
-                                desc="Tengo acceso a mi proveedor de dominios."
-                            />
-                        </div>
-                    </div>
-                </NavigatorLayout>
-            )}
+        <div className="min-h-screen relative overflow-hidden bg-background">
+            <StarBackground />
 
-            {step === 2 && (
-                <NavigatorLayout currentStep={2} totalSteps={5} title="Identidad de Marca" onNext={nextStep} onPrev={prevStep}>
-                    <div className="space-y-6">
-                        <p className="text-gray-300 text-lg text-center mb-8">¿Cuentas con un logotipo y manual de marca?</p>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <OptionCard
-                                selected={answers.brandStatus === 'none'}
-                                onClick={() => setAnswer('brandStatus', 'none')}
-                                icon="🎨"
-                                title="Desde Cero"
-                                desc="Necesito que diseñen mi logo y marca."
-                            />
-                            <OptionCard
-                                selected={answers.brandStatus === 'basic'}
-                                onClick={() => setAnswer('brandStatus', 'basic')}
-                                icon="📂"
-                                title="Tengo lo Básico"
-                                desc="Tengo mi logo pero no un manual completo."
-                            />
-                            <OptionCard
-                                selected={answers.brandStatus === 'complete'}
-                                onClick={() => setAnswer('brandStatus', 'complete')}
-                                icon="✨"
-                                title="Design System"
-                                desc="Tengo todos los archivos editables listos."
-                            />
-                        </div>
-                    </div>
-                </NavigatorLayout>
-            )}
+            {/* Main content */}
+            <main className="relative z-10 min-h-screen flex flex-col items-center justify-center py-12 px-4">
+                {/* Show progress only on steps 1-6 (Content steps) */}
+                {step > 0 && step < 7 && (
+                    <WizardProgress currentStep={step} totalSteps={6} />
+                )}
 
-            {step === 3 && (
-                <NavigatorLayout currentStep={3} totalSteps={5} title="Tipo de Proyecto" onNext={nextStep} onPrev={prevStep}>
-                    <div className="space-y-8">
-                        <div>
-                            <p className="text-gray-300 text-lg mb-4">¿Cuál es el objetivo principal?</p>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <OptionCard
-                                    selected={answers.projectType === 'landing'}
-                                    onClick={() => setAnswer('projectType', 'landing')}
-                                    icon="📄"
-                                    title="Landing Page"
-                                    desc="Captar leads o presentar información."
-                                />
-                                <OptionCard
-                                    selected={answers.projectType === 'ecommerce'}
-                                    onClick={() => setAnswer('projectType', 'ecommerce')}
-                                    icon="🛒"
-                                    title="Tienda (eCommerce)"
-                                    desc="Vender productos con carrito de compras."
-                                />
-                                <OptionCard
-                                    selected={answers.projectType === 'lms'}
-                                    onClick={() => setAnswer('projectType', 'lms')}
-                                    icon="🎓"
-                                    title="Cursos (LMS)"
-                                    desc="Vender y gestionar cursos online."
-                                />
-                                <OptionCard
-                                    selected={answers.projectType === 'webapp'}
-                                    onClick={() => setAnswer('projectType', 'webapp')}
-                                    icon="💻"
-                                    title="Web App / SaaS"
-                                    desc="Software a medida con funciones complejas."
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </NavigatorLayout>
-            )}
+                {/* If step 0, render directly. If >0, wrap in card? 
+                    StepWelcome usually is full page or card?
+                    In nova-mission-builder index.tsx: 
+                    <ProjectWizard /> -> wraps content in WizardCard.
+                    StepWelcome is rendered INSIDE WizardCard in the original repo.
+                */}
+                <WizardCard className="max-w-2xl w-full">
+                    {renderStep()}
+                </WizardCard>
+            </main>
 
-            {step === 4 && (
-                <NavigatorLayout currentStep={4} totalSteps={5} title="Funcionalidades Extra" onNext={nextStep} onPrev={prevStep}>
-                    <div className="space-y-6">
-                        <p className="text-gray-300 text-lg text-center mb-8">¿Qué herramientas adicionales necesitas?</p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <CheckboxCard
-                                checked={answers.features.includes('chatbot')}
-                                onChange={() => {
-                                    const newFeatures = answers.features.includes('chatbot')
-                                        ? answers.features.filter(f => f !== 'chatbot')
-                                        : [...answers.features, 'chatbot'];
-                                    setAnswer('features', newFeatures);
-                                }}
-                                icon="🤖"
-                                title="Chatbot AI"
-                                desc="Asistente virtual 24/7."
-                            />
-                            <CheckboxCard
-                                checked={answers.features.includes('blog')}
-                                onChange={() => {
-                                    const newFeatures = answers.features.includes('blog')
-                                        ? answers.features.filter(f => f !== 'blog')
-                                        : [...answers.features, 'blog'];
-                                    setAnswer('features', newFeatures);
-                                }}
-                                icon="✍️"
-                                title="Blog de Contenidos"
-                                desc="Para estrategia SEO y noticias."
-                            />
-                        </div>
-                    </div>
-                </NavigatorLayout>
-            )}
-
-            {step === 5 && (
-                <NavigatorLayout currentStep={5} totalSteps={5} title="Tu Plan de Vuelo" onNext={() => alert('¡Enviado! Nos pondremos en contacto.')} onPrev={prevStep} canNext={false}>
-                    <div className="space-y-8">
-                        <div className="text-center">
-                            <h3 className="text-2xl font-bold mb-2">Estimación Preliminar</h3>
-                            <div className="text-5xl font-bold text-highlight mb-2">${totalCost.toLocaleString()} USD</div>
-                            <p className="text-gray-400">Tiempo estimado: {Math.ceil(totalHours / 30)} - {Math.ceil(totalHours / 20)} semanas</p>
-                        </div>
-
-                        <div className="bg-black/20 rounded-xl p-6">
-                            <h4 className="font-bold mb-4 text-accent">Desglose de Inversión</h4>
-                            <ul className="space-y-3">
-                                {recommendations.map((item, idx) => (
-                                    <li key={idx} className="flex justify-between text-sm border-b border-white/5 pb-2 last:border-0 hover:bg-white/5 p-2 rounded transition-colors">
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-xs bg-white/10 px-2 py-0.5 rounded text-gray-400 w-12 text-center">{item.id}</span>
-                                            <span>{item.name}</span>
-                                        </div>
-                                        <span className="font-mono text-gray-300 min-w-[80px] text-right">${item.cost}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="mt-4 pt-4 border-t border-white/10 flex justify-between font-bold text-lg">
-                                <span>Total Estimado</span>
-                                <span className="text-highlight">${totalCost.toLocaleString()}</span>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-4 justify-center">
-                            <button onClick={() => window.print()} className="px-6 py-3 border border-white/20 rounded-lg hover:bg-white/5 transition-colors">
-                                Descargar PDF
-                            </button>
-                            <button className="px-6 py-3 bg-gradient-to-r from-primary to-accent rounded-lg font-bold shadow-lg hover:scale-105 transition-transform">
-                                Confirmar y Agendar
-                            </button>
-                        </div>
-                    </div>
-                </NavigatorLayout>
-            )}
-        </>
+            {/* Footer branding */}
+            <footer className="fixed bottom-4 left-0 right-0 z-10 text-center pointer-events-none">
+                <p className="text-xs text-muted-foreground/40">
+                    Powered by <span className="text-gradient font-semibold">TechNova Solutions</span>
+                </p>
+            </footer>
+        </div>
     );
 };
-
-// Helper Components
-const OptionCard = ({ selected, onClick, icon, title, desc }: any) => (
-    <motion.div
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={onClick}
-        className={`cursor-pointer p-6 rounded-xl border transition-all ${selected ? 'bg-primary/20 border-primary shadow-[0_0_20px_rgba(106,13,173,0.3)]' : 'bg-white/5 border-white/5 hover:border-white/20'}`}
-    >
-        <div className="text-3xl mb-3">{icon}</div>
-        <h3 className="font-bold mb-1">{title}</h3>
-        <p className="text-sm text-gray-400">{desc}</p>
-    </motion.div>
-);
-
-const CheckboxCard = ({ checked, onChange, icon, title, desc }: any) => (
-    <motion.div
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={onChange}
-        className={`cursor-pointer p-6 rounded-xl border transition-all flex items-center gap-4 ${checked ? 'bg-accent/20 border-accent' : 'bg-white/5 border-white/5 hover:border-white/20'}`}
-    >
-        <div className={`w-6 h-6 rounded border flex items-center justify-center ${checked ? 'bg-accent border-accent' : 'border-gray-500'}`}>
-            {checked && <span>✓</span>}
-        </div>
-        <div>
-            <h3 className="font-bold">{title}</h3>
-            <p className="text-sm text-gray-400">{desc}</p>
-        </div>
-        <div className="ml-auto text-2xl">{icon}</div>
-    </motion.div>
-);
 
 export default StartProject;
