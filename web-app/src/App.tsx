@@ -13,6 +13,7 @@ import DataAnalysis from '@/pages/services/DataAnalysis';
 import Support from '@/pages/services/Support';
 import CRM from '@/pages/services/CRM';
 import Chatbot from '@/pages/services/Chatbot';
+import StartProject from '@/pages/StartProject';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -43,6 +44,9 @@ function App() {
           <Route path="services/support" element={<Support />} />
           <Route path="services/crm" element={<CRM />} />
           <Route path="services/chatbot" element={<Chatbot />} />
+
+          {/* Navigator */}
+          <Route path="/start-project" element={<StartProject />} />
         </Route>
       </Routes>
     </>

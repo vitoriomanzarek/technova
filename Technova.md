@@ -209,6 +209,48 @@ TechNova Solutions es una marca **moderna, confiable y visionaria**.
 
 ---
 
+## **TechNova Navigator (Cuéntanos tu Proyecto)**
+
+### **Concepto**
+Un sistema de diagnóstico inteligente ("Wizard") que guía al potencial cliente a través de 5 dimensiones para estructurar su proyecto, definir alcance y generar una cotización preliminar automática.
+
+### **Inventario Maestro de Recursos (IMR)**
+Elementos "atomizados" que el sistema suma al "carrito" del proyecto según las respuestas del cliente.
+
+#### **CATEGORÍA 1: Infraestructura y Cimientos (IT)**
+| ID | Nombre | Trigger (Disparador) | Roles | Esfuerzo | Costo Est. |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **IT-01** | Dominio & DNS Setup | "No tengo dominio" / "No sé configurar" | Soporte ($35/h) | 2h | **$70** |
+| **IT-02** | Hosting / Cloud Setup | Todos los proyectos | Web Dev ($50/h) | 3h | **$150** |
+
+#### **CATEGORÍA 2: Identidad y Diseño (DS)**
+| ID | Nombre | Trigger (Disparador) | Roles | Esfuerzo | Costo Est. |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **DS-01** | Identidad Visual Básica | "No tengo logo" / "Renovar imagen" | UX/UI ($45/h) | 15h | **$675** |
+| **DS-02** | UI/UX & Design System | Proyectos Custom (No plantillas) | UX/UI ($45/h) | 20-40h | **$900 - $1,800** |
+
+#### **CATEGORÍA 3: Desarrollo Web (DV)**
+| ID | Nombre | Trigger (Disparador) | Roles | Esfuerzo | Costo Est. |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **DV-01** | Landing Page | "Captación de leads" | Web Dev ($50/h) | 15h | **$750** |
+| **DV-02** | Módulo eCommerce | "Vender productos" | Web Dev ($50/h) | 40h | **$2,000** |
+| **DV-03** | Módulo LMS | "Vender cursos" | Web Dev + PM | 60h | **$3,050** |
+| **DV-04** | Páginas Adicionales | Blog, Portafolio, etc. | Web Dev ($50/h) | 4h/pág | **$200 c/u** |
+
+#### **CATEGORÍA 4: Marketing Intelligence (MK)**
+| ID | Nombre | Trigger (Disparador) | Roles | Esfuerzo | Costo Est. |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **MK-01** | Setup Analítica (Base) | **Default (Todos)** | Analista ($45/h) | 5h | **$225** |
+| **MK-02** | SEO On-Page Inicial | **Default (Todos)** | SEO ($40/h) | 10h | **$400** |
+| **MK-03** | Integración Chatbot AI | "Atención 24/7" | Web Dev ($50/h) | 8h | **$400** |
+
+#### **CATEGORÍA 5: Gestión (PM)**
+| ID | Nombre | Trigger (Disparador) | Roles | Esfuerzo | Costo Est. |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **PM-01** | Project Management | **Default (Calculado)** | PM ($55/h) | 20% del total | **~20% Costo Total** |
+
+---
+
 ## **Recursos Útiles**
 
 ### **Imágenes**
