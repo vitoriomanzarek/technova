@@ -11,6 +11,8 @@ import StepLaunch from '@/components/wizard/StepLaunch';
 import StepContact from '@/components/wizard/StepContact';
 import StepSuccess from '@/components/wizard/StepSuccess';
 
+import Navbar from '@/components/layout/Navbar';
+
 const StartProject = () => {
     const { state, setAnswer, nextStep, prevStep, startWizard } = useProjectCalculator();
     const { step, answers } = state;
@@ -138,8 +140,10 @@ const StartProject = () => {
         <div className="min-h-screen relative overflow-hidden bg-background">
             <StarBackground />
 
+            <Navbar />
+
             {/* Main content */}
-            <main className="relative z-10 min-h-screen flex flex-col items-center justify-center py-12 px-4">
+            <main className="relative z-10 min-h-screen flex flex-col items-center justify-center py-12 pt-32 px-4">
                 {/* Show progress only on steps 1-6 (Content steps) */}
                 {step > 0 && step < 7 && (
                     <WizardProgress currentStep={step} totalSteps={6} />
@@ -156,12 +160,6 @@ const StartProject = () => {
                 </WizardCard>
             </main>
 
-            {/* Footer branding */}
-            <footer className="fixed bottom-4 left-0 right-0 z-10 text-center pointer-events-none">
-                <p className="text-xs text-muted-foreground/40">
-                    Powered by <span className="text-gradient font-semibold">TechNova Solutions</span>
-                </p>
-            </footer>
         </div>
     );
 };

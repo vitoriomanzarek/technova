@@ -1,9 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import ParticleBackground from './ParticleBackground';
+import { Link } from 'react-router-dom';
 
 export const BenefitsSection = () => (
-    <section id="beneficios" className="relative py-32 overflow-hidden bg-gradient-to-br from-[#0A0A0A] via-[#1a0b2e] to-[#0A0A0A]">
+    <section id="beneficios" className="relative py-32 overflow-hidden bg-[#030305]">
         {/* Fade transitions */}
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#0f172a] to-transparent pointer-events-none z-10"></div>
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0f172a] to-transparent pointer-events-none z-10"></div>
@@ -180,7 +181,7 @@ export const BenefitsSection = () => (
 );
 
 export const ProjectsSection = () => (
-    <section id="proyectos" className="relative py-24 bg-dark overflow-hidden">
+    <section id="proyectos" className="relative py-24 bg-[#030305] overflow-hidden">
         {/* Fade transitions */}
         <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#0f172a] to-transparent pointer-events-none z-10"></div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#1a0b2e] to-transparent pointer-events-none z-10"></div>
@@ -255,7 +256,7 @@ export const ProcessSection = () => {
     const [hoveredStep, setHoveredStep] = React.useState<number | null>(null);
 
     return (
-        <section id="proceso" className="py-24 bg-darker relative overflow-hidden">
+        <section id="proceso" className="py-24 bg-[#030305] relative overflow-hidden">
             {/* Background Effects matching Landing Page */}
             <div className="absolute inset-0 z-0 overflow-hidden">
                 {/* Fixed Particles for consistent parallax feel */}
@@ -385,13 +386,34 @@ export const ProcessSection = () => {
                         </motion.div>
                     ))}
                 </div>
+
+                {/* CTA Process */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mt-16 text-center"
+                >
+                    <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                        ¿Listo para llevar tu negocio al siguiente nivel? <span className="text-cyan-400">Optimiza tu flujo de trabajo y escala hoy mismo.</span>
+                    </p>
+                    <Link
+                        to="/start-project"
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-105 transition-all uppercase tracking-wider text-sm md:text-base"
+                    >
+                        Empezar Proyecto
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </Link>
+                </motion.div>
             </div>
         </section>
     );
 };
 
 export const TestimonialsSection = () => (
-    <section id="testimonios" className="py-24 bg-dark relative overflow-hidden">
+    <section id="testimonios" className="py-24 bg-[#030305] relative overflow-hidden">
         {/* Fade transitions */}
         <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#0f172a] to-transparent pointer-events-none z-20"></div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#1a0b2e] to-transparent pointer-events-none z-20"></div>
@@ -549,7 +571,7 @@ export const TestimonialsSection = () => (
 );
 
 export const TeamSection = () => (
-    <section id="equipo" className="relative py-24 bg-darker overflow-hidden">
+    <section id="equipo" className="relative py-24 bg-[#030305] overflow-hidden">
         {/* Fade transitions */}
         <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#0f172a] to-transparent pointer-events-none z-10"></div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0f172a] to-transparent pointer-events-none z-10"></div>

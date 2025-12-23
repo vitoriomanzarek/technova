@@ -30,7 +30,7 @@ const services = [
 
 const ServicesSection = () => {
     return (
-        <section id="servicios" className="py-24 bg-gradient-to-br from-[#0F1F1E] via-[#0A0A0A] to-[#0A0A0A] relative overflow-hidden">
+        <section id="servicios" className="py-24 bg-[#030305] relative overflow-hidden">
             {/* Gradientes de fondo verde */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.08),transparent_50%)]"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(6,182,212,0.08),transparent_50%)]"></div>

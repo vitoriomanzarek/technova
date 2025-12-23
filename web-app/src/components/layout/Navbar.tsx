@@ -95,6 +95,7 @@ const Navbar = () => {
                     </div>
 
                     <a href="/#beneficios" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Beneficios</a>
+                    <Link to="/pricing" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Precios</Link>
                     <a href="/#proyectos" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Proyectos</a>
                     <Link
                         to="/start-project"
@@ -112,7 +113,11 @@ const Navbar = () => {
                     className="md:hidden text-white p-2"
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 >
-                    {mobileMenuOpen ? '✖' : '☰'}
+                    {mobileMenuOpen ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                    ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="18" y2="18" /></svg>
+                    )}
                 </button>
             </div>
 
@@ -166,6 +171,7 @@ const Navbar = () => {
                         )}
 
                         <a href="/#beneficios" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Beneficios</a>
+                        <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Precios</Link>
                         <a href="/#proyectos" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Proyectos</a>
                         <Link
                             to="/start-project"

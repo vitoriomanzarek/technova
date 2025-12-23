@@ -23,7 +23,7 @@ const developmentServices = [
         title: 'LMS',
         description: 'Plataformas de aprendizaje en línea. Cursos, evaluaciones y seguimiento de estudiantes todo en un lugar.',
         features: ['Gestión de cursos', 'Evaluaciones', 'Certificados'],
-        link: '/services/marketing',
+        link: '/services/lms',
         color: 'from-teal-500 to-cyan-500'
     },
     {
@@ -31,7 +31,7 @@ const developmentServices = [
         title: 'Web Apps',
         description: 'Aplicaciones web personalizadas para tu negocio. Automatiza procesos y mejora la productividad.',
         features: ['100% personalizable', 'Escalable', 'Soporte continuo'],
-        link: '/services/marketing',
+        link: '/services/web-app',
         color: 'from-emerald-600 to-green-500'
     },
 ];
@@ -50,7 +50,7 @@ const solutionServices = [
         title: 'Data Analysis',
         description: 'Análisis de datos y reportes inteligentes. Toma decisiones basadas en información real.',
         features: ['Dashboards', 'Reportes custom', 'Insights'],
-        link: '/services/marketing',
+        link: '/services/data-analysis',
         color: 'from-cyan-500 to-teal-600'
     },
     {
@@ -58,7 +58,7 @@ const solutionServices = [
         title: 'Soporte Técnico',
         description: 'Mantenimiento y asistencia continua. Tu tranquilidad es nuestra prioridad.',
         features: ['24/7 disponible', 'Actualizaciones', 'Backups'],
-        link: '/services/marketing',
+        link: '/services/support',
         color: 'from-teal-500 to-emerald-500'
     },
     {
@@ -66,7 +66,7 @@ const solutionServices = [
         title: 'CRM',
         description: 'Sistema de gestión de relaciones con clientes. Organiza, automatiza y escala tu negocio.',
         features: ['Gestión de leads', 'Automatización', 'Integraciones'],
-        link: '/services/marketing',
+        link: '/services/crm',
         color: 'from-emerald-500 to-green-600'
     },
     {
@@ -74,7 +74,7 @@ const solutionServices = [
         title: 'Chatbot AI',
         description: 'Asistentes virtuales inteligentes. Atiende a tus clientes 24/7 con IA avanzada.',
         features: ['IA conversacional', 'Integración multi-canal', 'Personalizable'],
-        link: '/services/marketing',
+        link: '/services/chatbot',
         color: 'from-green-600 to-teal-500'
     },
 ];

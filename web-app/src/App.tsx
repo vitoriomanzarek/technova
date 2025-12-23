@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Layout from '@/components/layout/Layout';
 import Home from '@/pages/Home';
 import Services from '@/pages/Services';
+import Pricing from '@/pages/Pricing';
 
 // Service Pages
 import LandingPage from '@/pages/services/LandingPage';
@@ -53,13 +54,16 @@ function App() {
           <Route path="services/crm" element={<CRM />} />
           <Route path="services/chatbot" element={<Chatbot />} />
 
-          {/* Navigator */}
-          <Route path="/start-project" element={<StartProject />} />
+          {/* Pricing Page */}
+          <Route path="/pricing" element={<Pricing />} />
 
           {/* Legal Pages */}
           <Route path="/terminos" element={<Terms />} />
           <Route path="/privacidad" element={<Privacy />} />
         </Route>
+
+        {/* Navigator - Standalone Layout (No Footer, Custom Navbar handling) */}
+        <Route path="/start-project" element={<StartProject />} />
       </Routes>
     </>
   );

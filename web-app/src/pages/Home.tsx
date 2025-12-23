@@ -1,4 +1,5 @@
 import Hero from '../components/home/Hero';
+import { Link } from 'react-router-dom';
 import NovaAISection from '../components/home/NovaAISection';
 import ServicesSection from '../components/home/ServicesSection';
 import { BenefitsSection, ProjectsSection, TestimonialsSection, ProcessSection, TeamSection } from '../components/home/Sections';
@@ -58,7 +59,7 @@ const Home = () => {
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
                             {/* Primary CTA - Cuéntanos Tu Proyecto */}
-                            <button className="group relative px-10 py-5 text-lg font-bold text-white overflow-hidden rounded-xl">
+                            <Link to="/start-project" className="group relative px-10 py-5 text-lg font-bold text-white overflow-hidden rounded-xl">
                                 {/* Animated Gradient Background */}
                                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-cyan-400 bg-[length:200%_100%] animate-[gradient_3s_ease_infinite]"></div>
 
@@ -77,14 +78,7 @@ const Home = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                     </svg>
                                 </span>
-                            </button>
-
-                            {/* Secondary CTA */}
-                            <button className="group px-10 py-5 text-lg font-bold border-2 border-white/20 rounded-xl hover:border-cyan-400/50 hover:bg-white/5 transition-all duration-300">
-                                <span className="text-white group-hover:text-cyan-400 transition-colors">
-                                    Agenda una Consulta
-                                </span>
-                            </button>
+                            </Link>
                         </div>
 
                         {/* Trust Badge */}

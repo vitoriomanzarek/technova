@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import ParticleBackground from './ParticleBackground';
 
 const Hero = () => {
@@ -33,18 +34,18 @@ const Hero = () => {
                     transition={{ duration: 0.8, delay: 0.4 }}
                     className="flex flex-col sm:flex-row gap-4 justify-center"
                 >
-                    <a
-                        href="/#contacto"
+                    <Link
+                        to="/start-project"
                         className="bg-gradient-to-r from-primary to-accent text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-accent/30 hover:shadow-accent/50 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider"
                     >
                         Solicita una consulta gratuita
-                    </a>
-                    <a
-                        href="/#servicios"
+                    </Link>
+                    <Link
+                        to="/servicios"
                         className="border-2 border-highlight text-highlight px-8 py-3 rounded-xl font-bold hover:bg-highlight/10 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider"
                     >
                         Descubre nuestros servicios
-                    </a>
+                    </Link>
                 </motion.div>
             </div>
         </section>
