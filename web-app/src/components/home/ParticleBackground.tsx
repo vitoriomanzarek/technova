@@ -1,6 +1,10 @@
 import { useRef, useEffect } from 'react';
 
-const ParticleBackground = () => {
+interface ParticleBackgroundProps {
+    className?: string;
+}
+
+const ParticleBackground = ({ className = "absolute top-0 left-0 w-full h-full -z-10 pointer-events-none" }: ParticleBackgroundProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -124,7 +128,7 @@ const ParticleBackground = () => {
         };
     }, []);
 
-    return <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none" />;
+    return <canvas ref={canvasRef} className={className} />;
 };
 
 export default ParticleBackground;

@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Layout from '@/components/layout/Layout';
 import Home from '@/pages/Home';
+import Services from '@/pages/Services';
 
 // Service Pages
 import LandingPage from '@/pages/services/LandingPage';
@@ -14,6 +15,10 @@ import Support from '@/pages/services/Support';
 import CRM from '@/pages/services/CRM';
 import Chatbot from '@/pages/services/Chatbot';
 import StartProject from '@/pages/StartProject';
+
+// Legal Pages
+import Terms from '@/pages/Terms';
+import Privacy from '@/pages/Privacy';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -32,6 +37,9 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
 
+          {/* All Services */}
+          <Route path="servicios" element={<Services />} />
+
           {/* Development Services */}
           <Route path="services/landing-page" element={<LandingPage />} />
           <Route path="services/ecommerce" element={<Ecommerce />} />
@@ -47,6 +55,10 @@ function App() {
 
           {/* Navigator */}
           <Route path="/start-project" element={<StartProject />} />
+
+          {/* Legal Pages */}
+          <Route path="/terminos" element={<Terms />} />
+          <Route path="/privacidad" element={<Privacy />} />
         </Route>
       </Routes>
     </>
