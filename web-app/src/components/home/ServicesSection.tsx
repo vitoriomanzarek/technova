@@ -22,7 +22,7 @@ const services = [
     },
     {
         icon: '📧',
-        title: 'Email Marketing',
+        title: 'Marketing Digital',
         desc: 'Campañas personalizadas para mantener a tus clientes comprometidos.',
         link: '/services/marketing',
     },
