@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
-    Check, ArrowRight, Globe, Lock, Code, BarChart,
+    Check, ArrowRight, Globe, Code, BarChart,
     Smartphone, Palette, HelpCircle, ChevronDown,
-    Zap, Layout, Shield, Search, MousePointerClick
+    Zap, Layout, Search, MousePointerClick, Star
 } from 'lucide-react';
 import ParticleBackground from '../../components/home/ParticleBackground';
 
@@ -46,6 +46,74 @@ const AccordionItem = ({ question, answer }: { question: string, answer: string 
         </div>
     );
 };
+
+const DeviceMockup = () => {
+    return (
+        <div className="relative mx-auto max-w-4xl h-[400px] md:h-[500px] flex items-end justify-center perspective-1000">
+            {/* Laptop Frame */}
+            <motion.div
+                initial={{ rotateX: 10, y: 50, opacity: 0 }}
+                whileInView={{ rotateX: 0, y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="relative z-10 w-[80%] md:w-[70%] bg-gray-900 rounded-t-2xl border-4 border-gray-800 shadow-2xl"
+            >
+                {/* Screen Content */}
+                <div className="bg-[#0B0F19] aspect-video rounded-t-lg overflow-hidden relative p-4 border-b border-gray-700">
+                    <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-gray-800 rounded-full"></div>
+                    {/* Mockup UI */}
+                    <div className="mt-4 space-y-3 opacity-80">
+                        <div className="h-2 w-1/3 bg-blue-500/30 rounded"></div>
+                        <div className="h-8 w-2/3 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg"></div>
+                        <div className="grid grid-cols-2 gap-2 mt-4">
+                            <div className="h-20 bg-blue-900/20 rounded border border-blue-500/10"></div>
+                            <div className="h-20 bg-cyan-900/20 rounded border border-cyan-500/10"></div>
+                        </div>
+                    </div>
+                </div>
+                {/* Laptop Base */}
+                <div className="h-4 bg-gray-800 rounded-b-xl shadow-lg relative">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-gray-700 rounded-b-md"></div>
+                </div>
+            </motion.div>
+
+            {/* Phone Frame */}
+            <motion.div
+                initial={{ x: 50, opacity: 0 }}
+                whileInView={{ x: 20, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="absolute bottom-0 -right-4 md:right-10 z-20 w-[25%] md:w-[20%] bg-black rounded-[2rem] border-4 border-gray-800 shadow-[0_0_30px_rgba(0,0,0,0.5)] overflow-hidden"
+            >
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-4 bg-black rounded-b-xl z-30"></div>
+                <div className="bg-[#0B0F19] aspect-[9/19] p-2 pt-6">
+                    {/* Phone UI */}
+                    <div className="space-y-2 opacity-90">
+                        <div className="h-10 w-full bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg mb-4"></div>
+                        <div className="h-1 w-3/4 bg-gray-700 rounded"></div>
+                        <div className="h-1 w-full bg-gray-700 rounded"></div>
+                        <div className="h-1 w-5/6 bg-gray-700 rounded"></div>
+                        <div className="mt-4 h-16 w-full bg-blue-900/20 rounded border border-blue-500/10"></div>
+                    </div>
+                </div>
+            </motion.div>
+
+            {/* Glow effect back */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-1/2 bg-blue-500/20 blur-[100px] -z-10"></div>
+        </div>
+    );
+};
+
+const SectionCTA = ({ text = "Iniciar Proyecto" }) => (
+    <div className="flex justify-center mt-12">
+        <Link
+            to="/start-project"
+            className="group flex items-center gap-2 px-8 py-3 rounded-full bg-blue-900/30 border border-blue-500/30 text-cyan-400 font-bold hover:bg-cyan-500/10 hover:border-cyan-400 hover:scale-105 transition-all duration-300"
+        >
+            {text} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+    </div>
+);
 
 const LandingPage = () => {
     const comparisonData = [
@@ -143,18 +211,18 @@ const LandingPage = () => {
                         transition={{ duration: 0.8, delay: 0.4 }}
                         className="flex flex-col sm:flex-row gap-4 justify-center"
                     >
-                        <a
-                            href="#landing-vs-web"
+                        <Link
+                            to="/start-project"
                             className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider flex items-center justify-center gap-2"
                         >
-                            Ver la Diferencia <ArrowRight className="w-4 h-4" />
-                        </a>
+                            Empezar Proyecto <ArrowRight className="w-4 h-4" />
+                        </Link>
                     </motion.div>
                 </div>
             </section>
 
             {/* --- SECCIÓN EDUCACIÓN: Landing vs Web --- */}
-            <section id="landing-vs-web" className="py-24 bg-gradient-to-b from-[#0B0F19] to-[#080B14] relative overflow-hidden">
+            <section className="py-24 bg-gradient-to-b from-[#0B0F19] to-[#080B14] relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
 
                 <div className="container mx-auto px-4 relative z-10">
@@ -180,8 +248,8 @@ const LandingPage = () => {
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.2 }}
                                 className={`p-8 rounded-3xl border transition-all duration-300 ${item.isHighlight
-                                        ? 'bg-blue-900/20 border-cyan-500/50 shadow-[0_0_30px_rgba(6,182,212,0.15)] transform md:-translate-y-4'
-                                        : 'bg-[#0F1522]/50 border-gray-800'
+                                    ? 'bg-blue-900/20 border-cyan-500/50 shadow-[0_0_30px_rgba(6,182,212,0.15)] transform md:-translate-y-4'
+                                    : 'bg-[#0F1522]/50 border-gray-800'
                                     }`}
                             >
                                 <div className="flex items-center gap-4 mb-6">
@@ -211,6 +279,8 @@ const LandingPage = () => {
                             </motion.div>
                         ))}
                     </div>
+
+                    <SectionCTA text="Quiero una Landing de Alto Impacto" />
                 </div>
             </section>
 
@@ -227,7 +297,7 @@ const LandingPage = () => {
                         <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full"></div>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                         {[
                             {
                                 icon: <Palette className="w-8 h-8 text-pink-400" />,
@@ -240,9 +310,9 @@ const LandingPage = () => {
                                 desc: "Antes de programar, estructuramos el éxito. Creamos prototipos (wireframes) para garantizar que la información fluye lógicamente hacia la venta."
                             },
                             {
-                                icon: <Smartphone className="w-8 h-8 text-blue-400" />,
-                                title: "100% Responsive",
-                                desc: "Tu cliente te ve en el móvil. Tu página debe verse y funcionar perfecta en un iPhone, una tablet o una pantalla 4K. Sin excusas."
+                                icon: <Star className="w-8 h-8 text-yellow-400" />,
+                                title: "Factor WOW",
+                                desc: "Creamos experiencias que se quedan en la mente. Animaciones sutiles y transiciones fluidas que gritan 'calidad' sin distraer."
                             }
                         ].map((item, idx) => (
                             <motion.div
@@ -266,8 +336,57 @@ const LandingPage = () => {
                 </div>
             </section>
 
-            {/* --- SECCIÓN TECNOLOGÍA: Under the Hood --- */}
+            {/* --- SECCIÓN MOBILE FIRST: RESPONSIVE --- (NUEVO) */}
             <section className="py-24 bg-gradient-to-b from-[#080B14] to-[#0B0F19] relative overflow-hidden">
+                <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                                El mundo es móvil. <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+                                    Tu web también debe serlo.
+                                </span>
+                            </h2>
+                            <p className="text-gray-300 text-lg mb-8 leading-relaxed">
+                                El <span className="text-white font-bold">80% del tráfico de internet</span> proviene de dispositivos móviles. Si tu página no carga rápido o se ve mal en un celular, estás perdiendo 8 de cada 10 clientes potenciales.
+                            </p>
+
+                            <ul className="space-y-4 mb-8">
+                                <li className="flex items-center gap-3 text-gray-300">
+                                    <Smartphone className="w-5 h-5 text-cyan-400" />
+                                    Optimización extrema para pulgares.
+                                </li>
+                                <li className="flex items-center gap-3 text-gray-300">
+                                    <Zap className="w-5 h-5 text-cyan-400" />
+                                    Carga en menos de 2 segundos en 4G.
+                                </li>
+                                <li className="flex items-center gap-3 text-gray-300">
+                                    <Layout className="w-5 h-5 text-cyan-400" />
+                                    Interfaces adaptables (Responsive Design).
+                                </li>
+                            </ul>
+
+                            <Link
+                                to="/start-project"
+                                className="inline-flex items-center gap-2 text-cyan-400 font-bold hover:text-white transition-colors border-b border-cyan-400 hover:border-white pb-1"
+                            >
+                                Optimizar mi presencia móvil <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </motion.div>
+
+                        <div className="relative">
+                            <DeviceMockup />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* --- SECCIÓN TECNOLOGÍA --- */}
+            <section className="py-24 bg-gradient-to-b from-[#0B0F19] to-[#080B14] relative overflow-hidden">
                 {/* Background Tech Mesh */}
                 <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(59,130,246,0.5) 1px, transparent 0)',
@@ -277,7 +396,8 @@ const LandingPage = () => {
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <motion.div
-                            initial={{ opacity: 0, x: -50 }}
+                            className="lg:order-2"
+                            initial={{ opacity: 0, x: 50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                         >
@@ -291,7 +411,7 @@ const LandingPage = () => {
                                 </span>
                             </h2>
                             <p className="text-gray-300 mb-8 text-lg leading-relaxed">
-                                Olvida las webs lentas de WordPress. Usamos el stack tecnológico más moderno (React + Tailwind) para una velocidad extrema y seguridad total.
+                                Olvida las webs lentas. Usamos el stack más moderno (React + Tailwind) para una velocidad extrema y seguridad total.
                             </p>
 
                             <div className="space-y-6">
@@ -299,31 +419,24 @@ const LandingPage = () => {
                                     <div className="p-3 bg-blue-900/20 rounded-lg h-fit"><BarChart className="w-6 h-6 text-green-400" /></div>
                                     <div>
                                         <h4 className="text-white font-bold mb-1">Analítica 360°</h4>
-                                        <p className="text-gray-400 text-sm">Google Analytics 4 + Meta Pixel para trackear cada visita.</p>
+                                        <p className="text-gray-400 text-sm">Google Analytics 4 + Meta Pixel integrados.</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-4">
                                     <div className="p-3 bg-blue-900/20 rounded-lg h-fit"><MousePointerClick className="w-6 h-6 text-orange-400" /></div>
                                     <div>
                                         <h4 className="text-white font-bold mb-1">Mapas de Calor (Heatmaps)</h4>
-                                        <p className="text-gray-400 text-sm">Vemos exactamente dónde hacen clic y hasta dónde leen tus usuarios con Microsoft Clarity.</p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-4">
-                                    <div className="p-3 bg-blue-900/20 rounded-lg h-fit"><Shield className="w-6 h-6 text-purple-400" /></div>
-                                    <div>
-                                        <h4 className="text-white font-bold mb-1">Seguridad Blindada</h4>
-                                        <p className="text-gray-400 text-sm">Sin bases de datos vulnerables ni plugins desactualizados. SSL incluido.</p>
+                                        <p className="text-gray-400 text-sm">Vemos exactamente dónde hacen clic con Microsoft Clarity.</p>
                                     </div>
                                 </div>
                             </div>
                         </motion.div>
 
                         <motion.div
-                            initial={{ opacity: 0, x: 50 }}
+                            className="relative lg:order-1"
+                            initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="relative"
                         >
                             <div className="bg-gradient-to-br from-[#161B28] to-[#0F1522] border border-blue-500/20 rounded-2xl p-8 relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl"></div>
@@ -341,26 +454,20 @@ const LandingPage = () => {
                                         <span className="text-gray-400">Performance</span>
                                         <span className="text-green-400 font-bold">98/100</span>
                                     </div>
-                                    <div className="flex justify-between items-center border-b border-gray-800 pb-2">
-                                        <span className="text-gray-400">Accessibility</span>
-                                        <span className="text-green-400 font-bold">100/100</span>
-                                    </div>
                                     <div className="flex justify-between items-center pb-2">
                                         <span className="text-gray-400">SEO Score</span>
                                         <span className="text-green-400 font-bold">100/100</span>
                                     </div>
                                 </div>
-
-                                <div className="mt-8 pt-6 border-t border-gray-800">
-                                    <p className="text-xs text-gray-500 text-center uppercase tracking-widest">Powered by TechNova Architecture</p>
-                                </div>
                             </div>
                         </motion.div>
                     </div>
+
+                    <SectionCTA text="Quiero tecnología de punta" />
                 </div>
             </section>
 
-            {/* --- SECCIÓN INFRAESTRUCTURA: Dominio y Hosting --- */}
+            {/* --- SECCIÓN INFRAESTRUCTURA --- */}
             <section className="py-24 bg-[#0B0F19] relative">
                 <div className="container mx-auto px-4 text-center">
                     <motion.div
@@ -370,82 +477,36 @@ const LandingPage = () => {
                         className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border border-blue-500/20 rounded-3xl p-10 max-w-4xl mx-auto"
                     >
                         <h2 className="text-3xl font-bold mb-6">Tu Terreno Digital <Globe className="inline-block ml-2 text-blue-400 mb-1" /></h2>
-                        <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-                            Entender la infraestructura web puede ser confuso. Nosotros lo simplificamos con una analogía de bienes raíces:
-                        </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left mb-8">
                             <div className="bg-[#080B14] p-6 rounded-2xl border border-blue-500/10">
                                 <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full bg-orange-400"></div> Dominio
+                                    <div className="w-2 h-2 rounded-full bg-orange-400"></div> Dominio (Dirección)
                                 </h3>
                                 <p className="text-gray-400 text-sm">
-                                    Es tu <strong>dirección</strong> (ej: tuempresa.com). Es cómo la gente encuentra tu negocio en el mapa de internet. Te ayudamos a elegir el mejor nombre.
+                                    Tu nombre en internet (ej: tuempresa.com). Te ayudamos a elegir el mejor.
                                 </p>
                             </div>
                             <div className="bg-[#080B14] p-6 rounded-2xl border border-blue-500/10">
                                 <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full bg-green-400"></div> Hosting
+                                    <div className="w-2 h-2 rounded-full bg-green-400"></div> Hosting (Terreno)
                                 </h3>
                                 <p className="text-gray-400 text-sm">
-                                    Es tu <strong>terreno</strong>. Donde se construye y aloja tu página. Usamos servidores ultra-rápidos para que tu "casa" cargue al instante.
+                                    Servidores ultra-rápidos y seguros donde vive tu página.
                                 </p>
                             </div>
                         </div>
 
-                        <div className="mt-8 pt-6 border-t border-blue-500/20">
-                            <p className="text-cyan-400 font-medium">✨ Nosotros configuramos todo. Tú solo te preocupas por tu negocio.</p>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* --- SECCIÓN PROCESO (Refinado) --- */}
-            <section className="py-24 bg-gradient-to-b from-[#0B0F19] to-[#080B14] relative">
-                <div className="container mx-auto px-4">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">Tu camino al éxito online</h2>
-                        <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full"></div>
-                    </motion.div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {[
-                            { step: 1, title: "Estrategia", desc: "Briefing creativo. Definimos objetivo, público y mensaje clave." },
-                            { step: 2, title: "Arquitectura", desc: "Wireframes y diseño UX. Estructuramos el contenido visualmente." },
-                            { step: 3, title: "Desarrollo", desc: "Código limpio. Implementación de analítica y optimización móvil." },
-                            { step: 4, title: "Despegue", desc: "Revisión final, pruebas de carga y lanzamiento oficial." }
-                        ].map((step, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: idx * 0.2 }}
-                                className="relative group"
+                        <div className="pt-6 border-t border-blue-500/20">
+                            <p className="text-cyan-400 font-medium mb-6">✨ Configuración técnica incluida al 100%.</p>
+                            <Link
+                                to="/start-project"
+                                className="inline-block bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-colors"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-b from-blue-600/10 to-transparent rounded-2xl transform group-hover:-translate-y-2 transition-transform duration-300"></div>
-                                <div className="bg-[#0F1522] border border-blue-500/10 p-8 rounded-2xl relative z-10 h-full hover:border-cyan-500/40 transition-colors duration-300">
-                                    <div className="text-6xl font-bold text-blue-900/30 absolute top-4 right-4 select-none group-hover:text-blue-500/10 transition-colors">
-                                        {step.step}
-                                    </div>
-                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-xl font-bold mb-6 shadow-lg shadow-blue-500/20 text-white">
-                                        {step.step}
-                                    </div>
-                                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-cyan-400 transition-colors">
-                                        {step.title}
-                                    </h3>
-                                    <p className="text-gray-400 text-sm leading-relaxed">
-                                        {step.desc}
-                                    </p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                                Asegurar mi Dominio
+                            </Link>
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 
@@ -492,9 +553,12 @@ const LandingPage = () => {
                                 ))}
                             </ul>
 
-                            <a href="#contacto" className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-900/50 hover:shadow-cyan-500/25">
-                                Agendar Consultoría
-                            </a>
+                            <Link
+                                to="/start-project"
+                                className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-900/50 hover:shadow-cyan-500/25"
+                            >
+                                Empezar Ahora
+                            </Link>
                         </motion.div>
                     </div>
                 </div>

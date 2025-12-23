@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import ParticleBackground from './ParticleBackground';
 
 export const BenefitsSection = () => (
     <section id="beneficios" className="relative py-32 overflow-hidden bg-gradient-to-br from-[#0A0A0A] via-[#1a0b2e] to-[#0A0A0A]">
@@ -249,9 +250,6 @@ export const ProjectsSection = () => (
         </div>
     </section>
 );
-
-import ParticleBackground from './ParticleBackground';
-import { useScroll, useTransform } from 'framer-motion';
 
 export const ProcessSection = () => {
     const [hoveredStep, setHoveredStep] = React.useState<number | null>(null);
