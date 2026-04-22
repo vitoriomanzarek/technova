@@ -2,6 +2,20 @@
 
 Registro histórico de los cambios implementados y despliegues realizados.
 
+## [2026-04-21] - Fase 4 (Migración a Next.js e Infraestructura Backend)
+**Realizado por:** Agente Desarrollador
+
+- **Next.js & App Router:**
+  - Inicialización del proyecto `technova-next` basado en Next.js App Router y Tailwind CSS.
+  - Migración completa de todas las rutas de `react-router-dom` a la estructura de directorios de Next.js (`app/page.tsx`, `app/nosotros/page.tsx`, etc.).
+  - Inyección de la directiva `"use client"` en componentes interactivos y sustitución de dependencias de react-router a next/navigation.
+  - Integración del `Navbar` y `Footer` en el `RootLayout` y unificación de estilos globales.
+- **Base de Datos (Drizzle ORM):**
+  - Instalación de `drizzle-orm` y creación del esquema base en `src/db/schema.ts` (tablas `services` y `leads`).
+- **API Routes (Stripe & Leads):**
+  - Creación del endpoint `app/api/leads/route.ts` estructurado para captar información del Lead Magnet y de Contacto.
+  - Creación del endpoint `app/api/checkout/route.ts` con el boilerplate de Stripe listo para recibir las API keys de producción.
+
 ## [2026-04-21] - Fase 2 y 3 (Estructura y Conversión)
 **Realizado por:** Agente Antigravity
 
