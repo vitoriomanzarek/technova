@@ -94,9 +94,11 @@ const Navbar = () => {
                         </div>
                     </div>
 
+                    <Link to="/nosotros" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Nosotros</Link>
                     <a href="/#beneficios" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Beneficios</a>
                     <Link to="/pricing" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Precios</Link>
                     <a href="/#proyectos" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Proyectos</a>
+                    <Link to="/contacto" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Contacto</Link>
                     <Link
                         to="/start-project"
                         className="group relative overflow-hidden bg-gradient-to-r from-primary via-accent to-blue-500 text-white px-8 py-2.5 rounded-full font-bold shadow-[0_0_20px_rgba(106,13,173,0.5)] hover:shadow-[0_0_35px_rgba(0,212,255,0.6)] transition-all duration-300 hover:-translate-y-1 border border-white/20"
@@ -170,9 +172,11 @@ const Navbar = () => {
                             </div>
                         )}
 
+                        <Link to="/nosotros" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Nosotros</Link>
                         <a href="/#beneficios" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Beneficios</a>
                         <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Precios</Link>
                         <a href="/#proyectos" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Proyectos</a>
+                        <Link to="/contacto" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Contacto</Link>
                         <Link
                             to="/start-project"
                             onClick={() => setMobileMenuOpen(false)}

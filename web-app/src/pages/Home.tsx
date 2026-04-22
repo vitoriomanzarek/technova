@@ -2,6 +2,7 @@ import Hero from '../components/home/Hero';
 import { Link } from 'react-router-dom';
 import NovaAISection from '../components/home/NovaAISection';
 import ServicesSection from '../components/home/ServicesSection';
+import LeadMagnetSection from '../components/home/LeadMagnetSection';
 import { BenefitsSection, ProjectsSection, TestimonialsSection, ProcessSection, TeamSection } from '../components/home/Sections';
 
 const Home = () => {
@@ -30,6 +31,9 @@ const Home = () => {
 
             {/* 8. Equipo */}
             <TeamSection />
+
+            {/* 8.5 Lead Magnet */}
+            <LeadMagnetSection />
 
             {/* 9. Final CTA */}
             <section id="contacto" className="relative py-32 overflow-hidden">

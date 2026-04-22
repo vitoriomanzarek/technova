@@ -21,6 +21,10 @@ import StartProject from '@/pages/StartProject';
 import Terms from '@/pages/Terms';
 import Privacy from '@/pages/Privacy';
 
+// New Pages
+import Nosotros from '@/pages/Nosotros';
+import Contacto from '@/pages/Contacto';
+
 // Scroll to top on route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -56,6 +60,10 @@ function App() {
 
           {/* Pricing Page */}
           <Route path="/pricing" element={<Pricing />} />
+
+          {/* Info Pages */}
+          <Route path="/nosotros" element={<Nosotros />} />
+          <Route path="/contacto" element={<Contacto />} />
 
           {/* Legal Pages */}
           <Route path="/terminos" element={<Terms />} />
