@@ -4,22 +4,11 @@ import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, Users, MessageSquare, Briefcase,
     Smartphone, Calendar, HelpCircle,
-    Zap, Share2, Mail, Clock
+    Zap, Mail, Clock
 } from 'lucide-react';
 import ParticleBackground from '../../components/home/ParticleBackground';
 import DeviceMockup from '../../components/shared/DeviceMockup';
 import AccordionItem from '../../components/shared/AccordionItem';
-
-const SectionCTA = ({ text = "Iniciar Proyecto" }) => (
-    <div className="flex justify-center mt-12">
-        <Link
-            to="/start-project"
-            className="group flex items-center gap-2 px-8 py-3 rounded-full bg-rose-900/30 border border-rose-500/30 text-rose-400 font-bold hover:bg-rose-500/10 hover:border-rose-400 hover:scale-105 transition-all duration-300"
-        >
-            {text} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </Link>
-    </div>
-);
 
 const CRM = () => {
     const comparisonData = [

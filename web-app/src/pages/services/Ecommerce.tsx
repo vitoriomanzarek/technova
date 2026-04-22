@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, Globe, ShoppingCart, CreditCard,
-    Smartphone, Palette, HelpCircle,
-    Zap, Layout, TrendingUp, Package, ShieldCheck, DollarSign
+    Smartphone, HelpCircle,
+    Zap, Layout, TrendingUp, Package, ShieldCheck
 } from 'lucide-react';
 import ParticleBackground from '../../components/home/ParticleBackground';
 import DeviceMockup from '../../components/shared/DeviceMockup';

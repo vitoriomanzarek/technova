@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, Share2, Target, BarChart2,
     Smartphone, Users, HelpCircle,
-    Zap, Youtube, Facebook, Linkedin, Instagram
+    Zap, Youtube, Facebook, Linkedin
 } from 'lucide-react';
 import ParticleBackground from '../../components/home/ParticleBackground';
 import DeviceMockup from '../../components/shared/DeviceMockup';

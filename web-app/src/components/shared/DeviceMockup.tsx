@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 const DeviceMockup = ({ color = "blue" }: { color?: string }) => {
     // Map colors to tailwind classes roughly
-    const getColorClass = (type: 'bg' | 'border' | 'text') => {
+    const getColorClass = (type: 'bg' | 'border' | 'text' | 'from' | 'to') => {
         const colors: any = {
             blue: { bg: 'bg-blue-500', border: 'border-blue-500', text: 'text-blue-500', from: 'from-blue-600', to: 'to-cyan-500' },
             emerald: { bg: 'bg-emerald-500', border: 'border-emerald-500', text: 'text-emerald-500', from: 'from-emerald-600', to: 'to-green-500' },

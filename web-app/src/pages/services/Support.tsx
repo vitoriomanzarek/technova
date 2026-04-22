@@ -10,17 +10,6 @@ import ParticleBackground from '../../components/home/ParticleBackground';
 import DeviceMockup from '../../components/shared/DeviceMockup';
 import AccordionItem from '../../components/shared/AccordionItem';
 
-const SectionCTA = ({ text = "Iniciar Proyecto" }) => (
-    <div className="flex justify-center mt-12">
-        <Link
-            to="/start-project"
-            className="group flex items-center gap-2 px-8 py-3 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-400 font-bold hover:bg-cyan-500/10 hover:border-cyan-400 hover:scale-105 transition-all duration-300"
-        >
-            {text} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </Link>
-    </div>
-);
-
 const Support = () => {
     const comparisonData = [
         {
