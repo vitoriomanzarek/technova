@@ -49,12 +49,22 @@ metadata:
 | `dotenv` | `^17.4.2` | Solo para scripts standalone (Next.js carga `.env` nativo). |
 | `tsx` | `^4.21.0` | Ejecutar scripts TS (`migrate.mjs`, `create_routes.mjs`). |
 
+### Pagos & Validación (instalados 2026-05-20)
+| Paquete | Versión | Notas |
+|---------|---------|-------|
+| `stripe` | `^22.1.1` | SDK Node. Singleton en `src/lib/stripe.ts`. apiVersion `2026-03-25.dahlia`. |
+| `zod` | `^4.4.3` | Validación de bodies en `/api/leads` y `/api/checkout`. |
+
+**Stripe activo (TEST mode):**
+- Endpoint webhook: `https://tech-nova.mx/api/checkout/webhook`
+- Destination ID: `we_1TZD1ILk0zEvx0OqP87KrvOW`
+- 11 eventos suscritos (checkout + payment_intent + charge + 5 subscription proactivos).
+- Tabla `orders` en `src/db/schema.ts` con estados `pending|paid|expired|refunded|disputed`.
+
 ### ⚠️ Mencionado en docs PERO NO instalado
-- **`stripe` SDK** — `app/api/checkout/route.ts` es **boilerplate sin SDK**. D-007 status: *"infraestructura lista, pendiente keys producción"*. Cuando se active → `npm install stripe`.
 - **Auth0 / NextAuth** — cero auth en MVP (D-008). Plan Fase 2 = Auth0.
 - **Vitest / Jest / Playwright / React Testing Library** — sin testing instalado.
-- **Headless UI / Shadcn / Radix** — no instalados (a pesar de menciones en versiones previas de este doc).
-- **Zod** — no instalado todavía; validación pendiente para APIs.
+- **Headless UI / Shadcn / Radix** — no instalados.
 
 ---
 

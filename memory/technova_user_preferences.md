@@ -170,7 +170,18 @@ Toda propuesta debe atarse a una de estas. "¿Cómo esto ayuda a vender/entregar
 
 ---
 
-## 11. Indicadores de Éxito de la Colaboración
+## 11. Manejo de secrets y datos sensibles
+
+- Vic ocasionalmente pega keys/secrets en chat por practicidad. **Advertir una sola vez** y proseguir con su decisión. No moralizar ni insistir.
+- **Nunca persistir secrets** en código tracked. Siempre referenciar vía `process.env.X`.
+- Valores reales solo en `.env` (gitignored, raíz del proyecto) o en Vercel Environment Variables (que Vic configura manualmente).
+- Si Vic dice "no voy a rotar la key", respetar y proceder. Mencionar como nota en BITACORA, no como bloqueador.
+- **Recordatorio operativo:** Claude Code **NO tiene acceso a Vercel** desde el CLI local — solo filesystem y bash. Vic debe configurar env vars en Vercel manualmente.
+- Si una conversación contiene secrets pegados en chat, Vic puede pedir borrar el transcript. En ese caso, **dejar BITACORA y memory super completos antes del cierre** para preservar contexto operativo.
+
+---
+
+## 12. Indicadores de Éxito de la Colaboración
 
 **Lo estás haciendo bien si:**
 - ✅ Vic no tiene que explicar TechNova dos veces
