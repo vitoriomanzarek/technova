@@ -4,6 +4,72 @@ Registro histórico de los cambios implementados y despliegues realizados.
 
 ---
 
+## [2026-05-20] - Deploy a producción + Vercel API access
+**Realizado por:** Claude Code (vía Vercel API)
+**Status:** ✅ EN PRODUCCIÓN — `tech-nova.mx` corre todo lo de Fase 1 + Stripe TEST
+
+### Resumen
+Vic concedió acceso temporal a Vercel pegando un token personal en chat. Con ese acceso se cerró el ciclo completo: configurar env vars faltantes en Vercel, mergear todos los commits del worktree a `main`, crear la tabla `orders` en Neon, pushear, y verificar el deploy. Producción ahora corre el lead funnel real, Stripe checkout backend, webhook handler firmado, y páginas success/cancel.
+
+### Configuración hecha vía Vercel API
+- Proyecto: `prj_TIPXMWs783BkRFQRMZQCxRGvnVuJ` (team `team_AiOzzfX4JiMUdVofOQvrlARW`)
+- 3 env vars añadidas (production + preview como `sensitive`, development como `encrypted`):
+  - `STRIPE_WEBHOOK_SECRET`
+  - `RESEND_API_KEY` (faltaba — sin esto el endpoint de leads no enviaba emails en prod)
+  - `RESEND_FROM_EMAIL` = `"TechNova <noreply@tech-nova.mx>"`
+- Las otras 4 (`DATABASE_URL`, `DATABASE_URL_UNPOOLED`, `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_BASE_URL`) ya estaban.
+
+### Migration DB (Neon)
+- `npx drizzle-kit push` corrida con éxito → tabla `orders` creada.
+
+### Commits adicionales hechos para destrabar el build
+Vercel falló dos veces durante el deploy y se arreglaron sobre la marcha:
+
+| Commit | Por qué |
+|--------|---------|
+| `bd1fdab` | docs(env): cambiar placeholders del .env.example a `PEGA_TU_X_AQUI` (GitHub Push Protection detectaba `sk_test_xxx…` como key real). Vic tuvo que aprobar un unblock-secret URL una sola vez. |
+| `cd939d9` | chore: borrar `src/components/layout/{AdLandingLayout,Layout}.tsx` — orphans del Pages Router con `{children}` sin tipar y `react-router-dom` huérfano. Build TypeScript fallaba en strict. Cero imports en el repo (verificado por grep). |
+| `cdb1f58` | fix(stripe): alinear `apiVersion` a `'2026-04-22.dahlia'` para matchear el tipo del SDK (`stripe ^22.1.1`). El destination en Stripe dashboard sigue en `2026-03-25.dahlia` — Stripe es backward-compatible. |
+
+### Deploy final
+- **Commit:** `cdb1f58`
+- **Deployment:** `dpl_4fUiWJs7gAZZtscUng3jUsFQQQJP`
+- **State:** READY
+- **URL canónica:** https://tech-nova.mx
+
+### Smoke tests en producción (todos ✅)
+- `GET /` → 200 OK (911 ms)
+- `POST /api/leads` (body vacío) → 400 con `issues` de zod validando email requerido
+- `POST /api/checkout` (body vacío) → 400 con 3 issues de zod (email/amount/description)
+- `GET /api/checkout/webhook` → 405 (existe, solo POST, como debe ser)
+- `GET /checkout/success` → 200
+- `GET /checkout/cancel` → 200
+
+### Pendientes (Vic, post-cierre de conversación)
+1. **Test end-to-end con tarjeta real de prueba** — Claude no puede iniciar pagos. Vic ejecuta:
+   ```bash
+   curl -X POST https://tech-nova.mx/api/checkout \
+     -H "Content-Type: application/json" \
+     -d '{"email":"victorsm2893@gmail.com","amount_mxn":18000,"description":"Plan GROWTH - prueba","plan":"GROWTH"}'
+   ```
+   Abre la URL devuelta, paga con `4242 4242 4242 4242`. Verifica:
+   - Redirect a `/checkout/success` ✓
+   - Stripe dashboard → webhook entregado con 200
+   - Neon `SELECT * FROM orders` → status='paid', paid_at lleno
+2. **Rotar secrets que se pegaron en chat:**
+   - Stripe `sk_test_51TPB37Lk0zEvx0OqX…` → roll en https://dashboard.stripe.com/test/apikeys
+   - Vercel token `vcp_7ipmy7vSSR6bMDCe…` → revocar en https://vercel.com/account/tokens
+   - Resend API key — opcional, pero buena higiene
+3. **Considerar actualizar la API version del webhook destination en Stripe** dashboard a `2026-04-22.dahlia` para consistencia con el SDK (no urgente — backward-compatible).
+4. **Eliminar conversación de chat** según el plan original.
+
+### Acceso Vercel para próximas sesiones
+La próxima sesión NO tendrá el token a menos que Vic vuelva a configurarlo. Si quiere persistente:
+- Añadir `VERCEL_TOKEN` al `.env` local (gitignored, solo Vic lo ve)
+- O configurar Vercel MCP en `~/.claude/settings.json` con OAuth (más seguro)
+
+---
+
 ## [2026-05-20] - Stripe Integration (TEST mode) + Resend domain config
 **Realizado por:** Claude Code (worktree `naughty-wescoff-e8856d`)
 **Status:** ✅ CÓDIGO ENTREGADO — pendiente: rotar key, configurar Vercel, correr migration
