@@ -4,6 +4,62 @@ Registro histórico de los cambios implementados y despliegues realizados.
 
 ---
 
+## [2026-05-20] - Tech Debt Sprint: Cleanup + Lead API Hardening
+**Realizado por:** Claude Code (worktree `naughty-wescoff-e8856d`)
+**Status:** ✅ ENTREGADO
+
+### Contexto
+Antes de empezar Fase 2 (docs técnicos), Vic pidió arreglar primero los hallazgos importantes y pendientes detectados en Fase 1. Durante la ejecución se descubrió un bloqueador mayor: `main` tenía **~67 archivos modificados sin commit** (trabajo real del proyecto que nunca se había committeado, a pesar de aparecer "entregado" en entradas previas de BITACORA del 21-22 abril).
+
+### Bloqueador resuelto: commits faltantes en main
+Vic autorizó commitear todo en `main` por él (tras verificar que era trabajo legítimo). Se organizaron 4 commits temáticos en `main`:
+
+| Commit | Categoría |
+|--------|-----------|
+| `2bf4e1c` | chore: cleanup legacy folders, add resend dep, ignore .claude/ |
+| `6a7b0a2` | feat: implement lead capture funnel (Drizzle + Resend) and analytics tracking |
+| `08d4fc3` | feat: wizard cotizador, expanded service pages, refreshed homepage copy |
+| `71ac1f5` | docs: architecture, decision log, memory system, and strategy docs |
+
+**Pre-condición técnica:** se actualizó `.gitignore` para excluir `.claude/` (worktrees y config local).
+
+### Fixes ejecutados en branch del worktree (`claude/naughty-wescoff-e8856d`)
+Tras el merge de `main` para sincronizar, se añadieron 2 commits temáticos con los fixes:
+
+| Commit | Cambio |
+|--------|--------|
+| `0a8809f` | **refactor: extract welcome email template to src/lib/emails/** — `welcomeAuditEmail()` ahora vive en `src/lib/emails/leadAuditWelcome.ts`. Sin cambio funcional. Establece convención para futuros templates transaccionales. |
+| `6803f2a` | **feat(api): validate /api/leads body with zod, capture phone field** — instalado `zod ^4.4.3`. `leadSchema` valida `email` (required, formato), `name`/`phone`/`project_type` (optional, length-bounded). 400 con `issues` si falla. Persiste `phone` que el schema DB ya soportaba pero el insert ignoraba. |
+
+### Hallazgos resueltos vs. originalmente listados en Día 1
+| Pendiente | Estado |
+|-----------|--------|
+| Borrar `web-app/` raíz | ✅ Hecho (commit `2bf4e1c`) |
+| Borrar `src/pages/services/` legacy | ✅ Hecho (commit `2bf4e1c`) |
+| Email template hardcoded en `route.ts` | ✅ Extraído a `src/lib/emails/` (commit `0a8809f`) |
+| Sin validación Zod en POST `/api/leads` | ✅ Añadida (commit `6803f2a`) |
+| Phone no se capturaba en lead insert | ✅ Resuelto (commit `6803f2a`) |
+| Stripe SDK no instalado | ⏸ Fuera de scope (mantenido como Fase 3 según `PHASE2_KICKOFF.md`) |
+| Dominio prod Resend pendiente | 🔑 Requiere acción de Vic (configurar verificación en su cuenta Resend) |
+
+### Hallazgos NUEVOS descubiertos durante esta sesión
+- ⚠️ **Build errors preexistentes** (no causados por estos fixes):
+  - `src/components/layout/Layout.tsx`: importa `react-router-dom` que ya no está instalado.
+  - `src/components/layout/AdLandingLayout.tsx`: usa `children` sin definir como prop.
+  - Probablemente legacy del Pages Router. Candidatos a borrar/refactor en próxima limpieza.
+- ⚠️ **CRLF/LF warnings** masivos en Windows — recomendable añadir `.gitattributes` con `* text=auto eol=lf` antes de que más PRs introduzcan ruido en diffs.
+
+### Cómo quedan las branches
+- **`main`** (raíz del proyecto): los 4 commits que materializan Fase 1 (lead funnel funcional, wizard, docs maestros, etc.).
+- **`claude/naughty-wescoff-e8856d`** (worktree): main + 2 commits adicionales (refactor email + zod/phone). Merge limpio posible con `git merge --ff` cuando Vic decida.
+
+### Próximos pasos (post-aprobación de estos fixes)
+- 🔜 Limpiar `src/components/layout/Layout.tsx` y `AdLandingLayout.tsx` (deuda recién detectada)
+- 🔜 Considerar `.gitattributes` para EOL
+- 🔜 Avanzar a Fase 2: `docs/technical/*` (TECHNICAL_ARCHITECTURE, DATABASE_SCHEMA, API_DOCUMENTATION, ONBOARDING_DEVELOPER)
+
+---
+
 ## [2026-05-19] - Eliminación de Plazos: Sistema Speed-First Activado
 **Realizado por:** Claude (por indicación de Vic)
 **Status:** ✅ APLICADO
