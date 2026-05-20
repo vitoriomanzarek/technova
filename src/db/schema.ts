@@ -1,4 +1,4 @@
-import { pgTable, serial, text, varchar, timestamp, json, numeric } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, varchar, timestamp, json, numeric, integer } from "drizzle-orm/pg-core";
 
 export const services = pgTable('services', {
   id: serial('id').primaryKey(),
@@ -16,4 +16,18 @@ export const leads = pgTable('leads', {
   phone: varchar('phone', { length: 20 }),
   project_type: varchar('project_type', { length: 255 }),
   created_at: timestamp('created_at').defaultNow(),
+});
+
+// Stripe Checkout orders. status flow: pending → paid | expired | refunded | disputed.
+export const orders = pgTable('orders', {
+  id: serial('id').primaryKey(),
+  stripe_session_id: varchar('stripe_session_id', { length: 255 }).notNull().unique(),
+  stripe_payment_intent_id: varchar('stripe_payment_intent_id', { length: 255 }),
+  customer_email: varchar('customer_email', { length: 255 }).notNull(),
+  amount_cents: integer('amount_cents').notNull(),
+  currency: varchar('currency', { length: 3 }).notNull().default('mxn'),
+  description: text('description'),
+  status: varchar('status', { length: 32 }).notNull().default('pending'),
+  created_at: timestamp('created_at').defaultNow(),
+  paid_at: timestamp('paid_at'),
 });
