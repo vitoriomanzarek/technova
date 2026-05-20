@@ -4,6 +4,63 @@ Registro histórico de los cambios implementados y despliegues realizados.
 
 ---
 
+## [2026-05-20] - FASE 3 entregada: operaciones y seguridad
+**Realizado por:** Claude Code (branch `docs/phase-3-operations`)
+**Status:** ✅ ENTREGADO — pendiente merge a `main`
+
+### Contexto
+Tras cerrar Fase 2 (4 docs técnicos), Vic dio luz verde para Fase 3 según `PHASE3_KICKOFF.md`. Branch nueva creada desde `docs/phase-2-technical` (no desde `main`) para preservar visibilidad de los docs de Fase 2 en los cross-references; ambas branches pueden mergearse en cualquier orden a `main` (fast-forward limpio).
+
+### Entregables (en `docs/technical/`)
+
+| Archivo | Commit | Líneas | Contenido principal |
+|---------|--------|--------|---------------------|
+| `DEPLOYMENT_GUIDE.md` | `ca2c024` | ~410 | Pipeline Dev→GitHub→Vercel, scope/types de env vars en Vercel, rotación de secrets sin downtime, preview deployments, smoke checklist post-deploy, 2 rollback procedures, troubleshooting de los 4 problemas reales del deploy a prod (stripe install, apiVersion typing, orphan layouts, GitHub Secret Scanning). Anexo Vercel CLI/API. |
+| `SECURITY_CHECKLIST.md` | `2029623` | ~340 | 12 controles con status real (✅/⚠️/🔜/❌): Zod validation, CORS, CSRF, **rate limiting ❌ (gap crítico)**, no-auth en MVP, HTTPS/HSTS, DB hardening, secrets, logging sin PII, Stripe (HMAC + currency lock + amount cap), deps audit, GDPR/LFPDPPP con retention table. Checklist de 10 preguntas para auditoría trimestral. |
+| `ERROR_HANDLING_GUIDE.md` | `af4eb0d` | ~580 | Error boundaries de React (TODO), contrato de API responses, scenarios Neon/Drizzle, taxonomía de StripeError subclasses + retry schedule del webhook (5min→24h→3 días), Resend errors + refactor sugerido para no perder leads, logging rules (qué SI/NO loguear), plan de Sentry, testing de error paths con curl, debugging en prod por dashboard, 5 recovery checklists + template de post-mortem. |
+| `TESTING_STRATEGY.md` | `65ddf6e` | ~690 | Stack Vitest + Playwright + Stripe CLI + curl smoke. Setup completo para cuando se instale en Fase 4, ejemplos reales contra leadSchema y el handler /api/leads con mocks, E2E flows críticos en Playwright, smoke checklist con tarjeta `4242…`, GitHub Actions CI workflow ready-to-copy, coverage thresholds, branch protection, DB test branches en Neon, lista ordenada de TODOs para Fase 4. |
+
+Total: **~2000 líneas** de documentación operacional en español, todo verificado contra código real.
+
+### Cross-references añadidas
+- `ARCHITECTURE.md` actualizado: los 4 docs de Fase 3 marcados como ✅ entregados. Solo `CI_CD_PIPELINE.md` queda como Fase 4 (los demás docs nice-to-have de Fase 4 ya tienen su contenido distribuido en los de Fase 3).
+- Cada doc linkea a los otros 3 de Fase 3 + a los 4 de Fase 2 + a `DECISION_LOG.md` + `memory/`.
+
+### Gaps críticos documentados (no resueltos en código todavía)
+La Fase 3 es **documentación**, no implementación. Estos gaps se identificaron y documentaron, pero requieren código en Fase 4:
+
+| Gap | Severidad | Doc donde está | Tarea Fase 4 |
+|-----|-----------|----------------|--------------|
+| Rate limiting en `/api/leads` y `/api/checkout` | 🔴 alto pre-tráfico | SECURITY_CHECKLIST §4 | Vercel Edge Middleware + Upstash |
+| Error boundaries en React | 🟡 medio | ERROR_HANDLING §1 | `src/app/error.tsx` |
+| Sentry no integrado | 🟡 medio | ERROR_HANDLING §7 + SECURITY §9 | `npx @sentry/wizard@latest -i nextjs` |
+| CI/CD pipeline | 🟡 medio | TESTING_STRATEGY §5 | GitHub Actions yml |
+| Headers de seguridad (X-Frame-Options, CSP) | 🟡 medio | SECURITY_CHECKLIST §6 | `next.config.ts` headers |
+| DELETE endpoint para GDPR | 🟢 bajo (sin volumen MX) | SECURITY_CHECKLIST §12 | Nueva ruta `/api/me` |
+| Refactor: desacoplar email send de lead capture | 🟢 bajo | ERROR_HANDLING §5 | Pequeño refactor de route.ts |
+| Vitest + Playwright instalación | 🟢 bajo | TESTING_STRATEGY §2-3 | Setup completo en doc |
+
+### Para mergear las dos branches de docs a main
+
+Recomiendo mergear primero Fase 2 (más vieja), luego Fase 3 (parte de Fase 2):
+
+```bash
+git checkout main
+git merge --ff-only docs/phase-2-technical    # 5 commits
+git merge --ff-only docs/phase-3-operations   # 5 commits encima
+git push origin main
+```
+
+Solo cambian docs — Vercel hará redeploy automático sin cambios runtime. Tiempo total <5 min.
+
+### Próximo paso (Fase 4 según `ARCHITECTURE.md`)
+- `CI_CD_PIPELINE.md` formal (parcialmente cubierto en TESTING_STRATEGY §5).
+- `COMPONENTS_LIBRARY.md` (catálogo de componentes reutilizables).
+- **Implementación** de los gaps documentados arriba en código real.
+- `GLOSSARY.md`, `CLIENT_COMMUNICATION.md`, `CONTENT_CALENDAR.md` (todos owned por Vic, no por Claude).
+
+---
+
 ## [2026-05-20] - FASE 2 entregada: documentación técnica completa
 **Realizado por:** Claude Code (branch `docs/phase-2-technical`)
 **Status:** ✅ ENTREGADO — pendiente merge a `main`
