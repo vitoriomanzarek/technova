@@ -107,16 +107,16 @@
 │   ├── GLOSSARY.md                    ← NUEVO
 │   └── CONTENT_CALENDAR.md            ← NUEVO (planificación de contenido)
 │
-├── /docs/technical                    ← NUEVA CARPETA: Documentación técnica
-│   ├── TECHNICAL_ARCHITECTURE.md      ← NUEVO (patrón, stack, convenciones)
-│   ├── DATABASE_SCHEMA.md             ← NUEVO (tablas, relaciones, tipos)
-│   ├── API_DOCUMENTATION.md           ← NUEVO (endpoints, ejemplos, errores)
-│   ├── DEPLOYMENT_GUIDE.md            ← NUEVO (Vercel, env vars, secrets)
-│   ├── ONBOARDING_DEVELOPER.md        ← NUEVO (primeros pasos para devs)
-│   ├── TESTING_STRATEGY.md            ← NUEVO (qué/cómo testear)
-│   ├── SECURITY_CHECKLIST.md          ← NUEVO (validación, CORS, etc.)
-│   ├── ERROR_HANDLING_GUIDE.md        ← NUEVO (patrones de error)
-│   ├── CI_CD_PIPELINE.md              ← NUEVO (tests automáticos, pre-commit)
+├── /docs/technical                    ← Documentación técnica viva
+│   ├── TECHNICAL_ARCHITECTURE.md      ✅ Entregado (Fase 2 · 2026-05-20)
+│   ├── DATABASE_SCHEMA.md             ✅ Entregado (Fase 2 · 2026-05-20)
+│   ├── API_DOCUMENTATION.md           ✅ Entregado (Fase 2 · 2026-05-20)
+│   ├── ONBOARDING_DEVELOPER.md        ✅ Entregado (Fase 2 · 2026-05-20)
+│   ├── DEPLOYMENT_GUIDE.md            ← Fase 3 (Vercel, env vars, secrets)
+│   ├── TESTING_STRATEGY.md            ← Fase 3 (qué/cómo testear)
+│   ├── SECURITY_CHECKLIST.md          ← Fase 3 (validación, CORS, etc.)
+│   ├── ERROR_HANDLING_GUIDE.md        ← Fase 3 (patrones de error)
+│   ├── CI_CD_PIPELINE.md              ← Fase 4 (tests automáticos, pre-commit)
 │   ├── COMPONENTS_LIBRARY.md          ← NUEVO (catálogo de componentes)
 │   └── MONITORING_ALERTS.md           ← NUEVO (qué monitorear en prod)
 │

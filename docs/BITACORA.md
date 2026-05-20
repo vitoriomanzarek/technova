@@ -4,6 +4,57 @@ Registro histórico de los cambios implementados y despliegues realizados.
 
 ---
 
+## [2026-05-20] - FASE 2 entregada: documentación técnica completa
+**Realizado por:** Claude Code (branch `docs/phase-2-technical`)
+**Status:** ✅ ENTREGADO — pendiente merge a `main`
+
+### Contexto
+La Fase 2 estaba planeada originalmente para los Días 2-3 según `PHASE2_KICKOFF.md`, pero el día 20 se desvió hacia tech-debt + Stripe integration por petición de Vic. Una vez producción funcionando y secrets manejados, retomamos Fase 2 al final del día desde una branch limpia (`docs/phase-2-technical` desde `main`).
+
+### Decisiones de scope al arrancar
+- **Incluir lo nuevo de hoy** (Stripe, tabla `orders`, endpoints checkout, `src/lib/`) en la documentación → no fingir que no existe.
+- **Misma conversación**, separar Fase 2 en su propia branch para PR independiente.
+- **Español** para los 4 docs (consistente con el resto del repo).
+- **Consultar `node_modules/next/dist/docs/01-app/`** para afirmaciones sobre Next 16 (AGENTS.md lo advierte explícitamente).
+
+### Entregables (carpeta nueva `docs/technical/`)
+
+| Archivo | Commit | Tamaño | Contenido |
+|---------|--------|--------|-----------|
+| `TECHNICAL_ARCHITECTURE.md` | `53bd76c` | ~500 líneas | Stack, estructura de carpetas, componentes Server/Client, API routes, Drizzle, Tailwind v4, TypeScript, integraciones (Resend, Stripe, GTM, Meta Pixel), convenciones, breaking changes Next 16 |
+| `DATABASE_SCHEMA.md` | `1086d3f` | ~440 líneas | ER diagram (ASCII + Mermaid), las 3 tablas (`services`, `leads`, `orders`) con tipos/null/defaults, state machine de `orders.status`, validaciones Zod, drizzle-kit push vs generate+migrate, índices presentes y planeados |
+| `API_DOCUMENTATION.md` | `d84326f` | ~310 líneas | Los 3 endpoints (`/api/leads`, `/api/checkout`, `/api/checkout/webhook`) con request/response/side effects/auth/rate limit/related code, los 11 eventos Stripe suscritos, flujo end-to-end con Stripe CLI |
+| `ONBOARDING_DEVELOPER.md` | `e9dbfdd` | ~440 líneas | Setup en 5 min, env vars, tour del proyecto, primera tarea (cambio en Hero + commit), tareas comunes, testing local, deploy reference, pedir ayuda, checklist pre-PR |
+
+Total: **~1700 líneas de documentación técnica en español**.
+
+### Cross-references añadidas
+- `ARCHITECTURE.md` actualizado: los 4 archivos de `docs/technical/` ya están marcados como ✅ entregados (Fase 2), los restantes (`DEPLOYMENT_GUIDE`, `TESTING_STRATEGY`, `SECURITY_CHECKLIST`, etc.) quedan etiquetados como Fase 3/4.
+- Cada doc linkea a los otros 3 + a `DECISION_LOG.md` + `memory/`.
+
+### Pendientes (lo que NO se hizo y por qué)
+- ❌ **`DEPLOYMENT_GUIDE.md`** — el flujo de Vercel está documentado dentro de `ONBOARDING_DEVELOPER.md` §8 al nivel necesario. Un doc dedicado tiene sentido cuando haya CI/CD avanzado, preview deployments orquestados, o rollback procedures formales. Movido a Fase 3.
+- ❌ **`TESTING_STRATEGY.md`**, **`SECURITY_CHECKLIST.md`**, **`ERROR_HANDLING_GUIDE.md`**, **`CI_CD_PIPELINE.md`** — quedan para Fase 3 según `ARCHITECTURE.md` original (no son parte del kickoff de Fase 2).
+- ❌ **`COMPONENTS_LIBRARY.md`** — Fase 4 según `ARCHITECTURE.md`.
+
+### Para mergear a main
+La branch `docs/phase-2-technical` es solo-docs (sin cambios de código). Fast-forward seguro:
+```bash
+git checkout main
+git merge --ff-only docs/phase-2-technical
+git push origin main
+```
+Vercel hará un redeploy automático (build limpio, sin cambios runtime). Tiempo esperado: ~1-2 min.
+
+### Próximo paso sugerido (Fase 3)
+Operaciones y seguridad según `ARCHITECTURE.md`:
+1. `DEPLOYMENT_GUIDE.md` — Vercel, env vars, secrets, rollback procedures.
+2. `SECURITY_CHECKLIST.md` — validación, CORS, CSRF, rate limiting, headers.
+3. `ERROR_HANDLING_GUIDE.md` — error boundaries, Sentry, alertas.
+4. `TESTING_STRATEGY.md` — definir stack (Vitest + Playwright) y arrancar suite mínima.
+
+---
+
 ## [2026-05-20] - Deploy a producción + Vercel API access
 **Realizado por:** Claude Code (vía Vercel API)
 **Status:** ✅ EN PRODUCCIÓN — `tech-nova.mx` corre todo lo de Fase 1 + Stripe TEST
