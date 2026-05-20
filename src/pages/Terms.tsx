@@ -1,15 +1,10 @@
 "use client";
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
 
 const Terms = () => {
     return (
         <>
-            <Helmet>
-                <title>Términos y Condiciones | TechNova Solutions</title>
-                <meta name="description" content="Términos y condiciones de uso de los servicios de TechNova Solutions." />
-            </Helmet>
-
+            
             <section className="pt-32 pb-24 min-h-screen bg-darker">
                 <div className="container mx-auto px-4 max-w-4xl">
                     <motion.div
@@ -89,3 +84,8 @@ const Terms = () => {
 };
 
 export default Terms;
+
+
+
+
+

@@ -104,7 +104,7 @@ const Services = () => {
                         </p>
                         <div className="flex justify-center gap-4">
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="bg-gradient-to-r from-emerald-500 to-teal-500 px-8 py-4 rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:shadow-[0_0_40px_rgba(16,185,129,0.5)] transition-all duration-300 hover:scale-105"
                             >
                                 Empezar Proyecto
@@ -141,7 +141,7 @@ const Services = () => {
                                 transition={{ delay: index * 0.1 }}
                                 className="group"
                             >
-                                <Link to={service.link} className="block">
+                                <Link href={service.link} className="block">
                                     <div className="bg-white/5 backdrop-blur-sm border border-emerald-500/20 rounded-2xl p-8 h-full hover:border-emerald-500/50 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]">
                                         <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                                             {service.icon}
@@ -198,7 +198,7 @@ const Services = () => {
                                 transition={{ delay: index * 0.1 }}
                                 className="group"
                             >
-                                <Link to={service.link} className="block">
+                                <Link href={service.link} className="block">
                                     <div className="bg-white/5 backdrop-blur-sm border border-cyan-500/20 rounded-2xl p-8 h-full hover:border-cyan-500/50 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)]">
                                         <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                                             {service.icon}
@@ -244,7 +244,7 @@ const Services = () => {
                             Trabajemos juntos para llevar tu proyecto al siguiente nivel
                         </p>
                         <Link
-                            to="/start-project"
+                            href="/start-project"
                             className="inline-block bg-gradient-to-r from-emerald-500 to-cyan-500 px-10 py-4 rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:shadow-[0_0_50px_rgba(16,185,129,0.5)] transition-all duration-300 hover:scale-105"
                         >
                             Iniciar Proyecto →
@@ -257,3 +257,8 @@ const Services = () => {
 };
 
 export default Services;
+
+
+
+
+

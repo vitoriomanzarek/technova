@@ -44,3 +44,8 @@ const StepWelcome = ({ onNext }: StepWelcomeProps) => {
 };
 
 export default StepWelcome;
+
+
+
+
+

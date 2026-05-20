@@ -1,7 +1,6 @@
 "use client";
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, Code2, Database, Smartphone,
     AppWindow, HelpCircle, Zap, Server, Play
@@ -13,7 +12,7 @@ import AccordionItem from '@/components/shared/AccordionItem';
 const SectionCTA = ({ text = "Iniciar Proyecto" }) => (
     <div className="flex justify-center mt-12">
         <Link
-            to="/start-project"
+            href="/start-project"
             className="group flex items-center gap-2 px-8 py-3 rounded-full bg-indigo-900/30 border border-indigo-500/30 text-sky-400 font-bold hover:bg-indigo-500/10 hover:border-indigo-400 hover:scale-105 transition-all duration-300"
         >
             {text} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -68,11 +67,7 @@ const WebApp = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Desarrollo Web & Apps | TechNova Solutions</title>
-                <meta name="description" content="Software a medida que transforma tu negocio. Web Apps y Aplicaciones móviles (Android/iOS)." />
-            </Helmet>
-
+            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -113,7 +108,7 @@ const WebApp = () => {
 
                     <div className="flex justify-center">
                         <Link
-                            to="/start-project"
+                            href="/start-project"
                             className="bg-gradient-to-r from-indigo-600 to-sky-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider flex items-center justify-center gap-2"
                         >
                             Digitalizar mi Negocio <ArrowRight className="w-4 h-4" />
@@ -269,7 +264,7 @@ const WebApp = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="inline-flex items-center gap-2 text-indigo-400 font-bold hover:text-white transition-colors border-b border-indigo-400 hover:border-white pb-1"
                             >
                                 Crear mi App Móvil <ArrowRight className="w-4 h-4" />
@@ -354,7 +349,7 @@ const WebApp = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="block w-full text-center bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-indigo-900/50 hover:shadow-indigo-500/25"
                             >
                                 Empezar Desarrollo
@@ -382,3 +377,8 @@ const WebApp = () => {
 };
 
 export default WebApp;
+
+
+
+
+

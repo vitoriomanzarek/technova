@@ -2,7 +2,6 @@
 // import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Helmet } from 'react-helmet-async';
 
 interface ServiceLayoutProps {
     title: string;
@@ -27,11 +26,7 @@ const ServiceLayout = ({
 }: ServiceLayoutProps) => {
     return (
         <>
-            <Helmet>
-                <title>{title} | TechNova Solutions</title>
-                <meta name="description" content={subtitle} />
-            </Helmet>
-
+            
             {/* Hero Section */}
             <section className="relative pt-32 pb-20 bg-dark overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
@@ -40,7 +35,7 @@ const ServiceLayout = ({
                 </div>
 
                 <div className="container mx-auto px-4 relative z-10 text-center">
-                    <Link to="/#servicios" className="inline-block mb-8 text-sm text-gray-400 hover:text-white transition-colors">
+                    <Link href="/#servicios" className="inline-block mb-8 text-sm text-gray-400 hover:text-white transition-colors">
                         &larr; Volver a Servicios
                     </Link>
                     <motion.div
@@ -142,3 +137,8 @@ const ServiceLayout = ({
 };
 
 export default ServiceLayout;
+
+
+
+
+

@@ -1,11 +1,10 @@
 "use client";
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, Share2, Target, BarChart2,
     Smartphone, Users, HelpCircle,
-    Zap, Youtube, Facebook, Linkedin
+    Zap, Play, ThumbsUp, Briefcase
 } from 'lucide-react';
 import ParticleBackground from '@/components/home/ParticleBackground';
 import DeviceMockup from '@/components/shared/DeviceMockup';
@@ -14,7 +13,7 @@ import AccordionItem from '@/components/shared/AccordionItem';
 const SectionCTA = ({ text = "Iniciar Proyecto" }) => (
     <div className="flex justify-center mt-12">
         <Link
-            to="/start-project"
+            href="/start-project"
             className="group flex items-center gap-2 px-8 py-3 rounded-full bg-orange-900/30 border border-orange-500/30 text-orange-400 font-bold hover:bg-orange-500/10 hover:border-orange-400 hover:scale-105 transition-all duration-300"
         >
             {text} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -51,7 +50,7 @@ const Marketing = () => {
     const faqs = [
         {
             q: "¿En qué redes sociales debo estar?",
-            a: "Depende de tu audiencia. Analizamos si tus clientes están en Linkedin (B2B), Instagram/TikTok (Visua/Gen Z) o Google (Búsqueda intencional) y enfocamos esfuerzos ahí."
+            a: "Depende de tu audiencia. Analizamos si tus clientes están en Briefcase (B2B), Instagram/TikTok (Visua/Gen Z) o Google (Búsqueda intencional) y enfocamos esfuerzos ahí."
         },
         {
             q: "¿Qué es la captura de Leads?",
@@ -69,11 +68,7 @@ const Marketing = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Marketing Digital & Growth | TechNova Solutions</title>
-                <meta name="description" content="Estrategias de marketing digital en FB, Google, TikTok y Linkedin centradas en ROI y captura de leads." />
-            </Helmet>
-
+            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -114,7 +109,7 @@ const Marketing = () => {
 
                     <div className="flex justify-center">
                         <Link
-                            to="/start-project"
+                            href="/start-project"
                             className="bg-gradient-to-r from-orange-600 to-red-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider flex items-center justify-center gap-2"
                         >
                             Escalar mis Ventas <ArrowRight className="w-4 h-4" />
@@ -201,7 +196,7 @@ const Marketing = () => {
                             {
                                 icon: <Share2 className="w-8 h-8 text-orange-400" />,
                                 title: "Redes Sociales",
-                                desc: "Presencia dominante donde está tu cliente: Facebook, Instagram, TikTok, LinkedIn y YouTube. Adaptamos el mensaje al canal."
+                                desc: "Presencia dominante donde está tu cliente: ThumbsUp, Instagram, TikTok, Briefcase y Play. Adaptamos el mensaje al canal."
                             },
                             {
                                 icon: <Users className="w-8 h-8 text-red-400" />,
@@ -270,7 +265,7 @@ const Marketing = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="inline-flex items-center gap-2 text-orange-400 font-bold hover:text-white transition-colors border-b border-orange-400 hover:border-white pb-1"
                             >
                                 Dominar redes sociales <ArrowRight className="w-4 h-4" />
@@ -293,20 +288,20 @@ const Marketing = () => {
                         viewport={{ once: true }}
                         className="bg-gradient-to-r from-orange-900/20 to-red-900/20 border border-orange-500/20 rounded-3xl p-10 max-w-4xl mx-auto"
                     >
-                        <h2 className="text-3xl font-bold mb-6">Plataformas de Anuncios <Youtube className="inline-block ml-2 text-red-500 mb-1" /></h2>
+                        <h2 className="text-3xl font-bold mb-6">Plataformas de Anuncios <Play className="inline-block ml-2 text-red-500 mb-1" /></h2>
                         <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
                             Gestionamos tus campañas en los ecosistemas más grandes del mundo.
                         </p>
 
                         <div className="flex flex-wrap justify-center gap-6 mb-8">
                             <div className="flex items-center gap-2 px-6 py-3 bg-[#080B14] rounded-full border border-orange-500/10 text-gray-300">
-                                <Facebook className="w-5 h-5 text-blue-500" /> Meta Ads
+                                <ThumbsUp className="w-5 h-5 text-blue-500" /> Meta Ads
                             </div>
                             <div className="flex items-center gap-2 px-6 py-3 bg-[#080B14] rounded-full border border-orange-500/10 text-gray-300">
-                                <Linkedin className="w-5 h-5 text-blue-400" /> LinkedIn Ads
+                                <Briefcase className="w-5 h-5 text-blue-400" /> Briefcase Ads
                             </div>
                             <div className="flex items-center gap-2 px-6 py-3 bg-[#080B14] rounded-full border border-orange-500/10 text-gray-300">
-                                <Youtube className="w-5 h-5 text-red-500" /> YouTube Ads
+                                <Play className="w-5 h-5 text-red-500" /> Play Ads
                             </div>
                             <div className="flex items-center gap-2 px-6 py-3 bg-[#080B14] rounded-full border border-orange-500/10 text-gray-300">
                                 <img src="https://www.google.com/favicon.ico" alt="G" className="w-5 h-5 opacity-80" /> Google Ads
@@ -351,7 +346,7 @@ const Marketing = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="block w-full text-center bg-gradient-to-r from-orange-600 to-red-500 hover:from-orange-500 hover:to-red-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-orange-900/50 hover:shadow-orange-500/25"
                             >
                                 Empezar a Crecer
@@ -379,3 +374,9 @@ const Marketing = () => {
 };
 
 export default Marketing;
+
+
+
+
+
+

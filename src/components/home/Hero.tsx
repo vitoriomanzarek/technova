@@ -14,9 +14,9 @@ const Hero = () => {
                     transition={{ duration: 0.8 }}
                     className="text-4xl md:text-6xl font-bold mb-6 font-heading leading-tight"
                 >
-                    Convierte Clics en Clientes con <br />
+                    Multiplica tus Ventas sin <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-highlight to-accent">
-                        Sistemas de Alta Conversión
+                        Contratar Más Personal
                     </span>
                 </motion.h1>
 
@@ -26,7 +26,7 @@ const Hero = () => {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10"
                 >
-                    No vendemos páginas web genéricas. Desarrollamos herramientas digitales enfocadas 100% en aumentar tus ventas y optimizar tus operaciones.
+                    Sistemas automatizados, IA y embudos de alta conversión para que tu negocio crezca mientras tú te enfocas en lo que mejor sabes hacer.
                 </motion.p>
 
                 <motion.div
@@ -54,3 +54,8 @@ const Hero = () => {
 };
 
 export default Hero;
+
+
+
+
+

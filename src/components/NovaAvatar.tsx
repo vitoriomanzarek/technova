@@ -1,5 +1,5 @@
 "use client";
-import novaLogo from '@/assets/nova-logo.png';
+
 
 interface NovaAvatarProps {
     size?: 'sm' | 'md' | 'lg';
@@ -42,7 +42,7 @@ const NovaAvatar = ({ size = 'md', isThinking = false }: NovaAvatarProps) => {
                 }}
             >
                 <img
-                    src={novaLogo}
+                    src="/Nova AI.png"
                     alt="NOVA AI"
                     className="w-3/4 h-3/4 object-contain drop-shadow-lg"
                     style={{
@@ -68,3 +68,9 @@ const NovaAvatar = ({ size = 'md', isThinking = false }: NovaAvatarProps) => {
 };
 
 export default NovaAvatar;
+
+
+
+
+
+
