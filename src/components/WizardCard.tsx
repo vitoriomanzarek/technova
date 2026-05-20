@@ -21,3 +21,8 @@ const WizardCard = ({ children, className = '' }: WizardCardProps) => {
 };
 
 export default WizardCard;
+
+
+
+
+

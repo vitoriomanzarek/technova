@@ -1,7 +1,6 @@
 "use client";
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, Globe, Code, BarChart,
     Smartphone, Palette, HelpCircle,
@@ -14,7 +13,7 @@ import AccordionItem from '@/components/shared/AccordionItem';
 const SectionCTA = ({ text = "Iniciar Proyecto" }) => (
     <div className="flex justify-center mt-12">
         <Link
-            to="/start-project"
+            href="/start-project"
             className="group flex items-center gap-2 px-8 py-3 rounded-full bg-blue-900/30 border border-blue-500/30 text-cyan-400 font-bold hover:bg-cyan-500/10 hover:border-cyan-400 hover:scale-105 transition-all duration-300"
         >
             {text} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -69,11 +68,7 @@ const LandingPage = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Landing Pages de Alto Impacto | TechNova Solutions</title>
-                <meta name="description" content="Diseñadas científicamente para convertir visitantes en clientes." />
-            </Helmet>
-
+            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -119,7 +114,7 @@ const LandingPage = () => {
                         className="flex flex-col sm:flex-row gap-4 justify-center"
                     >
                         <Link
-                            to="/start-project"
+                            href="/start-project"
                             className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider flex items-center justify-center gap-2"
                         >
                             Empezar Proyecto <ArrowRight className="w-4 h-4" />
@@ -278,7 +273,7 @@ const LandingPage = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="inline-flex items-center gap-2 text-cyan-400 font-bold hover:text-white transition-colors border-b border-cyan-400 hover:border-white pb-1"
                             >
                                 Optimizar mi presencia móvil <ArrowRight className="w-4 h-4" />
@@ -407,7 +402,7 @@ const LandingPage = () => {
                         <div className="pt-6 border-t border-blue-500/20">
                             <p className="text-cyan-400 font-medium mb-6">✨ Configuración técnica incluida al 100%.</p>
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="inline-block bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-colors"
                             >
                                 Asegurar mi Dominio
@@ -461,7 +456,7 @@ const LandingPage = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-900/50 hover:shadow-cyan-500/25"
                             >
                                 Empezar Ahora
@@ -497,3 +492,8 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+
+
+
+

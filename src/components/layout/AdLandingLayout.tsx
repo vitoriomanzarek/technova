@@ -7,7 +7,7 @@ const AdLandingLayout = () => {
             {/* Minimal Header */}
             <header className="w-full py-4 bg-dark/95 border-b border-white/5">
                 <div className="container mx-auto px-4 flex justify-center items-center">
-                    <Link to="/">
+                    <Link href="/">
                         <img src="/logo.png" alt="TechNova" className="h-[50px] md:h-[60px] w-auto transition-transform hover:scale-105" />
                     </Link>
                 </div>
@@ -23,8 +23,8 @@ const AdLandingLayout = () => {
                 <div className="container mx-auto px-4">
                     <p>© {new Date().getFullYear()} TechNova Solutions. Todos los derechos reservados.</p>
                     <div className="flex justify-center gap-4 mt-2">
-                        <Link to="/privacidad" className="hover:text-cyan-400 transition-colors">Política de Privacidad</Link>
-                        <Link to="/terminos" className="hover:text-cyan-400 transition-colors">Términos y Condiciones</Link>
+                        <Link href="/privacidad" className="hover:text-cyan-400 transition-colors">Política de Privacidad</Link>
+                        <Link href="/terminos" className="hover:text-cyan-400 transition-colors">Términos y Condiciones</Link>
                     </div>
                 </div>
             </footer>
@@ -33,3 +33,8 @@ const AdLandingLayout = () => {
 };
 
 export default AdLandingLayout;
+
+
+
+
+

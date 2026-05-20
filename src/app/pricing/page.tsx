@@ -163,7 +163,7 @@ const Pricing = () => {
                                 </ul>
 
                                 <Link
-                                    to="/start-project"
+                                    href="/start-project"
                                     className={`w-full py-4 rounded-xl font-bold text-center transition-all duration-300 relative overflow-hidden group/btn ${plan.popular
                                         ? 'bg-gradient-to-r ' + plan.color + ' text-white shadow-lg hover:shadow-' + plan.color.split(' ')[1] + '/50'
                                         : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/30'
@@ -228,10 +228,10 @@ const Pricing = () => {
                         Entendemos que cada negocio es único. Hablemos y diseñemos una solución exactamente a tu medida.
                     </p>
                     <Link
-                        to="/start-project"
+                        href="/start-project"
                         className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-10 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-cyan-500/40 hover:scale-105 transition-all"
                     >
-                        Agendar Consultoría Gratuita
+                        Cotiza tu proyecto en 2 minutos
                     </Link>
                 </motion.div>
             </div>
@@ -240,3 +240,8 @@ const Pricing = () => {
 };
 
 export default Pricing;
+
+
+
+
+

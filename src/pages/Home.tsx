@@ -64,7 +64,7 @@ const Home = () => {
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
                             {/* Primary CTA - Cuéntanos Tu Proyecto */}
-                            <Link to="/start-project" className="group relative px-10 py-5 text-lg font-bold text-white overflow-hidden rounded-xl">
+                            <Link href="/start-project" className="group relative px-10 py-5 text-lg font-bold text-white overflow-hidden rounded-xl">
                                 {/* Animated Gradient Background */}
                                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-cyan-400 bg-[length:200%_100%] animate-[gradient_3s_ease_infinite]"></div>
 
@@ -98,3 +98,8 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+
+

@@ -75,3 +75,8 @@ const WizardProgress = ({ currentStep, totalSteps }: WizardProgressProps) => {
 };
 
 export default WizardProgress;
+
+
+
+
+

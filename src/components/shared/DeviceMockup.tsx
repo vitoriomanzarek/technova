@@ -81,3 +81,8 @@ const DeviceMockup = ({ color = "blue" }: { color?: string }) => {
 };
 
 export default DeviceMockup;
+
+
+
+
+

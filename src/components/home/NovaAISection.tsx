@@ -57,7 +57,7 @@ const NovaAISection = () => {
 
 
                             {/* Central NOVA Orb - Clickeable */}
-                            <Link to="/start-project" className="block">
+                            <Link href="/start-project" className="block">
                                 <motion.div
                                     whileHover={{ scale: 1.08 }}
                                     whileTap={{ scale: 0.95 }}
@@ -158,7 +158,7 @@ const NovaAISection = () => {
                                 <p className="text-sm text-gray-400 mb-3 tracking-wider uppercase">Conoce</p>
 
                                 {/* Super Shiny Button */}
-                                <Link to="/start-project">
+                                <Link href="/start-project">
                                     <motion.div
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
@@ -245,3 +245,8 @@ const NovaAISection = () => {
 };
 
 export default NovaAISection;
+
+
+
+
+

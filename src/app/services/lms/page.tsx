@@ -1,7 +1,6 @@
 "use client";
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, GraduationCap, Users, Video,
     Smartphone, Award, HelpCircle,
@@ -14,7 +13,7 @@ import AccordionItem from '@/components/shared/AccordionItem';
 const SectionCTA = ({ text = "Iniciar Proyecto" }) => (
     <div className="flex justify-center mt-12">
         <Link
-            to="/start-project"
+            href="/start-project"
             className="group flex items-center gap-2 px-8 py-3 rounded-full bg-violet-900/30 border border-violet-500/30 text-amber-400 font-bold hover:bg-violet-500/10 hover:border-violet-400 hover:scale-105 transition-all duration-300"
         >
             {text} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -69,11 +68,7 @@ const LMS = () => {
 
     return (
         <>
-            <Helmet>
-                <title>LMS & Plataformas Educativas | TechNova Solutions</title>
-                <meta name="description" content="Crea tu propia academia online. Gestión de alumnos, certificados automáticos y pagos integrados." />
-            </Helmet>
-
+            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -114,7 +109,7 @@ const LMS = () => {
 
                     <div className="flex justify-center">
                         <Link
-                            to="/start-project"
+                            href="/start-project"
                             className="bg-gradient-to-r from-violet-600 to-amber-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider flex items-center justify-center gap-2"
                         >
                             Lanzar mi Academia <ArrowRight className="w-4 h-4" />
@@ -270,7 +265,7 @@ const LMS = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="inline-flex items-center gap-2 text-violet-400 font-bold hover:text-white transition-colors border-b border-violet-400 hover:border-white pb-1"
                             >
                                 Crear Experiencia Móvil <ArrowRight className="w-4 h-4" />
@@ -355,7 +350,7 @@ const LMS = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="block w-full text-center bg-gradient-to-r from-violet-600 to-amber-500 hover:from-violet-500 hover:to-amber-400 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-violet-900/50 hover:shadow-violet-500/25"
                             >
                                 Empezar mi Academia
@@ -383,3 +378,8 @@ const LMS = () => {
 };
 
 export default LMS;
+
+
+
+
+

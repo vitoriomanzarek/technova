@@ -91,3 +91,8 @@ const StepVisualIdentity = ({ selected, onSelect, onNext, onBack }: StepVisualId
 };
 
 export default StepVisualIdentity;
+
+
+
+
+

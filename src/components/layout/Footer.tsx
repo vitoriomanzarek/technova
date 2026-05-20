@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Code, Briefcase, MessageCircle, Mail } from 'lucide-react';
 import { useState, useRef } from 'react';
 
 const Footer = () => {
@@ -65,31 +65,31 @@ const Footer = () => {
                         {/* Social Media Icons */}
                         <div className="flex gap-4">
                             <a
-                                href="https://github.com"
+                                href="https://Code.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
-                                aria-label="GitHub"
+                                aria-label="Code"
                             >
-                                <Github size={18} />
+                                <Code size={18} />
                             </a>
                             <a
-                                href="https://linkedin.com"
+                                href="https://Briefcase.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
-                                aria-label="LinkedIn"
+                                aria-label="Briefcase"
                             >
-                                <Linkedin size={18} />
+                                <Briefcase size={18} />
                             </a>
                             <a
-                                href="https://twitter.com"
+                                href="https://MessageCircle.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
-                                aria-label="Twitter"
+                                aria-label="MessageCircle"
                             >
-                                <Twitter size={18} />
+                                <MessageCircle size={18} />
                             </a>
                             <a
                                 href="mailto:info@technova.com"
@@ -110,7 +110,7 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li>
                                 <Link
-                                    to="/services/landing-page"
+                                    href="/services/landing-page"
                                     className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     Landing Page
@@ -118,7 +118,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    to="/services/ecommerce"
+                                    href="/services/ecommerce"
                                     className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     E-commerce
@@ -126,7 +126,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    to="/services/lms"
+                                    href="/services/lms"
                                     className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     LMS
@@ -134,7 +134,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    to="/services/web-app"
+                                    href="/services/web-app"
                                     className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     Aplicación Web
@@ -152,7 +152,7 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li>
                                 <Link
-                                    to="/services/marketing"
+                                    href="/services/marketing"
                                     className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     Marketing Digital
@@ -160,7 +160,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    to="/services/data-analysis"
+                                    href="/services/data-analysis"
                                     className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     Análisis de Datos
@@ -168,7 +168,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    to="/services/support"
+                                    href="/services/support"
                                     className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     Soporte Técnico
@@ -176,7 +176,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    to="/services/crm"
+                                    href="/services/crm"
                                     className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     CRM
@@ -184,7 +184,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    to="/services/chatbot"
+                                    href="/services/chatbot"
                                     className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     Chatbot IA
@@ -202,7 +202,7 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li>
                                 <Link
-                                    to="/"
+                                    href="/"
                                     className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     Inicio
@@ -210,7 +210,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    to="/servicios"
+                                    href="/servicios"
                                     className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     Todos los Servicios
@@ -218,7 +218,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    to="/start-project"
+                                    href="/start-project"
                                     className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm hover:translate-x-1 inline-block"
                                 >
                                     Empezar Proyecto
@@ -253,8 +253,8 @@ const Footer = () => {
                             </p>
                             <div className="hidden md:block w-px h-4 bg-gray-800 self-center"></div>
                             <div className="flex gap-4 justify-center md:justify-start text-sm">
-                                <Link to="/terminos" className="text-gray-600 hover:text-cyan-400 transition-colors">Términos</Link>
-                                <Link to="/privacidad" className="text-gray-600 hover:text-cyan-400 transition-colors">Privacidad</Link>
+                                <Link href="/terminos" className="text-gray-600 hover:text-cyan-400 transition-colors">Términos</Link>
+                                <Link href="/privacidad" className="text-gray-600 hover:text-cyan-400 transition-colors">Privacidad</Link>
                             </div>
                         </div>
                         <p className="text-gray-600 text-sm flex items-center gap-2">
@@ -272,3 +272,8 @@ const Footer = () => {
 };
 
 export default Footer;
+
+
+
+
+

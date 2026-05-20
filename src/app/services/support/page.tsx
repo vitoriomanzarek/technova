@@ -1,7 +1,6 @@
 "use client";
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, ShieldCheck, RefreshCw, LifeBuoy,
     Smartphone, Lock, HelpCircle,
@@ -58,11 +57,7 @@ const Support = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Soporte & Mantenimiento Web | TechNova Solutions</title>
-                <meta name="description" content="Mantén tu sitio web seguro y rápido. Actualizaciones, backups y soporte técnico 24/7." />
-            </Helmet>
-
+            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -103,7 +98,7 @@ const Support = () => {
 
                     <div className="flex justify-center">
                         <Link
-                            to="/start-project"
+                            href="/start-project"
                             className="bg-gradient-to-r from-cyan-600 to-teal-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider flex items-center justify-center gap-2"
                         >
                             Proteger mi Web <ArrowRight className="w-4 h-4" />
@@ -259,7 +254,7 @@ const Support = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="inline-flex items-center gap-2 text-cyan-400 font-bold hover:text-white transition-colors border-b border-cyan-400 hover:border-white pb-1"
                             >
                                 Hablar con un experto <ArrowRight className="w-4 h-4" />
@@ -306,7 +301,7 @@ const Support = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="block w-full text-center bg-gradient-to-r from-cyan-600 to-teal-500 hover:from-cyan-500 hover:to-teal-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-cyan-900/50 hover:shadow-cyan-500/25"
                             >
                                 Contratar Soporte
@@ -334,3 +329,8 @@ const Support = () => {
 };
 
 export default Support;
+
+
+
+
+

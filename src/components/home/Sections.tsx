@@ -399,7 +399,7 @@ export const ProcessSection = () => {
                         ¿Listo para llevar tu negocio al siguiente nivel? <span className="text-cyan-400">Optimiza tu flujo de trabajo y escala hoy mismo.</span>
                     </p>
                     <Link
-                        to="/start-project"
+                        href="/start-project"
                         className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-105 transition-all uppercase tracking-wider text-sm md:text-base"
                     >
                         Empezar Proyecto
@@ -633,3 +633,8 @@ export const TeamSection = () => (
         </div>
     </section>
 );
+
+
+
+
+

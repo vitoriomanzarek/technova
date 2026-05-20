@@ -48,3 +48,8 @@ const AccordionItem = ({ question, answer, color = "blue" }: AccordionItemProps)
 };
 
 export default AccordionItem;
+
+
+
+
+

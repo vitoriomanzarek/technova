@@ -1,7 +1,6 @@
 "use client";
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, Users, MessageSquare, Briefcase,
     Smartphone, Calendar, HelpCircle,
@@ -58,11 +57,7 @@ const CRM = () => {
 
     return (
         <>
-            <Helmet>
-                <title>CRM & Automatización de Ventas | TechNova Solutions</title>
-                <meta name="description" content="Organiza tus ventas y no pierdas ni un cliente. Implementación de CRM (HubSpot, Salesforce) y automatización." />
-            </Helmet>
-
+            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -103,7 +98,7 @@ const CRM = () => {
 
                     <div className="flex justify-center">
                         <Link
-                            to="/start-project"
+                            href="/start-project"
                             className="bg-gradient-to-r from-rose-600 to-red-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-rose-500/30 hover:shadow-rose-500/50 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider flex items-center justify-center gap-2"
                         >
                             Organizar mis Ventas <ArrowRight className="w-4 h-4" />
@@ -259,7 +254,7 @@ const CRM = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="inline-flex items-center gap-2 text-rose-400 font-bold hover:text-white transition-colors border-b border-rose-400 hover:border-white pb-1"
                             >
                                 Probar CRM Móvil <ArrowRight className="w-4 h-4" />
@@ -306,7 +301,7 @@ const CRM = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="block w-full text-center bg-gradient-to-r from-rose-600 to-red-500 hover:from-rose-500 hover:to-red-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-rose-900/50 hover:shadow-rose-500/25"
                             >
                                 Implementar CRM
@@ -334,3 +329,8 @@ const CRM = () => {
 };
 
 export default CRM;
+
+
+
+
+

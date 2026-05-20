@@ -1,7 +1,6 @@
 "use client";
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Helmet } from 'react-helmet-async';
 import {
     Check, ArrowRight, PieChart, Activity, TrendingUp,
     Smartphone, Database, HelpCircle,
@@ -14,7 +13,7 @@ import AccordionItem from '@/components/shared/AccordionItem';
 const SectionCTA = ({ text = "Iniciar Proyecto" }) => (
     <div className="flex justify-center mt-12">
         <Link
-            to="/start-project"
+            href="/start-project"
             className="group flex items-center gap-2 px-8 py-3 rounded-full bg-fuchsia-900/30 border border-fuchsia-500/30 text-fuchsia-400 font-bold hover:bg-fuchsia-500/10 hover:border-fuchsia-400 hover:scale-105 transition-all duration-300"
         >
             {text} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -69,11 +68,7 @@ const DataAnalysis = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Análisis de Datos & BI | TechNova Solutions</title>
-                <meta name="description" content="Transforma datos en decisiones. Business Intelligence, Dashboards en PowerBI y Tableau." />
-            </Helmet>
-
+            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -114,7 +109,7 @@ const DataAnalysis = () => {
 
                     <div className="flex justify-center">
                         <Link
-                            to="/start-project"
+                            href="/start-project"
                             className="bg-gradient-to-r from-fuchsia-600 to-pink-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-fuchsia-500/30 hover:shadow-fuchsia-500/50 hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider flex items-center justify-center gap-2"
                         >
                             Ver mis Datos <ArrowRight className="w-4 h-4" />
@@ -272,7 +267,7 @@ const DataAnalysis = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="inline-flex items-center gap-2 text-fuchsia-400 font-bold hover:text-white transition-colors border-b border-fuchsia-400 hover:border-white pb-1"
                             >
                                 Controlar mi Negocio <ArrowRight className="w-4 h-4" />
@@ -319,7 +314,7 @@ const DataAnalysis = () => {
                             </ul>
 
                             <Link
-                                to="/start-project"
+                                href="/start-project"
                                 className="block w-full text-center bg-gradient-to-r from-fuchsia-600 to-pink-500 hover:from-fuchsia-500 hover:to-pink-400 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-fuchsia-900/50 hover:shadow-fuchsia-500/25"
                             >
                                 Empezar Análisis
@@ -347,3 +342,8 @@ const DataAnalysis = () => {
 };
 
 export default DataAnalysis;
+
+
+
+
+

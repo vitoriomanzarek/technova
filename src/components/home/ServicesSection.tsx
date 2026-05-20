@@ -59,7 +59,7 @@ const ServicesSection = () => {
                             </div>
                             <h3 className="text-xl font-bold mb-4 group-hover:text-emerald-400 transition-colors">{service.title}</h3>
                             <p className="text-gray-400 text-sm mb-6">{service.desc}</p>
-                            <Link to={service.link} className="text-emerald-400 font-semibold hover:text-cyan-400 transition-colors text-sm uppercase tracking-wide">
+                            <Link href={service.link} className="text-emerald-400 font-semibold hover:text-cyan-400 transition-colors text-sm uppercase tracking-wide">
                                 Ver Detalles &rarr;
                             </Link>
                         </motion.div>
@@ -67,7 +67,7 @@ const ServicesSection = () => {
                 </div>
 
                 <div className="text-center mt-12">
-                    <Link to="/servicios" className="inline-block border border-emerald-500 text-emerald-400 px-8 py-3 rounded-lg font-bold hover:bg-emerald-500/10 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all duration-300 uppercase text-sm">
+                    <Link href="/servicios" className="inline-block border border-emerald-500 text-emerald-400 px-8 py-3 rounded-lg font-bold hover:bg-emerald-500/10 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all duration-300 uppercase text-sm">
                         Ver todos los servicios
                     </Link>
                 </div>
@@ -77,3 +77,8 @@ const ServicesSection = () => {
 };
 
 export default ServicesSection;
+
+
+
+
+

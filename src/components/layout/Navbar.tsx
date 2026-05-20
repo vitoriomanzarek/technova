@@ -41,7 +41,7 @@ const Navbar = () => {
         >
             <div className="container mx-auto px-4 flex justify-between items-center">
                 {/* Logo */}
-                <Link to="/" className="flex items-center">
+                <Link href="/" className="flex items-center">
                     <img src="/logo.png" alt="TechNova" className="h-[70px] w-auto transform transition hover:scale-105" />
                 </Link>
 
@@ -56,7 +56,7 @@ const Navbar = () => {
                         <div className="absolute top-full left-1/2 -translate-x-1/2 w-[500px] bg-dark/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                             {/* Ver Todos los Servicios - destacado */}
                             <Link
-                                to="/servicios"
+                                href="/servicios"
                                 className="block mb-4 pb-4 border-b border-emerald-500/20 group/all"
                             >
                                 <div className="flex items-center justify-between bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 p-3 rounded-lg hover:from-emerald-500/20 hover:to-cyan-500/20 transition-all">
@@ -72,7 +72,7 @@ const Navbar = () => {
                                     <ul className="space-y-2">
                                         {serviceLinks.development.map(link => (
                                             <li key={link.name}>
-                                                <Link to={link.href} className="text-gray-300 hover:text-white hover:translate-x-1 transition-all block text-sm">
+                                                <Link href={link.href} className="text-gray-300 hover:text-white hover:translate-x-1 transition-all block text-sm">
                                                     {link.name}
                                                 </Link>
                                             </li>
@@ -84,7 +84,7 @@ const Navbar = () => {
                                     <ul className="space-y-2">
                                         {serviceLinks.additional.map(link => (
                                             <li key={link.name}>
-                                                <Link to={link.href} className="text-gray-300 hover:text-white hover:translate-x-1 transition-all block text-sm">
+                                                <Link href={link.href} className="text-gray-300 hover:text-white hover:translate-x-1 transition-all block text-sm">
                                                     {link.name}
                                                 </Link>
                                             </li>
@@ -95,13 +95,13 @@ const Navbar = () => {
                         </div>
                     </div>
 
-                    <Link to="/nosotros" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Nosotros</Link>
+                    <Link href="/nosotros" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Nosotros</Link>
                     <a href="/#beneficios" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Beneficios</a>
-                    <Link to="/pricing" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Precios</Link>
+                    <Link href="/pricing" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Precios</Link>
                     <a href="/#proyectos" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Proyectos</a>
-                    <Link to="/contacto" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Contacto</Link>
+                    <Link href="/contacto" className="text-gray-300 hover:text-highlight transition-colors font-medium text-sm lg:text-base">Contacto</Link>
                     <Link
-                        to="/start-project"
+                        href="/start-project"
                         className="group relative overflow-hidden bg-gradient-to-r from-primary via-accent to-blue-500 text-white px-8 py-2.5 rounded-full font-bold shadow-[0_0_20px_rgba(106,13,173,0.5)] hover:shadow-[0_0_35px_rgba(0,212,255,0.6)] transition-all duration-300 hover:-translate-y-1 border border-white/20"
                     >
                         <span className="relative z-10 flex items-center gap-2 text-sm lg:text-base uppercase tracking-wider">
@@ -141,7 +141,7 @@ const Navbar = () => {
                             <div className="bg-white/5 rounded-lg my-2 p-4">
                                 {/* Link destacado a todos los servicios */}
                                 <Link
-                                    to="/servicios"
+                                    href="/servicios"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="block mb-4 pb-3 border-b border-emerald-500/20 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 p-3 rounded-lg"
                                 >
@@ -154,7 +154,7 @@ const Navbar = () => {
                                         <ul className="space-y-2 pl-2">
                                             {serviceLinks.development.map(link => (
                                                 <li key={link.name}>
-                                                    <Link to={link.href} onClick={() => setMobileMenuOpen(false)} className="text-gray-400 block text-sm">{link.name}</Link>
+                                                    <Link href={link.href} onClick={() => setMobileMenuOpen(false)} className="text-gray-400 block text-sm">{link.name}</Link>
                                                 </li>
                                             ))}
                                         </ul>
@@ -164,7 +164,7 @@ const Navbar = () => {
                                         <ul className="space-y-2 pl-2">
                                             {serviceLinks.additional.map(link => (
                                                 <li key={link.name}>
-                                                    <Link to={link.href} onClick={() => setMobileMenuOpen(false)} className="text-gray-400 block text-sm">{link.name}</Link>
+                                                    <Link href={link.href} onClick={() => setMobileMenuOpen(false)} className="text-gray-400 block text-sm">{link.name}</Link>
                                                 </li>
                                             ))}
                                         </ul>
@@ -173,13 +173,13 @@ const Navbar = () => {
                             </div>
                         )}
 
-                        <Link to="/nosotros" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Nosotros</Link>
+                        <Link href="/nosotros" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Nosotros</Link>
                         <a href="/#beneficios" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Beneficios</a>
-                        <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Precios</Link>
+                        <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Precios</Link>
                         <a href="/#proyectos" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Proyectos</a>
-                        <Link to="/contacto" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Contacto</Link>
+                        <Link href="/contacto" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-highlight font-medium text-lg py-3 border-b border-white/5">Contacto</Link>
                         <Link
-                            to="/start-project"
+                            href="/start-project"
                             onClick={() => setMobileMenuOpen(false)}
                             className="bg-gradient-to-r from-primary via-accent to-blue-500 text-white text-center py-4 rounded-xl font-bold mt-6 shadow-[0_0_20px_rgba(106,13,173,0.4)] hover:shadow-[0_0_30px_rgba(106,13,173,0.6)] border border-white/20 flex justify-center items-center gap-2 text-lg"
                         >
@@ -193,3 +193,8 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
+
+
