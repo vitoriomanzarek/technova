@@ -1,0 +1,42 @@
+# Normalize line endings on commit, check out native on each platform.
+# Avoids the "LF will be replaced by CRLF" warnings on Windows.
+* text=auto eol=lf
+
+# Force LF for files always read by tooling that expects it.
+*.sh           text eol=lf
+*.ts           text eol=lf
+*.tsx          text eol=lf
+*.js           text eol=lf
+*.mjs          text eol=lf
+*.cjs          text eol=lf
+*.json         text eol=lf
+*.md           text eol=lf
+*.css          text eol=lf
+*.html         text eol=lf
+*.yml          text eol=lf
+*.yaml         text eol=lf
+.gitignore     text eol=lf
+.gitattributes text eol=lf
+
+# Force CRLF for Windows-only files.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Treat as binary (no EOL normalization).
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.avif binary
+*.svg  binary
+*.pdf  binary
+*.zip  binary
+*.gz   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.eot   binary
