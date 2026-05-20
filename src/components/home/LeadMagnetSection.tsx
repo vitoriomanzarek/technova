@@ -1,7 +1,33 @@
 "use client";
 import { FileSearch, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 
 const LeadMagnetSection = () => {
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('loading');
+        
+        try {
+            const res = await fetch('/api/leads', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, project_type: 'Auditoría Express' }),
+            });
+            
+            if (res.ok) {
+                setStatus('success');
+                setEmail('');
+            } else {
+                setStatus('error');
+            }
+        } catch (error) {
+            setStatus('error');
+        }
+    };
+
     return (
         <section className="py-24 relative overflow-hidden bg-dark">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10" />
@@ -16,18 +42,26 @@ const LeadMagnetSection = () => {
                         <p className="text-gray-400 mb-8 text-lg">
                             Déjanos tu correo y analizaremos la velocidad, el SEO y la experiencia de usuario de tu web actual. Te enviaremos un reporte rápido con 3 acciones clave para mejorar hoy mismo.
                         </p>
-                        <form className="flex flex-col sm:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
+                        <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubmit}>
                             <input 
                                 type="email" 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Tu correo electrónico..." 
                                 className="flex-1 bg-dark/50 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
                                 required
+                                disabled={status === 'loading' || status === 'success'}
                             />
-                            <button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 transition-transform hover:scale-105 whitespace-nowrap">
-                                Quiero mi Auditoría
-                                <ArrowRight className="w-5 h-5" />
+                            <button 
+                                type="submit"
+                                disabled={status === 'loading' || status === 'success'}
+                                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 disabled:opacity-50 text-white font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 transition-transform hover:scale-105 whitespace-nowrap">
+                                {status === 'loading' ? 'Enviando...' : status === 'success' ? '¡Auditoría Solicitada!' : 'Quiero mi Auditoría'}
+                                {status !== 'success' && status !== 'loading' && <ArrowRight className="w-5 h-5" />}
                             </button>
                         </form>
+                        {status === 'success' && <p className="text-sm text-emerald-400 mt-4 font-semibold">¡Genial! Revisa tu bandeja de entrada en unos minutos.</p>}
+                        {status === 'error' && <p className="text-sm text-red-400 mt-4 font-semibold">Hubo un error al procesar tu solicitud. Inténtalo de nuevo más tarde.</p>}
                         <p className="text-xs text-gray-500 mt-4">No enviamos spam. Solo valor real para tu negocio.</p>
                     </div>
                 </div>
@@ -37,3 +71,8 @@ const LeadMagnetSection = () => {
 };
 
 export default LeadMagnetSection;
+
+
+
+
+
