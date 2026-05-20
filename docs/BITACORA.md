@@ -4,6 +4,91 @@ Registro histórico de los cambios implementados y despliegues realizados.
 
 ---
 
+## [2026-05-20] - Stripe Integration (TEST mode) + Resend domain config
+**Realizado por:** Claude Code (worktree `naughty-wescoff-e8856d`)
+**Status:** ✅ CÓDIGO ENTREGADO — pendiente: rotar key, configurar Vercel, correr migration
+
+### ⚠️ Acción inmediata requerida (Vic)
+Esta sesión va a borrarse para evitar filtración de secrets. Antes de cerrar:
+
+1. **Rotar `STRIPE_SECRET_KEY` (test mode)** en https://dashboard.stripe.com/test/apikeys — la actual fue pegada en el chat. La pública (`pk_test_…`) puede quedarse.
+2. **Configurar en Vercel** (Settings → Environment Variables — Claude NO tiene acceso a Vercel):
+   ```
+   STRIPE_SECRET_KEY                    = sk_test_… (NUEVA, después de rotar)
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY   = pk_test_51TPB37Lk0zEvx0Oq…
+   STRIPE_WEBHOOK_SECRET                = whsec_3CH00SiNDxjY7XdyfArz8GlbNxP36gj0
+   NEXT_PUBLIC_BASE_URL                 = https://tech-nova.mx
+   RESEND_FROM_EMAIL                    = TechNova <noreply@tech-nova.mx>
+   ```
+3. **Correr migration de la nueva tabla `orders`**: `npx drizzle-kit push` (desde la raíz del proyecto). Vic debe ejecutarlo manualmente, requiere `DATABASE_URL` configurada.
+4. **Verificar en Resend** que `tech-nova.mx` esté ✅ Verified antes del primer envío real (DNS configurados, esperar propagación si no aparece verde aún).
+
+### Webhook Stripe (creado por Vic en dashboard)
+- **Destination ID:** `we_1TZD1ILk0zEvx0OqP87KrvOW`
+- **Endpoint URL:** `https://tech-nova.mx/api/checkout/webhook`
+- **API version:** `2026-03-25.dahlia` (matcheada en `src/lib/stripe.ts`)
+- **Scope:** Your account (NO connected accounts — TechNova no es marketplace)
+- **11 eventos suscritos:**
+  - Core checkout: `checkout.session.completed`, `checkout.session.expired`
+  - Payment intents: `payment_intent.succeeded`, `payment_intent.payment_failed`
+  - Charges: `charge.refunded`, `charge.dispute.created`
+  - Subscriptions (sin handler todavía, suscritos proactivamente): `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.paid`, `invoice.payment_failed`
+
+### Commits hechos en esta sesión (todos en `claude/naughty-wescoff-e8856d`)
+Encima del merge `357dfda` con `main` (que contiene Fase 1 backfilled):
+
+| Commit | Tipo |
+|--------|------|
+| `0a8809f` | refactor: extract welcome email template to src/lib/emails/ |
+| `6803f2a` | feat(api): validate /api/leads body with zod, capture phone field |
+| `6239a5f` | docs(bitacora): log tech-debt sprint |
+| `402408c` | chore: add .gitattributes to normalize line endings (LF in repo) |
+| `2b19059` | feat(email): make Resend "From" address configurable via RESEND_FROM_EMAIL |
+| `b056348` | feat(db): add orders table for Stripe payments |
+| `c4a7f99` | feat(api): implement Stripe checkout sessions and signed webhook handler |
+| (current) | feat: add /checkout/success and /checkout/cancel landing pages + .env.example update |
+
+### Arquitectura del checkout (cómo conectar UI cuando se quiera)
+- **Endpoint:** `POST /api/checkout` recibe `{ email, amount_mxn, description, plan? }`.
+- Crea Stripe Checkout Session hosted con `payment_method_types: ['card']`, `currency: 'mxn'`.
+- Persiste la orden en `orders` como `pending`.
+- Devuelve `{ url, sessionId }` — el cliente debe redirigir a `url`.
+
+- **Webhook:** `POST /api/checkout/webhook` verifica HMAC con `request.text()` (raw body) + `stripe-signature` header.
+- `checkout.session.completed` marca la orden como `paid` y guarda `payment_intent_id`.
+- `checkout.session.expired` la marca `expired`. `charge.refunded` la marca `refunded`. `charge.dispute.created` la marca `disputed`.
+- Subscription events solo loggean por ahora (no hay producto suscripción todavía).
+
+### Aún NO conectado (TODO próximas sesiones)
+- 🔜 **Wire desde el wizard:** `StepLaunch` o `StepSuccess` debe llamar a `/api/checkout` con la cotización del IMR. Hoy el wizard termina en confirmación manual.
+- 🔜 **Wire desde `/pricing`:** decidir si los botones llaman directo a Stripe con montos base o solo redirigen al wizard como hoy.
+- 🔜 **Notificación post-pago:** disparar email Resend "Bienvenido, arrancamos tu proyecto" desde el webhook `checkout.session.completed`.
+- 🔜 **Página `/orders/[id]`** para que el cliente revise estado de su orden (necesita auth — Fase Auth0).
+- 🔜 **Plan SCALE con suscripción mensual:** crear producto recurring en Stripe + handlers para los 5 eventos de subscription que ya están suscritos.
+
+### Dev local
+- `.env` en raíz del proyecto: todas las vars configuradas (DATABASE_URL, RESEND_API_KEY, RESEND_FROM_EMAIL, STRIPE_*, NEXT_PUBLIC_BASE_URL).
+- Si Vic corre `npm run dev` desde el worktree (no raíz), debe crear su propio `.env` ahí.
+- Para test del webhook en local: `stripe listen --forward-to localhost:3000/api/checkout/webhook` (instalar Stripe CLI). Genera un `whsec_…` distinto del de producción.
+
+### Testing del flujo end-to-end (cuando Vic esté listo)
+1. Asegurar 4 STRIPE_* + NEXT_PUBLIC_BASE_URL configuradas en Vercel.
+2. Deploy a producción.
+3. Llamar con curl:
+   ```bash
+   curl -X POST https://tech-nova.mx/api/checkout \
+     -H "Content-Type: application/json" \
+     -d '{"email":"vic@tech-nova.mx","amount_mxn":18000,"description":"Plan GROWTH - prueba","plan":"GROWTH"}'
+   ```
+4. Abrir la URL devuelta, pagar con `4242 4242 4242 4242` (cualquier CVV/fecha futura).
+5. Verificar:
+   - Redirige a `/checkout/success?session_id=…`
+   - En Stripe dashboard → Payments aparece como Succeeded
+   - En Stripe dashboard → Webhooks aparece el evento entregado con 200
+   - En Neon → tabla `orders` tiene la fila con `status='paid'` y `paid_at` poblado
+
+---
+
 ## [2026-05-20] - Tech Debt Sprint: Cleanup + Lead API Hardening
 **Realizado por:** Claude Code (worktree `naughty-wescoff-e8856d`)
 **Status:** ✅ ENTREGADO
