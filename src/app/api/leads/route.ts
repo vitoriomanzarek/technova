@@ -7,6 +7,10 @@ import { welcomeAuditEmail } from '@/lib/emails/leadAuditWelcome';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Configura RESEND_FROM_EMAIL en .env una vez que el dominio esté verificado en Resend.
+// Mientras no esté, cae en el dominio testing y solo se puede enviar al email del owner de la cuenta.
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'TechNova <onboarding@resend.dev>';
+
 const leadSchema = z.object({
   email: z.string().email('Email inválido'),
   name: z.string().min(1).max(255).optional(),
@@ -39,7 +43,7 @@ export async function POST(request: Request) {
     // Enviar correo con Resend (template en src/lib/emails/)
     const { subject, html } = welcomeAuditEmail();
     await resend.emails.send({
-      from: 'TechNova <onboarding@resend.dev>', // dominio testing — pendiente verificar prod
+      from: FROM_EMAIL,
       to: email,
       subject,
       html,
