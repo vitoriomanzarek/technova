@@ -6,8 +6,8 @@ Aquí se registran todas las tareas, ideas, bugs y mejoras futuras. Deben priori
 - [ ] 👤 **[Usuario] Cuentas Financieras:** Crear cuentas en Neon (Base de datos) y Stripe (Pagos), y obtener las claves API para el entorno local (`.env`).
 - [ ] 🧠 **[Arquitecto] Análisis de Precios:** Realizar un research del mercado y debatir la estrategia de precios de los paquetes antes de subirlos a la base de datos de producción.
 - [ ] 🤖 **[Desarrollador] Migración a Next.js:** Migrar de Vite a Next.js (App Router). Preparar la estructura base de Neon (Drizzle ORM) e integración de Stripe (API Routes) usando datos de prueba temporales.
-- [ ] 🤖 **[Desarrollador] Copywriting del Hero:** Reescribir el título y subtítulo del `Home.tsx` para enfocarse en resultados de negocio y no en "soluciones integrales".
-- [ ] 🤖 **[Desarrollador] Ajuste de CTAs:** Cambiar "Solicita una consulta gratuita" por "Cotiza tu proyecto en 2 minutos" o similar, apuntando al Wizard.
+- [x] 🤖 **[Desarrollador] Copywriting del Hero:** Reescribir el título y subtítulo del `Home.tsx` para enfocarse en resultados de negocio y no en "soluciones integrales".
+- [x] 🤖 **[Desarrollador] Ajuste de CTAs:** Cambiar "Solicita una consulta gratuita" por "Cotiza tu proyecto en 2 minutos" o similar, apuntando al Wizard.
 
 ## 🟡 Media Prioridad (Next Sprints)
 - [ ] 🤖 **[Desarrollador] Migración de Datos (Seeding):** Mover toda la información hardcodeada de los paquetes a la base de datos final (una vez definidos los precios reales).
