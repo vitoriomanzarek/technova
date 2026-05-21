@@ -4,6 +4,82 @@ Registro histórico de los cambios implementados y despliegues realizados.
 
 ---
 
+## [2026-05-20] - Pre-traffic hardening: rate limit + security headers + email decouple
+**Realizado por:** Claude Code (branch `feat/pre-traffic-hardening` → `main`)
+**Status:** ✅ EN PRODUCCIÓN — los 3 gaps Tier-1 cerrados
+
+### Contexto
+Tras entregar Fase 3 (docs), Vic preguntó qué gaps documentados eran urgentes. Identificamos 3 que debían atenderse antes del primer push de tráfico (Ads/contenido), entre todos los documentados en SECURITY_CHECKLIST + ERROR_HANDLING:
+- #7 Email send desacoplado de lead capture (pérdida activa de leads cuando Resend falla)
+- #5 Security headers en producción
+- #1 Rate limiting (gap crítico marcado en SECURITY_CHECKLIST §4)
+
+Vic autorizó "Tier 1 ahora" y confirmó push de tráfico esta semana o próxima.
+
+### Commits (en `main` después del merge ff-only)
+
+| Commit | Cambio |
+|--------|--------|
+| `f78dc5d` | **fix(api/leads):** desacoplar welcome email del response. Try/catch separado para `resend.emails.send`. Si email falla, lead ya está en DB y devolvemos `{success: true, emailSent: false}`. Antes: email falla → 500 → cliente probablemente no reintenta → lead perdido. |
+| `ff8e14c` | **feat(security):** 5 headers en `next.config.ts` para todas las rutas: X-Frame-Options SAMEORIGIN, X-Content-Type-Options nosniff, Referrer-Policy strict-origin-when-cross-origin, Permissions-Policy (camera/mic/geo/fec deshabilitados), X-DNS-Prefetch-Control on. HSTS lo añade Vercel. CSP deferida hasta poder testear con scripts terceros (GTM/Pixel/Stripe). |
+| `608a4f0` | **feat(security):** rate limiting con `@upstash/ratelimit` + `@upstash/redis` en `src/middleware.ts`. Sliding window: 5 req/min en `/api/leads`, 3 req/min en `/api/checkout`. Matcher restringido a esas 2 rutas. Headers `X-RateLimit-{Limit,Remaining,Reset}` + `Retry-After` en 429. FAIL_OPEN=true → si Upstash no responde, deja pasar (no bloquear tráfico legítimo). |
+
+### Infraestructura nueva
+- **Cuenta Upstash creada por Vic** + Redis DB free tier `legible-cattle-130961`.
+- **Vars añadidas en Vercel** (production + preview + development, sensitive):
+  - `UPSTASH_REDIS_REST_URL`
+  - `UPSTASH_REDIS_REST_TOKEN`
+- **Redeploy** triggereado vía Vercel API → deployment `dpl_2mbsMVckqCUnZjFF2pQcdsmBTUvA` → READY en ~2 min.
+
+### Validación en producción (https://tech-nova.mx)
+
+```
+$ curl -i -X POST https://tech-nova.mx/api/leads -H "Content-Type: application/json" -d '{}'
+HTTP/1.1 400 Bad Request
+Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+Referrer-Policy: strict-origin-when-cross-origin
+Strict-Transport-Security: max-age=63072000
+X-Content-Type-Options: nosniff
+X-Dns-Prefetch-Control: on
+X-Frame-Options: SAMEORIGIN
+X-Ratelimit-Limit: 5
+X-Ratelimit-Remaining: 4
+X-Ratelimit-Reset: 1779323880000
+{"success":false,"error":"Invalid input","issues":[...]}
+```
+
+Test de límite: 6 requests rápidos → 5 pasan (HTTP 400 zod), 6ª recibe **HTTP 429**. Funciona como diseñado.
+
+### Email decouple validado
+```
+$ curl -X POST https://tech-nova.mx/api/leads -d '{"email":"victorsm2893@gmail.com","name":"Smoke Test"}'
+{"success":true,"message":"Lead captured and email sent successfully","emailSent":true}
+```
+Email real entregado al inbox de Vic. Lead "Smoke Test" insertado en `leads` (limpiable con `DELETE FROM leads WHERE name='Smoke Test'`).
+
+### Estado de los 8 gaps de Fase 3
+| # | Gap | Estado tras hoy |
+|---|-----|-----------------|
+| 1 | Rate limiting | ✅ RESUELTO (Upstash + middleware) |
+| 5 | Security headers | ✅ RESUELTO (next.config.ts) |
+| 7 | Email decouple | ✅ RESUELTO (try/catch separado) |
+| 2 | Error boundaries React | 🔜 Fase 4 |
+| 3 | Sentry | 🔜 Fase 4 |
+| 4 | CI/CD pipeline | 🔜 Fase 4 |
+| 6 | DELETE endpoint GDPR | 🔜 Fase 4 / cuando haya clientes |
+| 8 | Vitest + Playwright suite | 🔜 Fase 4 |
+
+### Listo para tráfico
+- Lead funnel hardened ✅
+- Stripe checkout funcional ✅
+- Rate limit activo ✅
+- Security headers ✅
+- HTTPS + dominio verificado ✅
+
+Vic puede empujar contenido/ads esta semana sin riesgos básicos.
+
+---
+
 ## [2026-05-20] - FASE 3 entregada: operaciones y seguridad
 **Realizado por:** Claude Code (branch `docs/phase-3-operations`)
 **Status:** ✅ ENTREGADO — pendiente merge a `main`
