@@ -176,12 +176,75 @@ Toda propuesta debe atarse a una de estas. "¿Cómo esto ayuda a vender/entregar
 - **Nunca persistir secrets** en código tracked. Siempre referenciar vía `process.env.X`.
 - Valores reales solo en `.env` (gitignored, raíz del proyecto) o en Vercel Environment Variables (que Vic configura manualmente).
 - Si Vic dice "no voy a rotar la key", respetar y proceder. Mencionar como nota en BITACORA, no como bloqueador.
-- **Recordatorio operativo:** Claude Code **NO tiene acceso a Vercel** desde el CLI local — solo filesystem y bash. Vic debe configurar env vars en Vercel manualmente.
 - Si una conversación contiene secrets pegados en chat, Vic puede pedir borrar el transcript. En ese caso, **dejar BITACORA y memory super completos antes del cierre** para preservar contexto operativo.
 
 ---
 
-## 12. Indicadores de Éxito de la Colaboración
+## 12. Autonomía Operativa (IMPORTANTE — leer al arrancar)
+
+Vic **quiere que Claude gestione todo de punta a punta**, sin pasarle a él tareas operativas que Claude puede resolver con las credenciales disponibles. Su feedback textual (2026-05-20): *"cómo puedo hacer que seas autónomo y gestiones todo si te la pasas dándome órdenes de qué debo hacer las cosas en Vercel, yo necesito que tú gestiones todo".*
+
+### Credenciales disponibles en `.env` (raíz del proyecto, gitignored)
+
+Un Claude nuevo **tiene acceso a todo esto** — usarlo sin pedir permiso:
+
+| Credencial | Permite |
+|------------|---------|
+| `VERCEL_TOKEN` | Vercel API completa: env vars, deploys, redeploys, logs, dominios. Team `team_AiOzzfX4JiMUdVofOQvrlARW`, proyecto `prj_TIPXMWs783BkRFQRMZQCxRGvnVuJ` (technova-next). |
+| `DATABASE_URL` / `DATABASE_URL_UNPOOLED` | Neon Postgres: queries, `drizzle-kit push`, schema. |
+| `STRIPE_SECRET_KEY` (test) | Stripe API: crear sessions, webhooks, productos. |
+| `RESEND_API_KEY` | Resend: enviar emails, ver logs. |
+| `UPSTASH_REDIS_REST_URL` / `_TOKEN` | Upstash Redis (rate limiting). |
+| git push HTTPS (auth en git config) | Commits, push, merge a cualquier branch incluido `main`. |
+
+> **Cómo usar el token Vercel:** `curl -H "Authorization: Bearer $VERCEL_TOKEN" https://api.vercel.com/...`. Patrón documentado en `docs/technical/DEPLOYMENT_GUIDE.md` §Anexo. Para añadir env vars: `POST /v10/projects/<id>/env` (sensitive solo permite production+preview; development debe ser encrypted).
+
+### Lo que Claude NO puede hacer (requiere acción de Vic, no insistir)
+
+- Crear cuentas nuevas en servicios (signup humano).
+- Configurar DNS en Cloudflare (Vic es dueño del dominio `tech-nova.mx`).
+- Pagos / upgrades de plan / activación KYC (Stripe live mode).
+- Primer click de OAuth para conectar servicios nuevos.
+- Decisiones de negocio (precios, copy de marca, prioridades de roadmap).
+
+### Tabla de permisos de decisión (acordada 2026-05-20)
+
+| Acción | Claude solo | Avisa en BITACORA | Espera OK de Vic |
+|--------|:-----------:|:-----------------:|:----------------:|
+| Refactor, fix bugs, rename | ✅ | | |
+| Nueva dependencia del stack aprobado | ✅ | | |
+| Nuevo endpoint API | ✅ | ✅ | |
+| Cambio de schema DB (add column/table) | | ✅ | |
+| Deploy a producción | ✅ | ✅ | |
+| Push directo a `main` | | ✅ | |
+| Borrar archivos / branches / datos | | | ✅ |
+| Rotar secrets | | ✅ | |
+| Cambiar precio / copy de marca | | | ✅ |
+| Mover prioridades del roadmap | | | ✅ |
+| Gastar dinero (upgrades) | | | ✅ |
+
+### Cómo arrancar una sesión nueva con autonomía
+
+1. Leer `memory/`, `MEMORY.md` y la última entrada de `docs/BITACORA.md`.
+2. Asumir que las credenciales de `.env` están disponibles — usarlas sin pedir permiso.
+3. Recibir un brief de **alto nivel** (objetivo + constraints), no instrucciones paso a paso.
+4. Decidir el cómo, ejecutar, reportar. Escalar solo lo de la columna "Espera OK".
+
+### Estilo de brief que Vic debería dar (y Claude debería pedir si no lo recibe)
+
+- ❌ "Crea branch, corre npm install X, edita línea N, commitea con mensaje Y, push…"
+- ✅ "Añade validación a `/api/leads` para rechazar emails inválidos sin romper el flujo actual."
+
+Claude elige herramientas e implementación; Vic valida resultados.
+
+### Sobre acceso persistente entre sesiones (recomendación a Vic)
+
+- **MCP servers** (Vercel, GitHub, Stripe) en `~/.claude/settings.json` = acceso OAuth sin tokens en `.env`. Es el approach ideal a mediano plazo.
+- Mientras tanto, el `VERCEL_TOKEN` en `.env` cubre Vercel. Rotar periódicamente.
+
+---
+
+## 13. Indicadores de Éxito de la Colaboración
 
 **Lo estás haciendo bien si:**
 - ✅ Vic no tiene que explicar TechNova dos veces
@@ -199,7 +262,7 @@ Toda propuesta debe atarse a una de estas. "¿Cómo esto ayuda a vender/entregar
 
 ---
 
-## 12. Dónde Buscar Información (orden de prioridad para Claude)
+## 14. Dónde Buscar Información (orden de prioridad para Claude)
 
 1. **Archivos `memory/`** — contexto curado
 2. **`DECISION_LOG.md`** — por qué hicimos las cosas así
