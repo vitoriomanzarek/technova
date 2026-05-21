@@ -372,7 +372,7 @@ npm run dev
 - [`DEPLOYMENT_GUIDE.md`](./DEPLOYMENT_GUIDE.md) — el deploy a Vercel en detalle.
 - [`TESTING_STRATEGY.md`](./TESTING_STRATEGY.md) — qué tests correr y cómo.
 - [`SECURITY_CHECKLIST.md`](./SECURITY_CHECKLIST.md) §8 + §11 — secrets y dependencias.
-- [`MONITORING_&_OBSERVABILITY.md`](./MONITORING_&_OBSERVABILITY.md) — qué hacer post-deploy.
+- [`MONITORING_OBSERVABILITY.md`](./MONITORING_OBSERVABILITY.md) — qué hacer post-deploy.
 
 ---
 
