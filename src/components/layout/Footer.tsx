@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { Code, Briefcase, MessageCircle, Mail } from 'lucide-react';
+import { ExternalLink, Mail } from 'lucide-react';
 import { useState, useRef } from 'react';
 
 const Footer = () => {
@@ -65,34 +65,34 @@ const Footer = () => {
                         {/* Social Media Icons */}
                         <div className="flex gap-4">
                             <a
-                                href="https://Code.com"
+                                href="https://github.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
-                                aria-label="Code"
+                                aria-label="GitHub"
                             >
-                                <Code size={18} />
+                                <ExternalLink size={18} />
                             </a>
                             <a
-                                href="https://Briefcase.com"
+                                href="https://linkedin.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
-                                aria-label="Briefcase"
+                                aria-label="LinkedIn"
                             >
-                                <Briefcase size={18} />
+                                <ExternalLink size={18} />
                             </a>
                             <a
-                                href="https://MessageCircle.com"
+                                href="https://twitter.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
-                                aria-label="MessageCircle"
+                                aria-label="Twitter"
                             >
-                                <MessageCircle size={18} />
+                                <ExternalLink size={18} />
                             </a>
                             <a
-                                href="mailto:info@technova.com"
+                                href="mailto:thisistechnova2026@gmail.com"
                                 className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
                                 aria-label="Email"
                             >
@@ -272,8 +272,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-
-
-
-

@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 const Terms = () => {
     return (
         <>
-            
             <section className="pt-32 pb-24 min-h-screen bg-darker">
                 <div className="container mx-auto px-4 max-w-4xl">
                     <motion.div
@@ -84,8 +83,3 @@ const Terms = () => {
 };
 
 export default Terms;
-
-
-
-
-

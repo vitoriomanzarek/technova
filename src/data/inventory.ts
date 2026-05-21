@@ -12,6 +12,9 @@ export interface InventoryItem {
     inputRequired?: string;
 }
 
+// Re-export CatalogComponent so WizardState can reference it
+export type { CatalogComponent } from './catalog';
+
 export const INVENTORY: InventoryItem[] = [
     // CATEGORÍA 1: Infraestructura y Cimientos (IT)
     {
@@ -170,9 +173,15 @@ export const INVENTORY: InventoryItem[] = [
     }
 ];
 
+import type { CatalogComponent } from './catalog';
+
 export interface WizardState {
     step: number;
     answers: {
+        // Segmento del cliente
+        segment: 'despegue' | 'orbita' | 'mision';
+        selectedPackage: string; // Para segmento despegue
+
         // Dimensión 1: Misión (Tipo)
         projectType: 'landing' | 'ecommerce' | 'lms' | 'webapp';
 
@@ -183,7 +192,7 @@ export interface WizardState {
         domainStatus: 'owned_ok' | 'owned_lost' | 'none';
 
         // Dimensión 4: Marketing & Features
-        features: string[]; // seo, analytics, chatbot, etc.
+        features: string[]; // seo, analytics, chatbot, multilanguage, etc.
 
         // Dimensión 5: Coordenadas
         deadline: 'urgent' | 'normal' | 'long';
@@ -195,7 +204,7 @@ export interface WizardState {
         email: string;
         whatsapp: string;
 
-        // Optional / Legacy fields (kept for type safety if referenced elsewhere temporarily)
+        // Optional / Legacy fields
         hostingType?: any;
         securityLevel?: any;
         designStyle?: any;
@@ -205,8 +214,8 @@ export interface WizardState {
         analytics?: any;
         contactPreference?: any;
     };
-    recommendations: InventoryItem[];
-    totalCost: number;
+    recommendations: CatalogComponent[]; // Ahora usa el catálogo v1.1 (MXN)
+    totalCost: number;   // MXN
     totalHours: number;
     generatedPlan: {
         diagnosis: string;

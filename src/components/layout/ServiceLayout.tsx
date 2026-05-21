@@ -26,7 +26,7 @@ const ServiceLayout = ({
 }: ServiceLayoutProps) => {
     return (
         <>
-            
+
             {/* Hero Section */}
             <section className="relative pt-32 pb-20 bg-dark overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
@@ -137,8 +137,3 @@ const ServiceLayout = ({
 };
 
 export default ServiceLayout;
-
-
-
-
-
