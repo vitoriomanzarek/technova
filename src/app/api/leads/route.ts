@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
     const { email, name, phone, project_type } = parsed.data;
 
-    // Guardar en Neon DB
+    // 1) Persistir el lead. Si falla esto, sí devolvemos 500 — el cliente debe reintentar.
     await db.insert(leads).values({
       email,
       name: name ?? 'Usuario Auditoría',
@@ -40,16 +40,31 @@ export async function POST(request: Request) {
       project_type: project_type ?? 'Auditoría Express',
     });
 
-    // Enviar correo con Resend (template en src/lib/emails/)
-    const { subject, html } = welcomeAuditEmail();
-    await resend.emails.send({
-      from: FROM_EMAIL,
-      to: email,
-      subject,
-      html,
-    });
+    // 2) Disparar el welcome email. NO bloquear el response si falla:
+    //    el lead ya está guardado, perder el email es recuperable (lo reenviamos manualmente)
+    //    pero perder el lead por culpa de Resend sería pérdida directa de revenue.
+    let emailSent = true;
+    try {
+      const { subject, html } = welcomeAuditEmail();
+      await resend.emails.send({
+        from: FROM_EMAIL,
+        to: email,
+        subject,
+        html,
+      });
+    } catch (emailError) {
+      emailSent = false;
+      console.error('[resend] Welcome email failed (lead still captured):', emailError);
+      // TODO Fase 4: encolar para retry asíncrono cuando Resend vuelva.
+    }
 
-    return NextResponse.json({ success: true, message: 'Lead captured and email sent successfully' });
+    return NextResponse.json({
+      success: true,
+      message: emailSent
+        ? 'Lead captured and email sent successfully'
+        : 'Lead captured (welcome email delivery deferred)',
+      emailSent,
+    });
   } catch (error) {
     console.error('Error capturing lead:', error);
     return NextResponse.json({ success: false, error: 'Failed to capture lead' }, { status: 500 });
