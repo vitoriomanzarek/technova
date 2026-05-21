@@ -4,6 +4,128 @@ Registro histórico de los cambios implementados y despliegues realizados.
 
 ---
 
+## [2026-05-20] - FASE 4 entregada: Polish (Components, CI/CD, Observability)
+**Realizado por:** Claude Code (branch `docs/phase-4-polish`)
+**Status:** ✅ ENTREGADO — pendiente merge a `main`
+
+### Contexto
+Última fase de documentación según `PHASE4_KICKOFF.md`. Branch nueva desde `main` (que ya tenía Fases 2 + 3 + hardening). Cierra la documentación técnica de TechNova: Foundation (Fase 1) → Architecture (Fase 2) → Operations (Fase 3) → Polish (Fase 4).
+
+### Entregables (en `docs/technical/`)
+
+| Archivo | Commit | Líneas | Contenido |
+|---------|--------|--------|-----------|
+| `COMPONENTS_LIBRARY.md` | `c36c7b3` | ~395 | Catálogo de los componentes reales de `src/components/` con interfaces TypeScript reales (NovaAvatar, WizardCard, WizardProgress, AccordionItem, DeviceMockup), tabla de singletons, patrón Tailwind + **gotcha crítico de clases dinámicas**, guía para componentes nuevos, sección a11y con **2 gaps reales detectados** (label faltante en lead form, aria-expanded en accordion). |
+| `CI_CD_PIPELINE.md` | `5144b06` | ~380 | Estado actual vs objetivo (hoy el único gate es `next build`), pre-commit con Husky+lint-staged, 2 workflows GitHub Actions ready-to-copy con env dummies, branch protection, secrets en CI, testing en CI, dev workflow día a día, plan de implementación ordenado. |
+| `MONITORING_OBSERVABILITY.md` | `53c859a` | ~365 | Logging strategy, **Sentry setup (gap más importante)**, performance (Web Vitals + Speed Insights), rate-limit obs vía Upstash, DB health vía Neon, health de Stripe/Resend/Upstash/Vercel, alerting S0-S3, 5 debugging checklists de producción, tabla de gaps con prioridad. |
+
+Total: **~1140 líneas**. (Nombre `MONITORING_OBSERVABILITY.md` sin el `&` del kickoff — un `&` rompe shells/URLs.)
+
+### Hallazgos nuevos documentados (no resueltos en código)
+- ⚠️ **Clases Tailwind dinámicas** en `AccordionItem` y `DeviceMockup` (`bg-${color}-500`) que el JIT no detecta de forma confiable — frágil. Fix: mapas de clases completas.
+- ⚠️ **A11y gaps:** `LeadMagnetSection` input sin `<label>`; `AccordionItem` sin `aria-expanded`.
+- Estos quedan como deuda de bajo esfuerzo / alto valor.
+
+### Estado de documentación: 100% COMPLETA
+`docs/technical/` ahora tiene 11 documentos cubriendo todo el ciclo:
+- Fase 2 (4): TECHNICAL_ARCHITECTURE, DATABASE_SCHEMA, API_DOCUMENTATION, ONBOARDING_DEVELOPER.
+- Fase 3 (4): DEPLOYMENT_GUIDE, SECURITY_CHECKLIST, ERROR_HANDLING_GUIDE, TESTING_STRATEGY.
+- Fase 4 (3): COMPONENTS_LIBRARY, CI_CD_PIPELINE, MONITORING_OBSERVABILITY.
+
+### Para mergear a main
+```bash
+git checkout main
+git merge --ff-only docs/phase-4-polish
+git push origin main
+```
+Solo docs — Vercel redeploya sin cambios runtime.
+
+### Lo que queda (IMPLEMENTACIÓN, no documentación)
+Las 4 fases entregaron **documentación completa**. Lo pendiente ahora es **código** sobre los gaps ya documentados:
+- 🔴 Sentry (observability) — el gap de mayor impacto.
+- 🟡 GitHub Actions CI + branch protection (los workflows están listos para copiar).
+- 🟡 Error boundaries React (`src/app/error.tsx`).
+- 🟢 Vitest + Playwright suite.
+- 🟢 Refactor clases dinámicas Tailwind + fixes a11y.
+- 🟢 DELETE endpoint GDPR (cuando haya clientes).
+- 🟢 Husky pre-commit hooks.
+
+Docs de negocio pendientes (owned por Vic): GLOSSARY.md, CLIENT_COMMUNICATION.md, CONTENT_CALENDAR.md.
+
+---
+
+## [2026-05-20] FASE 3 COMPLETADA - Documentación de Operaciones & Security
+**Realizado por:** Claude Code
+**Status:** ✅ 4 DOCUMENTOS ENTREGADOS
+
+### Entregables
+- ✅ `docs/technical/DEPLOYMENT_GUIDE.md` (~2200 palabras)
+  - Arquitectura Vercel con diagrama ASCII
+  - Environment variables (3 scopes + 3 tipos)
+  - Secrets management (rotation, sensitive var types)
+  - Preview deployments + production flow
+  - Verificación post-deploy + health checks
+  - Rollback procedure
+  - Monitoring con Vercel Observability + custom alerts
+  - Troubleshooting de 8 errores reales
+
+- ✅ `docs/technical/SECURITY_CHECKLIST.md` (~2100 palabras)
+  - Input validation con Zod (leadSchema, checkoutSchema, mejoras pendientes)
+  - CORS (default safe, plan para futuro)
+  - CSRF (webhook HMAC, endpoints públicos, plan para área cliente)
+  - Rate limiting ❌ (gap crítico, plan Upstash para Fase 4)
+  - Auth & authorization (MVP sin auth, plan para dashboard)
+  - HTTPS & TLS (✅ default Vercel)
+  - Database security (Neon IP whitelisting, connection pooling, encrypted connections)
+  - Secrets & environment variables (Vercel sensitive vars, rotation policy)
+  - Logging & audit trail (console.error en prod, plan Sentry)
+  - Stripe security (webhook signature verification, no token storage, API key rotation)
+  - Dependencies (npm audit, plan para CI/CD)
+  - Data privacy GDPR/LFPDPPP (Mexico's LFPDPPP applies, consent forms TODO)
+
+- ✅ `docs/technical/ERROR_HANDLING_GUIDE.md` (~2000 palabras)
+  - Error boundaries React (plan error.tsx para Fase 4)
+  - API error responses (contrato JSON, 5 status codes, ejemplos)
+  - Database errors (connection, timeout, constraint, handling pattern)
+  - Stripe errors (card declined, rate limit, webhook verification, backoff)
+  - Resend errors (invalid template, rate limit, decouple pattern)
+  - Logging best practices (structured logs, PII scrubbing, request IDs)
+  - Sentry integration (plan para Fase 4)
+  - Testing errors localmente (error simulation, stress testing)
+  - Debugging en producción (Vercel logs, correlation IDs, database query logs)
+  - Recovery checklist (alert procedures, rollback, customer comms)
+
+- ✅ `docs/technical/TESTING_STRATEGY.md` (~2100 palabras)
+  - Stack decision: Vitest (unit/integration) + Playwright (E2E)
+  - Alternativas descartadas y por qué
+  - Vitest setup (vitest.config.ts, scripts, environment)
+  - Qué testear: schemas Zod, funciones puras, email templates, queries, handlers
+  - Qué NO testear: componentes presentacionales, SDKs terceros, Next.js config
+  - E2E con Playwright: browser real, setup, scenarios críticos
+  - Smoke tests manuales: post-deploy checklist
+  - CI/CD testing (plan para Fase 4, GitHub Actions)
+  - Test coverage goals (70%+ lógica de negocio, 100% schemas)
+  - Database testing (fixtures, seeding, transaction rollback)
+  - Stripe testing con Stripe CLI (webhook test, test cards)
+  - Organización: src/__tests__/ con mirror de estructura
+
+### Calidad
+- ✅ Documentos legibles en Markdown
+- ✅ Ejemplos de código actualizados y funcionales
+- ✅ Status indicators claros (✅⚠️🔜❌)
+- ✅ Sin typos, bien formateado
+- ✅ Referencias cruzadas a docs técnicos existentes
+
+### Siguiente fase
+🔴 **FASE 4 - Polish & CI/CD** pendiente. Lista:
+- POLISH_GUIDE.md: componentes library, design system, accessibility
+- CI_CD_PIPELINE.md: GitHub Actions, pre-commit hooks, automated testing
+- Sentry setup (error tracking en producción)
+- Playwright + GitHub Actions (E2E en CI)
+- npm audit en pre-commit
+
+---
+
 ## [2026-05-20] - Pre-traffic hardening: rate limit + security headers + email decouple
 **Realizado por:** Claude Code (branch `feat/pre-traffic-hardening` → `main`)
 **Status:** ✅ EN PRODUCCIÓN — los 3 gaps Tier-1 cerrados
