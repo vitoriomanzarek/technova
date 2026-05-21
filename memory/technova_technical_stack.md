@@ -49,11 +49,13 @@ metadata:
 | `dotenv` | `^17.4.2` | Solo para scripts standalone (Next.js carga `.env` nativo). |
 | `tsx` | `^4.21.0` | Ejecutar scripts TS (`migrate.mjs`, `create_routes.mjs`). |
 
-### Pagos & Validación (instalados 2026-05-20)
+### Pagos, Validación & Rate Limiting (instalados 2026-05-20)
 | Paquete | Versión | Notas |
 |---------|---------|-------|
-| `stripe` | `^22.1.1` | SDK Node. Singleton en `src/lib/stripe.ts`. apiVersion `2026-03-25.dahlia`. |
+| `stripe` | `^22.1.1` | SDK Node. Singleton en `src/lib/stripe.ts`. apiVersion **`2026-04-22.dahlia`** (alineada al tipo del SDK; el webhook destination está en `2026-03-25.dahlia`, backward-compatible). |
 | `zod` | `^4.4.3` | Validación de bodies en `/api/leads` y `/api/checkout`. |
+| `@upstash/ratelimit` | `^2.0.8` | Rate limiting per-IP. |
+| `@upstash/redis` | `^1.38.0` | Backend Redis serverless para el rate limit. |
 
 **Stripe activo (TEST mode):**
 - Endpoint webhook: `https://tech-nova.mx/api/checkout/webhook`
@@ -61,9 +63,24 @@ metadata:
 - 11 eventos suscritos (checkout + payment_intent + charge + 5 subscription proactivos).
 - Tabla `orders` en `src/db/schema.ts` con estados `pending|paid|expired|refunded|disputed`.
 
+**Rate limiting activo (`src/middleware.ts`):**
+- 5 req/min en `/api/leads`, 3 req/min en `/api/checkout`, por IP (sliding window).
+- Upstash Redis DB `legible-cattle-130961`. Vars `UPSTASH_REDIS_REST_URL` / `_TOKEN` en Vercel + `.env`.
+- `FAIL_OPEN=true`: si Upstash no está configurado, deja pasar (no bloquea tráfico legítimo).
+- Headers `X-RateLimit-{Limit,Remaining,Reset}` + 429 con `Retry-After`.
+
+**Security headers (`next.config.ts`):**
+- X-Frame-Options SAMEORIGIN, X-Content-Type-Options nosniff, Referrer-Policy, Permissions-Policy, X-DNS-Prefetch-Control. HSTS lo añade Vercel. CSP pendiente (scripts terceros).
+
+**Email decouple (`src/app/api/leads/route.ts`):**
+- El envío Resend está en try/catch separado del insert. Si email falla, el lead igual se guarda y se devuelve `emailSent: false` (no se pierde el lead).
+
 ### ⚠️ Mencionado en docs PERO NO instalado
-- **Auth0 / NextAuth** — cero auth en MVP (D-008). Plan Fase 2 = Auth0.
-- **Vitest / Jest / Playwright / React Testing Library** — sin testing instalado.
+- **Auth0 / NextAuth** — cero auth en MVP (D-008). Plan = Auth0 cuando haya área de cliente.
+- **Vitest / Jest / Playwright / React Testing Library** — sin testing instalado (plan documentado en `docs/technical/TESTING_STRATEGY.md`).
+- **Sentry** — sin integrar (plan en `docs/technical/MONITORING_OBSERVABILITY.md` §2). Gap de observability de mayor impacto.
+- **Husky / lint-staged** — sin pre-commit hooks (plan en `docs/technical/CI_CD_PIPELINE.md` §3).
+- **GitHub Actions CI** — sin workflows todavía (YAML listo para copiar en `CI_CD_PIPELINE.md`).
 - **Headless UI / Shadcn / Radix** — no instalados.
 
 ---

@@ -8,7 +8,7 @@
 - [`memory/technova_business_context.md`](./memory/technova_business_context.md) — Misión/visión, nicho PyMEs MX, paquetes **START / GROWTH / SCALE** en MXN, KPIs (CAC < $1K · LTV > 5× CAC · NPS > 50), equipo y rates por hora, decisiones comerciales D-004 / D-005 / D-006, timeline de mercado 2026.
 
 ## Tier 2: Stack Técnico
-- [`memory/technova_technical_stack.md`](./memory/technova_technical_stack.md) — Stack con versiones exactas de `package.json`: **Next.js 16.2.4 · React 19.2.4 · Tailwind v4 · Drizzle 0.45 · Neon · Resend**. Stripe pendiente. Decisiones D-001 / D-002 / D-003 / D-007 / D-008. Estructura de carpetas, env vars, performance targets.
+- [`memory/technova_technical_stack.md`](./memory/technova_technical_stack.md) — Stack con versiones exactas de `package.json`: **Next.js 16.2.4 · React 19.2.4 · Tailwind v4 · Drizzle 0.45 · Neon · Resend 6.12 · Stripe 22.1 (TEST activo) · Zod 4.4 · Upstash (rate limit)**. Decisiones D-001 / D-002 / D-003 / D-007 / D-008. Estructura de carpetas, env vars, performance targets.
 
 ## Tier 3: Estándares de Desarrollo
 - [`memory/technova_development_standards.md`](./memory/technova_development_standards.md) — Convenciones derivadas de **code review real**: naming (PascalCase / camelCase / snake_case en DB), patrón Server vs Client, orden de imports, API routes con `NextResponse.json`, Tailwind v4 patterns, Git workflow (sin `develop`), checklist de PR.
@@ -27,19 +27,39 @@
 
 ---
 
+## 📐 Documentación Técnica Viva (`docs/technical/`) — 11 docs, 100% completa
+
+Generada en Fases 2-4. Consultar el relevante antes de tocar código:
+
+| Doc | Para qué |
+|-----|----------|
+| `TECHNICAL_ARCHITECTURE.md` | Stack, estructura, patrones, breaking changes Next 16 |
+| `DATABASE_SCHEMA.md` | Tablas `services` / `leads` / `orders`, migrations |
+| `API_DOCUMENTATION.md` | `/api/leads`, `/api/checkout`, `/api/checkout/webhook` |
+| `ONBOARDING_DEVELOPER.md` | Setup en 30 min para dev nuevo |
+| `DEPLOYMENT_GUIDE.md` | Vercel, env vars, rollback, troubleshooting real |
+| `SECURITY_CHECKLIST.md` | 12 controles con status, auditoría trimestral |
+| `ERROR_HANDLING_GUIDE.md` | Recovery checklists, retry de Stripe, post-mortem |
+| `TESTING_STRATEGY.md` | Vitest + Playwright (plan, aún sin instalar) |
+| `COMPONENTS_LIBRARY.md` | Catálogo de componentes, a11y, gotchas Tailwind |
+| `CI_CD_PIPELINE.md` | Workflows GitHub Actions, pre-commit, branch protection |
+| `MONITORING_OBSERVABILITY.md` | Logging, Sentry (plan), alerting S0-S3, debug prod |
+
+---
+
 ## 🔍 Referencias Cruzadas (no se cargan automáticamente, consultar bajo demanda)
 
 | Documento | Ubicación | Para qué |
 |-----------|-----------|----------|
 | **ARCHITECTURE.md** | `/` | Auditoría completa, gaps, plan de ejecución 4 fases |
-| **DECISION_LOG.md** | `/` | 10+ decisiones con contexto, alternativas, trade-offs, KPIs |
-| **PHASE1_KICKOFF.md** | `/` | Plan operativo del día (kickoff Fase 1) |
-| **PROPOSAL.md** | `/` | Propuesta original aprobada por Vic |
-| **EXECUTIVE_SUMMARY.md** | `/` | Resumen ejecutivo (5 min) |
+| **DECISION_LOG.md** | `/` | 13 decisiones con contexto, alternativas, trade-offs, KPIs |
+| **PHASE1-4_KICKOFF.md** | `/` | Planes operativos de cada fase |
+| **PROPOSAL.md** / **EXECUTIVE_SUMMARY.md** | `/` | Propuesta original + resumen ejecutivo |
 | **Technova.md** | `/` | Plan de negocio extenso (fuente autoritativa) |
 | **strategy.md** | `/` | Estrategia simplificada (3 pilares, lead-to-sale) |
 | **docs/BITACORA.md** | `/docs/` | Registro histórico — leer para "qué pasó cuándo" |
 | **docs/PRICING_PROPOSAL_MX.md** | `/docs/` | Precios MXN canónicos (fuente para Tier 1) |
+| **docs/technical/** | `/docs/technical/` | 11 docs técnicos (ver tabla arriba) |
 
 ---
 
@@ -62,5 +82,5 @@
 
 ---
 
-**Última actualización:** 2026-05-19
-**Status:** ✅ Operacional (Fase 1 Día 1 entregada)
+**Última actualización:** 2026-05-20
+**Status:** ✅ Fases 1-4 entregadas. Producción viva en `tech-nova.mx` (lead funnel + Stripe TEST + rate limit + security headers). Documentación técnica 100% completa. Pendiente = **implementación** de gaps (Sentry, CI, error boundaries, tests) — ver última entrada de `docs/BITACORA.md`.
