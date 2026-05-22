@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 // HSTS lo añade Vercel automáticamente.
 // CSP queda fuera por ahora — tenemos scripts de terceros (GTM, Meta Pixel,
@@ -18,6 +19,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
   async headers() {
     return [
       {

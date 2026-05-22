@@ -68,7 +68,6 @@ const LMS = () => {
 
     return (
         <>
-            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -378,8 +377,3 @@ const LMS = () => {
 };
 
 export default LMS;
-
-
-
-
-

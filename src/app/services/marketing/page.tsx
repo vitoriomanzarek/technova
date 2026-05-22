@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {
     Check, ArrowRight, Share2, Target, BarChart2,
     Smartphone, Users, HelpCircle,
-    Zap, Play, ThumbsUp, Briefcase
+    Zap, Play, ExternalLink
 } from 'lucide-react';
 import ParticleBackground from '@/components/home/ParticleBackground';
 import DeviceMockup from '@/components/shared/DeviceMockup';
@@ -50,7 +50,7 @@ const Marketing = () => {
     const faqs = [
         {
             q: "¿En qué redes sociales debo estar?",
-            a: "Depende de tu audiencia. Analizamos si tus clientes están en Briefcase (B2B), Instagram/TikTok (Visua/Gen Z) o Google (Búsqueda intencional) y enfocamos esfuerzos ahí."
+            a: "Depende de tu audiencia. Analizamos si tus clientes están en Linkedin (B2B), Instagram/TikTok (Visua/Gen Z) o Google (Búsqueda intencional) y enfocamos esfuerzos ahí."
         },
         {
             q: "¿Qué es la captura de Leads?",
@@ -68,7 +68,6 @@ const Marketing = () => {
 
     return (
         <>
-            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -196,7 +195,7 @@ const Marketing = () => {
                             {
                                 icon: <Share2 className="w-8 h-8 text-orange-400" />,
                                 title: "Redes Sociales",
-                                desc: "Presencia dominante donde está tu cliente: ThumbsUp, Instagram, TikTok, Briefcase y Play. Adaptamos el mensaje al canal."
+                                desc: "Presencia dominante donde está tu cliente: Facebook, Instagram, TikTok, LinkedIn y YouTube. Adaptamos el mensaje al canal."
                             },
                             {
                                 icon: <Users className="w-8 h-8 text-red-400" />,
@@ -295,13 +294,13 @@ const Marketing = () => {
 
                         <div className="flex flex-wrap justify-center gap-6 mb-8">
                             <div className="flex items-center gap-2 px-6 py-3 bg-[#080B14] rounded-full border border-orange-500/10 text-gray-300">
-                                <ThumbsUp className="w-5 h-5 text-blue-500" /> Meta Ads
+                                <Share2 className="w-5 h-5 text-blue-500" /> Meta Ads
                             </div>
                             <div className="flex items-center gap-2 px-6 py-3 bg-[#080B14] rounded-full border border-orange-500/10 text-gray-300">
-                                <Briefcase className="w-5 h-5 text-blue-400" /> Briefcase Ads
+                                <ExternalLink className="w-5 h-5 text-blue-400" /> LinkedIn Ads
                             </div>
                             <div className="flex items-center gap-2 px-6 py-3 bg-[#080B14] rounded-full border border-orange-500/10 text-gray-300">
-                                <Play className="w-5 h-5 text-red-500" /> Play Ads
+                                <Play className="w-5 h-5 text-red-500" /> YouTube Ads
                             </div>
                             <div className="flex items-center gap-2 px-6 py-3 bg-[#080B14] rounded-full border border-orange-500/10 text-gray-300">
                                 <img src="https://www.google.com/favicon.ico" alt="G" className="w-5 h-5 opacity-80" /> Google Ads
@@ -374,9 +373,3 @@ const Marketing = () => {
 };
 
 export default Marketing;
-
-
-
-
-
-

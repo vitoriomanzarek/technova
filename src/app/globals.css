@@ -2,6 +2,16 @@
 
 @import "tailwindcss";
 
+@theme {
+  /* Brand colors — used as from-highlight, text-accent, bg-primary, etc. */
+  --color-highlight: #00D4FF;
+  --color-accent:    #6A0DAD;
+  --color-primary:   #00D4FF;
+
+  /* Font family */
+  --font-heading: 'Montserrat', sans-serif;
+}
+
 
 
 @layer base {

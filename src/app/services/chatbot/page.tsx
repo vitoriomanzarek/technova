@@ -51,13 +51,12 @@ const Chatbot = () => {
         },
         {
             q: "¿Dónde se instala?",
-            a: "Puede vivir en tu sitio web (burbuja de chat), en WhatsApp Business, en ThumbsUp Messenger o en Instagram DM."
+            a: "Puede vivir en tu sitio web (burbuja de chat), en WhatsApp Business, en Facebook Messenger o en Instagram DM."
         }
     ];
 
     return (
         <>
-            
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
                 <ParticleBackground className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
@@ -329,8 +328,3 @@ const Chatbot = () => {
 };
 
 export default Chatbot;
-
-
-
-
-

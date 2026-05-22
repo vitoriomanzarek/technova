@@ -17,10 +17,10 @@ const timelineOptions = [
 ];
 
 const budgetOptions = [
-    { id: 'small', label: '$1,000 - $3,000', sublabel: 'Proyecto básico' },
-    { id: 'medium', label: '$3,000 - $7,000', sublabel: 'Proyecto intermedio' },
-    { id: 'large', label: '$7,000 - $15,000', sublabel: 'Proyecto avanzado' },
-    { id: 'enterprise', label: '+$15,000', sublabel: 'Proyecto enterprise' },
+    { id: 'small',      label: '$15,000 – $35,000 MXN', sublabel: 'Proyecto básico' },
+    { id: 'medium',     label: '$35,000 – $70,000 MXN', sublabel: 'Proyecto intermedio' },
+    { id: 'large',      label: '$70,000 – $120,000 MXN', sublabel: 'Proyecto avanzado' },
+    { id: 'enterprise', label: '+$120,000 MXN',          sublabel: 'Proyecto enterprise' },
 ];
 
 const StepLaunch = ({ timeline, budget, onTimelineSelect, onBudgetSelect, onNext, onBack }: StepLaunchProps) => {

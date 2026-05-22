@@ -1,5 +1,5 @@
 "use client";
-import { FileSearch, ArrowRight } from 'lucide-react';
+import { FileSearch, ArrowRight, CheckCircle, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
 const LeadMagnetSection = () => {
@@ -9,21 +9,20 @@ const LeadMagnetSection = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus('loading');
-        
         try {
             const res = await fetch('/api/leads', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, project_type: 'Auditoría Express' }),
+                body: JSON.stringify({
+                    name: 'Lead Magnet',
+                    email,
+                    project_type: 'auditoria-web',
+                }),
             });
-            
-            if (res.ok) {
-                setStatus('success');
-                setEmail('');
-            } else {
-                setStatus('error');
-            }
-        } catch (error) {
+            if (!res.ok) throw new Error();
+            setStatus('success');
+            setEmail('');
+        } catch {
             setStatus('error');
         }
     };
@@ -42,27 +41,41 @@ const LeadMagnetSection = () => {
                         <p className="text-gray-400 mb-8 text-lg">
                             Déjanos tu correo y analizaremos la velocidad, el SEO y la experiencia de usuario de tu web actual. Te enviaremos un reporte rápido con 3 acciones clave para mejorar hoy mismo.
                         </p>
-                        <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubmit}>
-                            <input 
-                                type="email" 
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Tu correo electrónico..." 
-                                className="flex-1 bg-dark/50 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
-                                required
-                                disabled={status === 'loading' || status === 'success'}
-                            />
-                            <button 
-                                type="submit"
-                                disabled={status === 'loading' || status === 'success'}
-                                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 disabled:opacity-50 text-white font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 transition-transform hover:scale-105 whitespace-nowrap">
-                                {status === 'loading' ? 'Enviando...' : status === 'success' ? '¡Auditoría Solicitada!' : 'Quiero mi Auditoría'}
-                                {status !== 'success' && status !== 'loading' && <ArrowRight className="w-5 h-5" />}
-                            </button>
-                        </form>
-                        {status === 'success' && <p className="text-sm text-emerald-400 mt-4 font-semibold">¡Genial! Revisa tu bandeja de entrada en unos minutos.</p>}
-                        {status === 'error' && <p className="text-sm text-red-400 mt-4 font-semibold">Hubo un error al procesar tu solicitud. Inténtalo de nuevo más tarde.</p>}
-                        <p className="text-xs text-gray-500 mt-4">No enviamos spam. Solo valor real para tu negocio.</p>
+
+                        {status === 'success' ? (
+                            <div className="flex items-center gap-3 text-cyan-400 font-semibold text-lg">
+                                <CheckCircle className="w-6 h-6 shrink-0" />
+                                ¡Listo! Revisa tu correo pronto — te enviaremos tu auditoría.
+                            </div>
+                        ) : (
+                            <>
+                                <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubmit}>
+                                    <input
+                                        type="email"
+                                        placeholder="Tu correo electrónico..."
+                                        required
+                                        value={email}
+                                        onChange={e => setEmail(e.target.value)}
+                                        className="flex-1 bg-dark/50 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={status === 'loading'}
+                                        className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 transition-transform hover:scale-105 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                                    >
+                                        {status === 'loading' ? (
+                                            <><Loader2 className="w-5 h-5 animate-spin" /> Enviando...</>
+                                        ) : (
+                                            <>Quiero mi Auditoría <ArrowRight className="w-5 h-5" /></>
+                                        )}
+                                    </button>
+                                </form>
+                                {status === 'error' && (
+                                    <p className="text-red-400 text-sm mt-3">Hubo un error. Por favor intenta de nuevo.</p>
+                                )}
+                                <p className="text-xs text-gray-500 mt-4">No enviamos spam. Solo valor real para tu negocio.</p>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -71,8 +84,3 @@ const LeadMagnetSection = () => {
 };
 
 export default LeadMagnetSection;
-
-
-
-
-

@@ -1,6 +1,5 @@
 "use client";
 
-
 interface NovaAvatarProps {
     size?: 'sm' | 'md' | 'lg';
     isThinking?: boolean;
@@ -42,7 +41,7 @@ const NovaAvatar = ({ size = 'md', isThinking = false }: NovaAvatarProps) => {
                 }}
             >
                 <img
-                    src="/Nova AI.png"
+                    src="/logo.png"
                     alt="NOVA AI"
                     className="w-3/4 h-3/4 object-contain drop-shadow-lg"
                     style={{
@@ -68,9 +67,3 @@ const NovaAvatar = ({ size = 'md', isThinking = false }: NovaAvatarProps) => {
 };
 
 export default NovaAvatar;
-
-
-
-
-
-
