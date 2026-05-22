@@ -53,7 +53,7 @@ const Navbar = () => {
                             Servicios
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:rotate-180 transition-transform"><path d="m6 9 6 6 6-6" /></svg>
                         </button>
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-[500px] bg-dark/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-[500px] bg-[#0d0d1a] border border-white/10 rounded-xl shadow-2xl shadow-black/60 p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-[100]">
                             {/* Ver Todos los Servicios - destacado */}
                             <Link
                                 href="/servicios"
