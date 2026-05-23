@@ -89,8 +89,8 @@ const Contacto = () => {
                             <p className="text-gray-400 mb-6 text-sm">
                                 Utiliza nuestro cotizador inteligente y descubre el alcance y costo estimado de tu proyecto en minutos.
                             </p>
-                            <a href="/start-project" className="inline-block bg-white text-dark font-bold px-6 py-3 rounded-lg hover:scale-105 transition-transform">
-                                Ir al Cotizador
+                            <a href="/start-project" className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold px-6 py-3 rounded-lg hover:scale-105 transition-all">
+                                Ir al Cotizador →
                             </a>
                         </div>
                     </div>
