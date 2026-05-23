@@ -10,6 +10,12 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "TechNova | Agencia Digital Moderna",
   description: "Impulsa tu negocio con TechNova, tu agencia digital experta en desarrollo web, diseño innovador y estrategias de marketing orientadas a resultados.",
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/logo.png',
+  },
 };
 
 const GTM_ID = "GTM-55RLL2LW";
