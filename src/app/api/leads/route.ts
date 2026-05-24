@@ -71,15 +71,26 @@ export async function POST(request: Request) {
 
     if (notifyResult.status === 'rejected') {
       console.error('[resend] Owner notification failed (lead still captured):', notifyResult.reason);
+    } else if (notifyResult.value && 'error' in notifyResult.value && notifyResult.value.error) {
+      // Resend SDK fulfills even on API errors — log them so they're visible in Vercel logs
+      console.error('[resend] Owner notification API error:', JSON.stringify(notifyResult.value.error));
+    } else {
+      console.log('[resend] Owner notification sent:', (notifyResult.value as { data?: { id?: string } } | null)?.data?.id);
     }
+
     if (welcomeResult.status === 'rejected') {
       console.error('[resend] Welcome email failed (lead still captured):', welcomeResult.reason);
+    } else if (welcomeResult.value && 'error' in welcomeResult.value && welcomeResult.value.error) {
+      console.error('[resend] Welcome email API error:', JSON.stringify(welcomeResult.value.error));
     }
+
+    const notifyOk = notifyResult.status === 'fulfilled' &&
+      !(notifyResult.value && 'error' in notifyResult.value && notifyResult.value.error);
 
     return NextResponse.json({
       success: true,
       message: 'Lead registrado correctamente',
-      notified: notifyResult.status === 'fulfilled',
+      notified: notifyOk,
     });
 
   } catch (error) {
