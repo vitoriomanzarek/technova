@@ -9,6 +9,7 @@ interface LeadData {
   phone?: string;
   project_type?: string;
   message?: string;
+  website_url?: string;
 }
 
 const PROJECT_TYPE_LABELS: Record<string, string> = {
@@ -40,11 +41,12 @@ export function newLeadNotificationEmail(lead: LeadData) {
   const subject = `🚨 Nuevo lead: ${lead.name ?? lead.email} — ${typeLabel}`;
 
   const rows = [
-    ['Nombre',   lead.name    ?? '—'],
+    ['Nombre',   lead.name       ?? '—'],
     ['Email',    lead.email],
-    ['Teléfono', lead.phone   ?? '—'],
+    ['Teléfono', lead.phone      ?? '—'],
     ['Tipo',     typeLabel],
-    ['Mensaje',  lead.message ?? '—'],
+    ['Sitio Web', lead.website_url ? `<a href="${lead.website_url}" style="color:#0ea5e9;">${lead.website_url}</a>` : '—'],
+    ['Mensaje',  lead.message    ?? '—'],
     ['Hora',     new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })],
   ];
 
@@ -65,6 +67,11 @@ export function newLeadNotificationEmail(lead: LeadData) {
 
   const actionButtons = `
     <div style="padding:20px 24px;display:flex;gap:12px;flex-wrap:wrap;">
+      ${lead.website_url ? `
+      <a href="${lead.website_url}" target="_blank"
+         style="display:inline-block;padding:12px 20px;background:#7c3aed;color:#fff;font-weight:bold;font-size:14px;text-decoration:none;border-radius:8px;">
+        🔭 Abrir sitio a auditar
+      </a>` : ''}
       ${waLeadUrl ? `
       <a href="${waLeadUrl}"
          style="display:inline-block;padding:12px 20px;background:#25D366;color:#fff;font-weight:bold;font-size:14px;text-decoration:none;border-radius:8px;">

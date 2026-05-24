@@ -21,6 +21,7 @@ const leadSchema = z.object({
   phone:        z.string().min(1).max(20).optional(),
   project_type: z.string().min(1).max(255).optional(),
   message:      z.string().max(5000).optional(),
+  website_url:  z.string().url('URL inválida').max(500).optional().or(z.literal('')).transform(v => v || undefined),
 });
 
 export async function POST(request: Request) {
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { email, name, phone, project_type, message } = parsed.data;
+    const { email, name, phone, project_type, message, website_url } = parsed.data;
 
     // 1) Persistir el lead. Si falla esto, devolvemos 500 — el cliente debe reintentar.
     await db.insert(leads).values({
@@ -44,6 +45,7 @@ export async function POST(request: Request) {
       phone:        phone        ?? null,
       project_type: project_type ?? null,
       message:      message      ?? null,
+      website_url:  website_url  ?? null,
     });
 
     // 2) Emails en paralelo — ninguno bloquea la respuesta si falla.
@@ -54,8 +56,8 @@ export async function POST(request: Request) {
         ? resend.emails.send({
             from:    FROM_EMAIL,
             to:      email,
-            subject: welcomeAuditEmail().subject,
-            html:    welcomeAuditEmail().html,
+            subject: welcomeAuditEmail({ name, websiteUrl: website_url }).subject,
+            html:    welcomeAuditEmail({ name, websiteUrl: website_url }).html,
           })
         : Promise.resolve(null),
 
@@ -64,8 +66,8 @@ export async function POST(request: Request) {
         from:    FROM_EMAIL,
         to:      NOTIFY_EMAIL,
         replyTo: email,
-        subject: newLeadNotificationEmail({ name, email, phone, project_type, message }).subject,
-        html:    newLeadNotificationEmail({ name, email, phone, project_type, message }).html,
+        subject: newLeadNotificationEmail({ name, email, phone, project_type, message, website_url }).subject,
+        html:    newLeadNotificationEmail({ name, email, phone, project_type, message, website_url }).html,
       }),
     ]);
 

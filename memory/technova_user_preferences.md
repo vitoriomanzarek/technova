@@ -134,7 +134,7 @@ Toda propuesta debe atarse a una de estas. "¿Cómo esto ayuda a vender/entregar
 - **Aceleración con IA** asumida en pricing — el modelo de negocio depende de que Claude/Cursor produzcan rápido (ver [[technova-business-context]] §3).
 - **Recomendaciones propias** ("aquí están las opciones, recomiendo X porque Y").
 - **Automatizar** lo repetitivo. **Build persistent systems**, no one-offs.
-- **Prompts para agentes** — siempre incluir instrucción de **actualizar documentación al terminar la tarea** (BITACORA, DECISION_LOG, memory según corresponda). No dejar agentes sin cerrar contexto.
+- **Prompts para agentes** — CRÍTICO: Incluir instrucción explícita al final: "**PASO FINAL: Actualiza BITACORA.md + DECISION_LOG.md + memory/ según lo realizado. No termines hasta documentar.**" Los agentes deben cerrar contexto escribiendo en estos archivos.
 
 ---
 
@@ -274,5 +274,95 @@ Claude elige herramientas e implementación; Vic valida resultados.
 
 ---
 
-**Última actualización:** 2026-05-23 (añadida regla de prompts para agentes)
+---
+
+## 15. 🚨 AGENT DOCUMENTATION PROTOCOL (OBLIGATORIO)
+
+**Problema:** Agentes completan trabajo pero NO documentan automáticamente. Contexto se pierde.
+
+**Solución:** TODO agente debe seguir este protocolo AL TERMINAR CUALQUIER TAREA:
+
+### ✅ CHECKLIST DE CIERRE (Paso Final de Cualquier Agente)
+
+Después de completar el trabajo técnico, antes de reportar a Vic:
+
+```markdown
+## ✅ CIERRE DE TAREA
+
+### 1. BITACORA.md — Entrada de sesión
+- [ ] Crear entry `## 🔵 SESSION YYYY-MM-DD: Titulo del trabajo`
+- [ ] Documentar: Qué pasó, Status (✅ DONE / 🔄 EN PROGRESO / 🔴 BLOQUEADO)
+- [ ] Listar items completados (checklist ✅/⬜)
+- [ ] Documentar blockers si los hay
+- [ ] Actualizar "Last Updated" al final del archivo
+
+### 2. DECISION_LOG.md — Si hay decisiones nuevas
+- [ ] Cada decisión técnica/comercial → nueva entrada D-XXX
+- [ ] Formato: Decisión / Contexto / Alternativas / Por qué ganó / Trade-offs / KPI
+- [ ] Linkar archivos relevantes
+- [ ] Actualizar contador de decisiones
+
+### 3. memory/ — Si hay aprendizajes persistentes
+- [ ] ¿Cambió el stack? → Actualizar `technova_technical_stack.md`
+- [ ] ¿Cambió algo sobre preferencias de Vic? → `technova_user_preferences.md`
+- [ ] ¿Nuevas convenciones observadas? → `technova_development_standards.md`
+- [ ] ¿Cambios de negocio/contexto? → `technova_business_context.md`
+
+### 4. Archivos de trabajo
+- [ ] ¿Creaste nuevo doc? → Linkearlo en MEMORY.md y/o ARCHITECTURE.md
+- [ ] ¿Modifi cas doc existente? → Actualizar "Última actualización" al final
+- [ ] ¿Git commit? → Mensaje descriptivo (e.g., `feat(ads): setup Google Ads + analytics`)
+
+### TEMPLATE DE MENSAJE FINAL AL VIC:
+
+Después de completar y documentar, reportar así:
+
+---
+✅ **COMPLETADO: [Nombre Tarea]**
+
+**Qué se hizo:**
+- Item 1 ✅
+- Item 2 ✅
+- Item 3 ✅
+
+**Documentado en:**
+- BITACORA.md (SESSION 2026-05-23)
+- DECISION_LOG.md (si aplica)
+- Git commit: `feat(xyz): descripción`
+
+**Siguiente:** [Qué sigue o qué está bloqueado]
+
+---
+```
+
+### ⚠️ REGLA DE ORO
+
+**"Si no está documentado, no está hecho."**
+
+Vic no confía en work-in-progress sin documentación. Los docs son:
+- Prueba de qué se hizo
+- Contexto para futuras sesiones
+- Base para decisiones
+- Fuente de verdad
+
+---
+
+### 🔴 ANTI-PATTERN (EVITAR)
+
+❌ Agente completa trabajo → reporta al chat → desaparece contexto  
+❌ Cambios en código pero BITACORA sin actualizar  
+❌ Decisión tomada pero DECISION_LOG vacío  
+❌ "Hice X, Y, Z" sin archivos que lo prueben  
+
+### ✅ PATRÓN CORRECTO
+
+✅ Agente hace trabajo → documenta → actualiza índices → reporta al chat  
+✅ Cada cambio tiene entrada en BITACORA  
+✅ Cada decisión tiene row en DECISION_LOG  
+✅ Docs linkeados desde MEMORY.md / ARCHITECTURE.md  
+✅ "✅ COMPLETADO" report con evidencia
+
+---
+
+**Última actualización:** 2026-05-23 (AGENT DOCUMENTATION PROTOCOL añadido — CRÍTICO)
 **Próxima revisión:** cuando Vic dé feedback explícito sobre tono / formato / autonomía, o cambien herramientas/canales.

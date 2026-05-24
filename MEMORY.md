@@ -61,6 +61,14 @@ Generada en Fases 2-4. Consultar el relevante antes de tocar código:
 
 ---
 
+---
+
+## 🚨 AGENT PROTOCOLS (CRÍTICO — Pasar a TODO agente)
+
+- [`AGENT_DOCUMENTATION_PROTOCOL.md`](./AGENT_DOCUMENTATION_PROTOCOL.md) — **OBLIGATORIO para todos los agentes.** Cómo documentar trabajo: BITACORA → DECISION_LOG → memory → Git. Incluir en todo prompt de agente. Esto previene "work without docs".
+
+---
+
 ## 🔍 Referencias Cruzadas (no se cargan automáticamente, consultar bajo demanda)
 
 | Documento | Ubicación | Para qué |
@@ -96,5 +104,5 @@ Generada en Fases 2-4. Consultar el relevante antes de tocar código:
 
 ---
 
-**Última actualización:** 2026-05-23  
-**Status:** ✅ **Fases 1-4 entregadas.** Producción viva en `tech-nova.mx` (lead funnel + Stripe TEST + rate limit + security headers). **Phase C Strategy Complete** (Lead HUB architecture, Daily blog plan, Content strategy). Documentación técnica 100% completa. Próximo: **Implementación Phase C** jun 1-28 (Lead DB/API/dashboard + Blog automation pipeline). Pendiente técnico = Sentry, CI, error boundaries, tests — ver última entrada de `docs/BITACORA.md`.
+**Última actualización:** 2026-05-24  
+**Status:** ✅ **Fases 1-4 entregadas.** Producción viva en `tech-nova.mx` (lead funnel + Stripe TEST + rate limit + security headers). **Phase C Strategy Complete** (Lead HUB architecture, Daily blog plan, Content strategy). **MVP Ready:** Google Ads + Analytics live, email system en test, lead magnet pending. **AGENT DOCUMENTATION PROTOCOL added** (obligatorio para todos). Próximo: Email decision + launch. Pendiente técnico = Sentry, CI, error boundaries, tests — ver última entrada de `docs/BITACORA.md`.

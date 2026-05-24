@@ -15,6 +15,7 @@ export const leads = pgTable('leads', {
   email: varchar('email', { length: 255 }).notNull(),
   phone: varchar('phone', { length: 20 }),
   message: text('message'),
+  website_url: text('website_url'),
   project_type: varchar('project_type', { length: 255 }),
   created_at: timestamp('created_at').defaultNow(),
 });

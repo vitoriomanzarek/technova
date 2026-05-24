@@ -238,17 +238,24 @@ export const ProjectsSection = () => (
                             <div className={`absolute inset-0 bg-gradient-to-br ${p.hoverGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
                             <img
                                 src={p.image}
-                                alt={p.title}
+                                alt={`Caso de éxito — ${p.sector}`}
                                 className="w-full h-full object-contain scale-85 group-hover:scale-110 transition-transform duration-500 relative z-10"
                             />
                         </div>
 
                         {/* Contenido */}
                         <div className={`p-6 border-t-2 border-transparent group-hover:${p.hoverBorder} transition-colors duration-300`}>
+                            <span className="inline-block text-xs font-semibold uppercase tracking-wider text-gray-400 border border-white/10 rounded-full px-3 py-1 mb-3">
+                                {p.tag}
+                            </span>
                             <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">
-                                {p.title}
+                                {p.sector}
                             </h3>
-                            <p className={`bg-gradient-to-r ${p.textGradient} bg-clip-text text-transparent font-medium text-lg`}>
+                            <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+                                <span className="text-gray-300 font-semibold">Reto: </span>{p.reto}
+                            </p>
+                            <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Resultado</p>
+                            <p className={`bg-gradient-to-r ${p.textGradient} bg-clip-text text-transparent font-bold text-lg`}>
                                 {p.res}
                             </p>
                         </div>

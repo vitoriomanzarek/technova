@@ -170,34 +170,34 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 
 ---
 
-### A.11 QA BUGS & FIXES (Phase A Blockers) 🔴
+### A.11 QA BUGS & FIXES (Phase A Blockers) 🟢
 **Document:** PHASE_A_BUG_LIST.md  
-**Status:** 🔴 CRITICAL (Bloquea Fase B)  
+**Status:** 🟢 RESUELTO (2026-05-23) — 7/8 fixes aplicados; BUG 1 sin acción por decisión. Ya no bloquea Fase B.  
 **Priority:** 🔴 ALTA  
 **Owner:** Claude Code
 
 #### A.11.1 CRITICAL Bugs (Must fix)
-- [ ] BUG 1: Hero banner - Mejorar contraste texto gradient
-- [ ] BUG 2: Navbar dropdown - Fixear transparencia + contraste
-- [ ] BUG 4: Audit todos los botones (contrast check)
-- [ ] BUG 5: Dropdown presupuesto - Fixear colores
+- [~] BUG 1: Hero banner - Mejorar contraste texto gradient — ⏸️ SIN ACCIÓN (decisión 2026-05-23: dejar como está)
+- [x] BUG 2: Navbar dropdown - Fixear transparencia + contraste — ✅ commit `cc3b5a1` (`bg-[#0d0d1a]` opaco)
+- [x] BUG 4: Audit todos los botones (contrast check) — ✅ 0 `bg-white` planos en `src/`
+- [x] BUG 5: Dropdown presupuesto - Fixear colores — ✅ 2026-05-23 (`<option>` con `bg-[#12121f] text-white`)
 
 **Estimated hours:** 5 hours  
-**Timeline:** Must complete before Fase B  
+**Timeline:** ✅ Completado  
 **Deliverable:** All buttons/dropdowns readable, good contrast
 
 #### A.11.2 MEDIA Bugs (Should fix)
-- [ ] BUG 3: Renombrar/ajustar sección "casos de éxito" 
-- [ ] BUG 6: Setup email hola@technova.com (Gmail redirection)
-- [ ] BUG 7: Actualizar teléfono a 722 166 9672
-- [ ] BUG 8: Fixear botón blanco en presupuesto
+- [x] BUG 3: Renombrar/ajustar sección "casos de éxito" — ✅ 2026-05-23 (cards → formato caso de éxito en `Sections.tsx`)
+- [x] BUG 6: Setup email — ✅ email real `thisistechnova2026@gmail.com` (en vez de `hola@technova.com`)
+- [x] BUG 7: Actualizar teléfono a 722 166 9672 — ✅ muestra `+52 722 166 9672`
+- [x] BUG 8: Fixear botón blanco en presupuesto — ✅ `bg-primary text-primary-foreground` (commit `a9a1b78`)
 
 **Estimated hours:** 2.5 hours  
-**Timeline:** Before Fase B (can defer if critical path is tight)  
+**Timeline:** ✅ Completado  
 **Deliverable:** Corrected contact info, renamed section
 
-**Total Phase A Bug Fixes:** ~7.5 hours  
-**Critical Path Impact:** YES - Must complete before Fase B launch
+**Total Phase A Bug Fixes:** ~7.5 hours estimadas → resueltos con ~25 min de trabajo nuevo (la mayoría ya estaban arreglados en commits posteriores al 2026-05-20)  
+**Critical Path Impact:** ✅ RESUELTO - ya no bloquea Fase B
 
 ---
 

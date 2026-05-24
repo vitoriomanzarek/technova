@@ -3,7 +3,7 @@
 
 **Encontrado por:** Vic (revisión de sitio actual)  
 **Fecha:** 2026-05-20  
-**Status:** 🔴 CRITICAL (Bloquea Fase B)  
+**Status:** 🟢 RESUELTO (2026-05-23) — 7/8 fixes aplicados, BUG 1 sin acción por decisión. Ya no bloquea Fase B.  
 **Prioridad:** 🔴 ALTA
 
 ---
@@ -277,14 +277,14 @@ Problem:
 
 ## ✅ CHECKLIST: FIXES ANTES DE FASE B
 
-- [ ] BUG 1: Mejorar contraste texto gradient en Hero
-- [ ] BUG 2: Fixear opacidad + contraste navbar dropdown
-- [ ] BUG 3: Renombrar sección de "casos" o remover
-- [ ] BUG 4: Audit todos los botones (contrast check)
-- [ ] BUG 5: Fixear colores en dropdown presupuesto
-- [ ] BUG 6: Setup email hola@technova.com (Gmail redirection)
-- [ ] BUG 7: Actualizar teléfono a 722 166 9672
-- [ ] BUG 8: Fixear botón blanco en presupuesto
+- [~] BUG 1: Mejorar contraste texto gradient en Hero — ⏸️ SIN ACCIÓN (decisión 2026-05-23: dejar como está)
+- [x] BUG 2: Fixear opacidad + contraste navbar dropdown — ✅ RESUELTO: `Navbar.tsx` usa `bg-[#0d0d1a]` opaco (commit `cc3b5a1`)
+- [x] BUG 3: Renombrar sección de "casos" o remover — ✅ RESUELTO (2026-05-23): cards reescritas a formato caso de éxito (tipo + sector + Reto + Resultado) en `Sections.tsx`
+- [x] BUG 4: Audit todos los botones (contrast check) — ✅ RESUELTO: 0 `bg-white` planos en `src/`
+- [x] BUG 5: Fixear colores en dropdown presupuesto — ✅ RESUELTO (2026-05-23): `<option>` con `bg-[#12121f] text-white` explícito en `StepMisionBrief.tsx`
+- [x] BUG 6: Setup email — ✅ RESUELTO: email real `thisistechnova2026@gmail.com` en `contacto/page.tsx` (en vez de `hola@technova.com`)
+- [x] BUG 7: Actualizar teléfono a 722 166 9672 — ✅ RESUELTO: muestra `+52 722 166 9672`
+- [x] BUG 8: Fixear botón blanco en presupuesto — ✅ RESUELTO: botón usa `bg-primary text-primary-foreground` (wizard reescrito, commit `a9a1b78`)
 
 ---
 
@@ -292,18 +292,18 @@ Problem:
 
 | Bug | Estimated | Actual | Status |
 |-----|-----------|--------|--------|
-| BUG 1 | 1 hour | - | Pending |
-| BUG 2 | 1.5 hours | - | Pending |
-| BUG 3 | 30 min | - | Pending |
-| BUG 4 | 2 hours | - | Pending |
-| BUG 5 | 1 hour | - | Pending |
-| BUG 6 | 30 min | - | Pending |
-| BUG 7 | 15 min | - | Pending |
-| BUG 8 | 30 min | - | Pending |
-| **TOTAL** | **~7.5 hours** | - | - |
+| BUG 1 | 1 hour | - | ⏸️ Sin acción (decisión: dejar como está) |
+| BUG 2 | 1.5 hours | - | ✅ DONE (commit `cc3b5a1`) |
+| BUG 3 | 30 min | ~15 min | ✅ DONE (2026-05-23) |
+| BUG 4 | 2 hours | - | ✅ DONE (sin `bg-white` planos) |
+| BUG 5 | 1 hour | ~10 min | ✅ DONE (2026-05-23) |
+| BUG 6 | 30 min | - | ✅ DONE (email real configurado) |
+| BUG 7 | 15 min | - | ✅ DONE (`+52 722 166 9672`) |
+| BUG 8 | 30 min | - | ✅ DONE (wizard reescrito, commit `a9a1b78`) |
+| **TOTAL** | **~7.5 hours** | **~25 min nuevos** | **7/8 resueltos, 1 sin acción por decisión** |
 
 **Owner:** Claude Code  
-**Timeline:** ASAP, before Fase B starts  
+**Timeline:** ✅ Completado antes de Fase B  
 **Priority:** Fix all CRITICAL bugs, defer MEDIA if time-constrained
 
 ---
@@ -318,4 +318,5 @@ Problem:
 ---
 
 **Agregado a Backlog:** 2026-05-20  
-**Status:** 🔴 BLOCKER FOR PHASE B
+**Actualizado:** 2026-05-23 (auditoría vs. código real)  
+**Status:** 🟢 RESUELTO — 7/8 fixes aplicados, BUG 1 sin acción por decisión. Ya no bloquea Fase B.
