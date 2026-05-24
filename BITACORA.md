@@ -98,6 +98,182 @@ Fuente de verdad para Autonomous Backlog Manager (D-016) y análisis de velocida
 
 ---
 
+## 🔵 SESSION 2026-05-23: Phase C Planning Sprint (Growth Platform + Content Engine)
+
+**Duration:** 2-3 horas (reflexión estratégica + documentación)  
+**Owner:** Vic (Product/Strategy) + Claude (Architect/Strategist)  
+**Status:** ✅ COMPLETED — Phase C growth strategy documented (Lead HUB + Blog engine), ready for June 1 kickoff
+
+### 📋 Work Completed (3 Major Documentation Deliverables)
+
+#### 1. LEAD_MANAGEMENT_PLATFORM.md
+**What:** Complete architecture for proprietary lead management system (Lead HUB)  
+**Key Sections:**
+- End-to-end lead flow: Capture → Qualification (NOVA AI score) → Routing → Conversion → Loyalty
+- Database schema: 5 tables (leads, proposals, conversions, email_events, lead_analytics_daily)
+- API endpoints: 6 core endpoints (capture, detail, generate proposal, sign, Resend webhook, analytics)
+- Integrations: 
+  - Resend for email (upgrade to Loops when demand exceeds threshold)
+  - Stripe for payments
+  - Claude API for proposal generation
+  - NOVA AI scoring (reuse existing)
+- Scoring formula: (Budget×0.25) + (Clarity×0.25) + (Timeline×0.20) + (Viability×0.20) + (Intent×0.10)
+- Routing logic: 80-100 (auto-proposal + Stripe), 60-79 (sales nurture), <60 (light nurture or decline)
+- Email sequences: 3 tracks (high/medium/low score) with Resend automation
+- Frontend: /admin/leads dashboard, pipeline kanban, detail views, analytics
+- Implementation timeline: 4 weeks (DB + API, Frontend, Integrations, Testing)
+- Success metrics: 100+ leads/mo, 60%+ qualification rate, 1+ deals closed, 30%+ email open rate
+
+**Key Decisions:**
+- ✅ Supabase + Next.js (not scratch) — scalable, leverages existing infra
+- ✅ Resend for email now, Loops when demand exceeds (cost optimization)
+- ✅ Proprietary vs SaaS: saves $50-300/mo, full control of scoring algorithm
+- ✅ Integration with NOVA AI existing scoring
+
+**Status:** Architecture ready for Phase C implementation  
+**Dependencies:** D-018 (logged), existing NOVA AI component  
+**Start Date:** June 1, 2026
+
+---
+
+#### 2. BLOG_AUTOMATION_STRATEGY.md
+**What:** Daily content machine for SEO authority + lead generation  
+**Key Strategy:**
+- Cadence: 1 post/day (30 posts/month, 90 posts in Phase C)
+- Pillars: Dev (40%), Marketing (30%), Product (20%), Legal (10%)
+- Target audience: "Dev Director" (CTO/Tech Lead), "Founder", "Growth Manager"
+- Daily generation: Claude Haiku API (~$0.05/post, $1.50/month for 30 posts)
+- Multi-channel distribution: Blog → Twitter threads → LinkedIn articles → Email → YouTube (future)
+- Lead magnets: Templates, code snippets, frameworks, calculators per post (3-5% conversion target)
+- Batch workflow: Friday 4hr batch (7 posts), Mon-Sun auto-publish at 8am UTC
+- Cost: ~$5-10/month (Resend, Supabase, Claude)
+
+**Content Pillars:**
+1. **Development (40%)**: Next.js, Supabase, TypeScript, Testing, DevOps, Performance, Security
+2. **Marketing (30%)**: Growth, SEO, Email, PLG, Analytics, Paid Ads, Community
+3. **Product (20%)**: User research, Prioritization, Roadmapping, Analytics, JTBD
+4. **Legal/Business (10%)**: Startup compliance, Contracts, Privacy, IP, Fundraising
+
+**June Topics** (26-30 posts):
+- Jun 2: "Next.js 16: App Router Guide"
+- Jun 3: "SEO is Broken (How to Fix)"
+- Jun 4: "Supabase RLS: 5 Patterns"
+- Jun 5: "Jobs to be Done Framework"
+- [... continuing daily ...]
+
+**Analytics**: Track traffic, leads, conversions by post + source  
+**90-day target**: 5k-8k pageviews, 150-250 leads, $3k-$25k revenue
+
+**Status:** Full strategy documented with 90-day calendar  
+**Dependencies:** D-019 (logged), blog infrastructure ready (Next.js)  
+**Start Date:** June 1, 2026
+
+---
+
+#### 3. CONTENT_STRATEGY.md (Detailed)
+**What:** Deep-dive SEO + content clusters framework for 90+ days  
+**Key Sections:**
+- Buyer journey mapping: Awareness (40%) → Consideration (35%) → Conversion (20%) → Loyalty (5%)
+- 3 target personas: Dev Director (high-value), Founder (medium), Growth Manager (partner potential)
+- Keyword research by pillar:
+  - Dev: "Next.js", "Supabase", "TypeScript" (high priority), long-tail variations
+  - Marketing: "Growth", "SEO for SaaS", "Email automation"
+  - Product: "Product management", "User research", "Jobs to be Done"
+  - Legal: "Startup compliance", "LLC vs S-Corp", "Privacy policy"
+- Content clusters (topic mapping): 5 major clusters with pillar + 12+ cluster posts per pillar
+- 90-day calendar: Detailed topic + keywords for each week (June, July, August)
+- Lead magnets: Curated mapping of 25+ posts to specific magnets (templates, guides, calculators)
+- SEO optimization: 20-point pre-publishing checklist, on-page + technical SEO guidelines
+- Performance targets:
+  - Month 1: 500-1k pageviews, 26-30 posts, 2-3% lead capture
+  - Month 2: 1.5k-2.5k pageviews, 26-30 posts, 3-5% lead capture
+  - Month 3: 3k-5k pageviews, 26-30 posts, 5-8% lead capture
+  - 90-day total: ~80 posts, ~5k-8k pageviews, ~150-250 leads, ~$3k-$25k revenue
+- Quarterly review process: Analyze performers, identify trends, adjust strategy
+- Year 1 vision: 300+ posts, 50k+/mo pageviews, 1,500+ leads, $50k+ attributed revenue
+
+**Status:** Comprehensive SEO + content framework ready  
+**Dependencies:** D-019 (logged)  
+**Integration:** Feeds into Lead HUB (blog CTAs capture leads)
+
+---
+
+### 🎯 Strategic Decisions Logged (Phase C)
+
+**D-018: Lead Management Platform Architecture**
+- Decision: Build proprietary Lead HUB on Supabase + Next.js
+- Why: Scalable, cost-effective ($0/mo vs $50-300 SaaS), full control of NOVA AI scoring algorithm
+- Timeline: 4 weeks implementation (June 1-28)
+- Integration: NOVA AI scoring, Resend email, Stripe checkout
+
+**D-019: Blog Daily Publishing Strategy**
+- Decision: 1 post/day (30/month), 4 content pillars, 100% AI-generated initially
+- Why: SEO authority, lead generation, aligns with Phase C roadmap, low cost (~$1.50/mo content)
+- Timeline: June 1 start, continuous (Year 1+)
+- Expectation: 5k-8k leads/month at end of Phase C
+
+**D-020: Email Provider Selection**
+- Decision: Resend now, Loops when demand exceeds threshold
+- Why: Resend free until 20k/month, lower cost, modern API, good enough for Phase C
+- Migration path: When post volume/email volume grows, upgrade to Loops without code changes
+- Cost: $0 now, $20/mo at scale
+
+---
+
+### 📊 Phase C Roadmap (Dates + Milestones)
+
+**Week 1 (June 1-7):** Lead HUB setup + Blog launch
+- ✅ Supabase schema created (leads, proposals, emails)
+- ✅ API endpoints built (capture, detail, proposals)
+- ✅ Dashboard UI started
+- ✅ First 7 blog posts generated + published (Mon-Sun)
+
+**Week 2-3 (June 8-21):** Core features + momentum
+- ✅ Lead HUB integrations live (Resend, Stripe, Claude)
+- ✅ 14 more blog posts (Mon-Sun × 2 weeks)
+- ✅ Lead magnet capture working
+- ✅ Analytics dashboard basics
+
+**Week 4+ (June 22-28):** Optimization + launch
+- ✅ Testing + bug fixes
+- ✅ Team training
+- ✅ Public launch (soft launch with blog)
+- ✅ 10 more posts, 30 total in June
+
+**July-August:** Scaling
+- ✅ 1 post/day ongoing (60+ posts)
+- ✅ Lead volume ramping (50-100+/month target)
+- ✅ First deals closing (from leads)
+- ✅ Content/lead flywheel optimizing
+
+---
+
+### 🔗 Integration Points with Existing Systems
+
+**Integrates with:**
+- NOVA AI (scoring engine reused)
+- Lead HUB (blog CTAs feed leads)
+- Marketing funnel (Phase B)
+- Autonomous backlog manager (Phase B, D-016)
+- Admin dashboards (aggregated metrics)
+
+**Feeds:**
+- Leads → Lead HUB → Sales pipeline → Stripe → Revenue
+- Blog content → NOVA AI context → Better qualification
+- Leads → Email → Nurture sequences → Conversion
+
+---
+
+### 💡 Key Insights (Session Reflection)
+
+1. **Scalability First**: Supabase + Next.js choice removes growth constraints early
+2. **Content = Lead Machine**: Blog daily + lead magnets creates compounding organic growth
+3. **Low Cost at High Volume**: Combined cost <$20/mo for both systems, while capturing high-LTV leads
+4. **Automation Leverage**: Claude API + Resend API + manual review creates hybrid efficiency
+5. **Ownership Matters**: Proprietary platform vs SaaS gives TechNova full control + better margins
+
+---
+
 ### 🎯 Strategic Decisions Made (4 New Decisions Logged)
 
 1. **D-014: Marketing Funnel Architecture** — 4-phase system (Awareness → Consideration → Conversion → Loyalty) with email automation, multi-channel ads ($2,500/mo total), blog, and analytics
@@ -211,6 +387,32 @@ All files ready for Fase B execution with clear dependencies and integration poi
 
 ---
 
+## 🔵 SESSION 2026-05-23: Git Hygiene — Observability Branch Cleanup
+
+**Duration:** Corta (operación de git)
+**Owner:** Vic (Product) + Claude (Agente)
+**Status:** ✅ COMPLETED
+
+### 📋 Qué pasó
+Se pidió mergear `feat/sentry-observability` → `main` y commitear los docs de Fase B. Al inspeccionar el estado real del repo se encontró que el plan no aplicaba:
+
+- **`main` ya tenía Sentry**, en una versión más nueva y con build arreglado:
+  - `a0dd609` chore: add Sentry instrumentation files
+  - `fca2c76` fix: conditional Sentry config (fixes broken build)
+- **`feat/sentry-observability` estaba stale**: 1 solo commit (`997944e`) con una integración de Sentry **anterior** al fix, y le faltaban ~10 commits de `main` (wizard 3-segmentos, catálogo de servicios, emails, favicon, etc.).
+- **Dry-run de merge** (`--no-commit --no-ff`, luego `--abort`) → **CONFLICTO en `next.config.ts`**: la rama quería revertir el fix de build (import estático `withSentryConfig` vs. el `await import()` condicional por `SENTRY_AUTH_TOKEN` que tiene `main`).
+- Los **8 docs de Fase B ya estaban committeados** en `main` (nada que commitear).
+- `git config` de usuario ya estaba configurado.
+
+### ✅ Decisión y acción
+- **NO se mergeó** la rama (habría reintroducido el build roto). `main` quedó intacto y alineado con `origin/main`.
+- **Eliminada la rama obsoleta** `feat/sentry-observability` (local + `origin`). Su commit `997944e` era redundante.
+
+### 💡 Insight / Lección
+Antes de mergear una rama "feature", verificar la relación real con `main` (`git log main..rama` y `rama..main`). Una rama vieja puede ir *detrás* de `main` y un merge ciego revierte fixes ya aplicados.
+
+---
+
 ## 📌 Previous Sessions (Pre-Compaction)
 
 [Previous session data compressed — see summarized context at top of conversation for details on:
@@ -223,6 +425,6 @@ All files ready for Fase B execution with clear dependencies and integration poi
 
 ---
 
-**Last Updated:** 2026-05-20 (Session 4 completion)  
+**Last Updated:** 2026-05-23 (Session 5 — observability branch cleanup)  
 **Next Review:** Daily via Autonomous Backlog Manager (D-016) starting Fase B  
 **Owner:** Vic (Estrategia) + Claude (Agente Arquitecto)

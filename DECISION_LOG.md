@@ -1021,14 +1021,244 @@ CREATE TABLE backlog_snapshots (
 
 ---
 
+## 🚀 DECISIONES DE FASE C - GROWTH PLATFORM & CONTENT ENGINE
+
+### D-018: Lead Management Platform Architecture — Supabase + Next.js (Proprietary vs SaaS)
+**Fecha:** 2026-05-23  
+**Dueño:** Vic (Estrategia) + Claude (Arquitectura)  
+**Status:** ✅ ARQUITECTURA COMPLETA (desarrollo comienza June 1)
+
+**Decisión:**  
+Construir **plataforma propietaria de gestión de leads (Lead HUB)** sobre Supabase + Next.js, en lugar de usar herramienta SaaS (HubSpot, Pipedrive).
+
+**Contexto:**
+- Fase B: Marketing funnel genera 30-50 leads/mes
+- Problema: SaaS estándar cuesta $50-300/mes, genérico, sin control del scoring
+- Oportunidad: Claude + Supabase = lead qualify + auto-proposal + conversion tracking
+- Ventaja: $0/mes (vs $100+), control total del algoritmo NOVA AI, data es nuestra
+
+**Lead HUB Spec:**
+- **Captura:** Form website, NOVA AI chat, Blog CTAs, Google Ads, LinkedIn, Email referral
+- **Scoring:** NOVA AI formula reusada — (Budget×0.25) + (Clarity×0.25) + (Timeline×0.20) + (Viability×0.20) + (Intent×0.10)
+- **Routing:** 80-100% score = auto-proposal + Stripe checkout; 60-79% = sales nurture; <60% = decline
+- **Email:** Resend para sequences automáticas (upgrade a Loops cuando demand > threshold)
+- **Proposals:** Claude API genera propuestas automáticamente based on lead profile
+- **Dashboard:** `/admin/leads` con pipeline kanban, analytics, lead details
+- **Database:** Supabase con 5 tables (leads, proposals, conversions, email_events, analytics)
+
+**Alternativas Consideradas:**
+1. **HubSpot** — $100-300/mes, bueno pero genérico
+2. **Pipedrive** — $50-150/mes, sales-first pero limitado para servicios técnicos
+3. **Custom build (elegido)** — $0/mes, control total, escalable
+
+**Por qué Custom en Supabase ganó:**
+- Cost: $0/mes vs $50-300
+- Control: Scoring algorithm es nuestro (NOVA AI integración nativa)
+- Scalability: Supabase serverless, Next.js on Vercel = no ops
+- Speed: 4 semanas implementación vs 2-3 meses SaaS migration
+- Data: Leads stored in our DB, no vendor lock-in
+
+**Trade-offs:**
+- ❌ Requires engineering time (4 weeks build)
+- ❌ Manual integrations (Resend, Stripe webhooks)
+- ✅ Pero: 3-year payback on implementation investment
+
+**Reversible?** Sí (export leads → import to HubSpot anytime, but hopefully never)
+
+**Implementation Timeline:**
+- Week 1 (June 1-7): Database + API
+- Week 2-3 (June 8-21): Frontend + integrations
+- Week 4 (June 22-28): Testing + launch
+
+**KPI de Éxito:**
+- 100+ leads captured month 1
+- 60%+ qualification rate
+- 1+ deals closed
+- 30%+ email open rate
+- $0/month cost (vs $100+ SaaS)
+
+---
+
+### D-019: Blog Daily Publishing Strategy — 1 Post/Day, AI-Generated, 4 Content Pillars
+**Fecha:** 2026-05-23  
+**Dueño:** Vic (Contenido) + Claude (Generación)  
+**Status:** ✅ ESTRATEGIA DOCUMENTADA (lanzamiento June 1)
+
+**Decisión:**  
+Publicar **1 post/día (30 posts/mes)** en blog, 100% generado con Claude API, enfocado en 4 pilares de contenido.
+
+**Contexto:**
+- Fase B: Marketing funnel necesita contenido SEO
+- Oportunidad: Daily posts = autoridad Google, lead magnets = lead capture
+- Modelo: Claude Haiku API = $0.05/post, ~$1.50/mes para 30 posts
+- Visión: Blog como "lead generation machine" + thought leadership
+
+**Content Strategy:**
+- **Pillars:** Dev (40%), Marketing (30%), Product (20%), Legal (10%)
+- **Target:** Dev Director (CTO), Founder, Growth Manager
+- **Keywords:** Next.js, Supabase, Growth Marketing, SEO for SaaS, Product Management, Startup Compliance
+- **Format:** 1,500-2,000 palabras, SEO optimized, with code examples
+- **Lead Magnets:** Templates, code snippets, frameworks, calculators (3-5% conversion target)
+- **Distribution:** Blog → Twitter threads → LinkedIn → Email → YouTube (future)
+
+**Production Workflow:**
+- Friday 4hr batch: Generate 7 posts for next week
+- Mon-Sun: Auto-publish at 8am UTC
+- Quality: 20-point SEO checklist before publishing
+- Analytics: Track traffic, leads, conversions per post
+
+**Content Pillars Examples:**
+1. **Dev**: "Next.js 16 App Router", "Supabase RLS Patterns", "TypeScript Generics", "Testing Async Code"
+2. **Marketing**: "Growth Metrics", "Email Automation", "SEO for SaaS", "Paid Ads Strategy"
+3. **Product**: "Jobs to be Done", "User Research", "Feature Prioritization", "Competitive Analysis"
+4. **Legal**: "Startup Compliance", "LLC vs S-Corp", "Privacy for SaaS", "Employment Agreements"
+
+**90-Day Targets:**
+- Month 1 (June): 26-30 posts, 500-1k pageviews, 2-3% lead capture, 2-3% conversion
+- Month 2 (July): 26-30 posts, 1.5k-2.5k pageviews, 3-5% lead capture
+- Month 3 (Aug): 26-30 posts, 3k-5k pageviews, 5-8% lead capture
+- **Total:** ~80 posts, ~5k-8k pageviews, ~150-250 leads, ~$3k-$25k attributed revenue
+
+**Alternativas Consideradas:**
+1. **2 posts/week** — Too slow, misses SEO momentum
+2. **5 posts/week** — Manageable but less authority
+3. **1 post/day (elegido)** — Maximum authority, doable with batching + AI
+
+**Por qué 1 post/day ganó:**
+- SEO: Daily frequency = faster ranking
+- Leads: More posts = more CTAs = more lead capture
+- Cost: Claude Haiku es cheap ($0.05/post)
+- Batch model: Friday batch = no daily overhead
+- Compounding: 90 days = 90 posts vs 20 posts with 2x/week
+
+**Trade-offs:**
+- ❌ Quality risk: Must maintain standards with daily cadence
+- ❌ Requires discipline: Friday batching, QA checklist
+- ✅ Pero: Batching mitigates quality risk
+
+**Reversible?** Sí (pause publishing, reduce to 3x/week anytime)
+
+**KPI de Éxito:**
+- 30+ posts/month published
+- 3%+ lead magnet conversion rate
+- 5 posts ranking in top 10 (Google) by month 3
+- 50+ leads captured from blog by month 3
+- 2+ deals closed with blog attribution
+
+---
+
+### D-020: Email Provider Strategy — Resend Now, Loops at Scale Threshold
+**Fecha:** 2026-05-23  
+**Dueño:** Vic (Growth)  
+**Status:** ✅ DECISIÓN DOCUMENTADA (implementación June 1)
+
+**Decisión:**  
+Usar **Resend** para email en Fase C, con migration path a **Loops** cuando demand excede Resend free tier.
+
+**Contexto:**
+- Lead HUB + Blog généran email sends (nurture sequences, newsletters, proposals)
+- Presupuesto: minimizar costs, maximize conversión
+- Resend: Gratis hasta 20k emails/mes, moderna API, easy integration
+- Loops: Upgrade cuando crosses threshold, sem código changes needed
+
+**Comparison:**
+| Aspecto | Resend | Loops | HubSpot |
+|--------|--------|-------|---------|
+| **Cost** | Free - 20k/mo | Free - 20k/mo | $50-300/mo |
+| **API** | Modern, Node.js native | Modern, webhook-friendly | Older, enterprise |
+| **Automation** | Webhooks + custom logic | Visual workflow builder | Limited for custom |
+| **Learning** | <1 hour | <2 hours | Days |
+| **Migration cost** | N/A (already switching) | Moderate (replaces Resend) | High (vendor lock-in) |
+
+**Resend Phase C Strategy:**
+- Blog newsletter: 1 post/day email (50 sends/day = 1.5k/month)
+- Nurture sequences: 5 sequences × 30 leads/mo = ~7.5k sends/month
+- Lead HUB automation: welcome, follow-up sequences = ~3k sends/month
+- **Total:** ~12k sends/month = well under 20k free tier
+
+**Upgrade Trigger (Loops):**
+```
+IF monthly_email_sends > 18,000 THEN
+  Migrate from Resend → Loops
+  Loops cost: $0-20/month depending on volume
+ELSE
+  Continue Resend (free)
+```
+
+**Migration Path (Zero Friction):**
+1. Loops tiene importador de templates desde Resend
+2. API casi idéntica (drop-in replacement)
+3. Next.js integration igual de simple
+4. Estimated migration time: 2 horas
+
+**Alternativas Consideradas:**
+1. **Mailchimp** — Free pero interface antigua, no ideal para automation
+2. **SendGrid** — Bueno pero más caro que Resend/Loops
+3. **Brevo (Sendinblue)** — Decent pero ecosystem menos robusto
+4. **Resend + Loops path (elegido)** — Best combo de cost + modern API
+
+**Por qué Resend → Loops ganó:**
+- Cost: $0 now, $0-20 at scale (vs $50+ other options)
+- Developer experience: Modern APIs, Node.js friendly, webhooks
+- Flexibility: Easy to switch, no vendor lock-in
+- Simplicity: No marketing automation fluff, just email sending + events
+- Future-proof: If needed enterprise features, upgrade path exists (HubSpot)
+
+**Trade-offs:**
+- ❌ No visual workflow builder (must code automation)
+- ❌ Less "hand-holding" than Mailchimp
+- ✅ Pero: for our use case (API + webhooks), features > fluff
+
+**Reversible?** Sí, fácil (export subscribers list → import anywhere)
+
+**Cost Projection (12-month):**
+- Months 1-6: $0 (Resend free)
+- Months 7-12: $0-20/mo avg (Loops at scale)
+- **Annual:** ~$60-120 (vs $600-3,600 with HubSpot)
+
+---
+
+### D-026: Consolidación de Observabilidad (Sentry) — No mergear ramas stale
+**Fecha:** 2026-05-23
+**Dueño:** Vic (Product) + Claude (Agente)
+**Status:** ✅ IMPLEMENTADO
+
+**Decisión:**
+Mantener la integración de Sentry que ya vive en `main` y **descartar la rama `feat/sentry-observability`** (eliminada local + `origin`). No se mergeó.
+
+**Contexto:**
+- Se solicitó mergear `feat/sentry-observability` → `main`, asumiendo que la rama traía la integración de Sentry.
+- En realidad **`main` ya tenía Sentry**, en versión más nueva y con el build arreglado:
+  - `a0dd609` chore: add Sentry instrumentation files
+  - `fca2c76` fix: conditional Sentry config (fixes broken build)
+- La rama estaba **stale**: 1 commit (`997944e`) con Sentry **anterior** al fix y le faltaban ~10 commits de `main`.
+- Dry-run de merge → **conflicto en `next.config.ts`**: la rama revertía el fix de build (import estático `withSentryConfig` vs. `await import()` condicional por `SENTRY_AUTH_TOKEN`).
+
+**Alternativas Consideradas:**
+1. **Mergear y resolver el conflicto** — riesgo alto de reintroducir el build roto; sin beneficio (no aporta nada nuevo).
+2. **Rebasear la rama sobre `main`** — esfuerzo sin retorno; su único commit es redundante.
+3. **Descartar la rama** ✅ — `main` ya tiene la versión correcta.
+
+**Por qué descartar ganó:**
+- `main` ya contiene la implementación correcta y con build arreglado.
+- El merge solo podía empatar o regresar el estado, nunca mejorarlo.
+
+**Implementación de Sentry vigente (en `main`):** carga condicional en `next.config.ts` vía `await import('@sentry/nextjs')` gateada por `SENTRY_AUTH_TOKEN` — sin token, el build sigue normalmente.
+
+**Reversible?** Sí — el commit `997944e` aún es recuperable por SHA si alguna vez se necesitara.
+
+**Lección:** Antes de mergear una rama feature, verificar la relación real con `main` (`git log main..rama` y `rama..main`). Una rama vieja puede ir *detrás* de `main` y un merge ciego revierte fixes ya aplicados.
+
+---
+
 ## 📌 PRÓXIMOS REGISTROS
 
 Los siguientes registros se añadirán aquí conforme se tomen nuevas decisiones:
-- D-018: Validación de inputs API (Zod vs alternativa) — bloquea hardening
-- D-019: Estrategia i18n (multi-idioma — hoy ES default, EN parcial bajo `/services`)
-- D-020: Modelo de servicio post-entrega (soporte, SLA, tiers de mantenimiento)
-- D-021: Estrategia de hiring (roles prioritarios, criterios)
-- D-022: Toast/notificaciones UI (librería cuando se añadan más formularios)
+- D-021: Validación de inputs API (Zod vs alternativa) — bloquea hardening
+- D-022: Estrategia i18n (multi-idioma — hoy ES default, EN parcial bajo `/services`)
+- D-023: Modelo de servicio post-entrega (soporte, SLA, tiers de mantenimiento)
+- D-024: Estrategia de hiring (roles prioritarios, criterios)
+- D-025: Toast/notificaciones UI (librería cuando se añadan más formularios)
 - ...
 
 ---
@@ -1038,11 +1268,14 @@ Los siguientes registros se añadirán aquí conforme se tomen nuevas decisiones
 **Documentación relacionada:**
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Documento maestro
 - [TECHNICAL_ARCHITECTURE.md](./docs/technical/TECHNICAL_ARCHITECTURE.md) - Stack en detalle
+- [LEAD_MANAGEMENT_PLATFORM.md](./LEAD_MANAGEMENT_PLATFORM.md) - Lead HUB arquitectura
+- [BLOG_AUTOMATION_STRATEGY.md](./BLOG_AUTOMATION_STRATEGY.md) - Blog strategy + 90-day calendar
+- [CONTENT_STRATEGY.md](./CONTENT_STRATEGY.md) - SEO + keywords + clusters
 - [Technova.md](./Technova.md) - Plan de negocio
 - [strategy.md](./strategy.md) - Estrategia simplificada
 
 ---
 
-**Última actualización:** 2026-05-19  
+**Última actualización:** 2026-05-23  
 **Próxima revisión:** Cuando se tome decisión nueva  
-**Owner:** Vic (Arquitecto) + Equipo TechNova
+**Owner:** Vic (Estrategia) + Equipo TechNova
