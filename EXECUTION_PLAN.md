@@ -117,9 +117,10 @@ Ver `LEAD_MANAGEMENT_PLATFORM.md`.
 | `RESEND_FROM_EMAIL` | technova-next (prod) | ✅ `Sofía de TechNova <sofia@tech-nova.mx>` |
 | `NOTIFY_EMAIL` | technova-next (prod) | ✅ `thisistechnova2026@gmail.com` |
 | `DATABASE_URL` | technova-next (prod) | ✅ `ep-gentle-meadow-aph6dcnk` (producción) |
-| `STRIPE_SECRET_KEY` | Desde `.env` local | ⚠️ Test mode — migrar a prod cuando KYC listo |
-| `UPSTASH_REDIS_*` | Desde `.env` local | ✅ Funcional |
+| `STRIPE_SECRET_KEY` | technova-next (prod) | ⚠️ Test mode — migrar a prod cuando KYC listo |
+| `UPSTASH_REDIS_*` | technova-next (prod) | ✅ Funcional |
 | `NEXT_PUBLIC_BASE_URL` | technova-next (prod) | ⚠️ Verificar que sea `https://tech-nova.mx` |
+| `ADMIN_DASHBOARD_TOKEN` | technova-next (prod) | 🔴 **PENDIENTE** — sin este token `/admin/*` e `/internal/*` devuelven 503. Generar con `openssl rand -hex 32` y añadir en Vercel → Settings → Environment Variables. |
 
 ---
 

@@ -201,6 +201,16 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 
 ---
 
+## ⚡ PENDIENTES INMEDIATOS (antes de Fase B)
+
+### ENV VAR: ADMIN_DASHBOARD_TOKEN en Vercel 🔴
+**Status:** 🔴 BLOQUEANTE para usar dashboards internos  
+**Descripción:** Los dashboards `/admin/project-status` e `/internal/architecture` fueron mergeados a main (2026-05-23). Sin `ADMIN_DASHBOARD_TOKEN` en Vercel → devuelven 503 por diseño.  
+**Acción:** Vercel → technova-next → Settings → Environment Variables → añadir `ADMIN_DASHBOARD_TOKEN` con un token generado con `openssl rand -hex 32`.  
+**Nota de seguridad:** Guardar el token también en 1Password / gestor de contraseñas.
+
+---
+
 ## 🔴 FASE B: GROWTH & CREDIBILITY 🔴
 **Status:** 🔴 PLANNED (Starts after Phase A complete)  
 **Timeline:** July 1 - September 30, 2026 (8-10 weeks)  
