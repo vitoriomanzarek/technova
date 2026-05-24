@@ -105,11 +105,11 @@ const StepMisionBrief = ({ onSubmit, onBack }: StepMisionBriefProps) => {
                         className={`${inputClass} cursor-pointer`}
                         required
                     >
-                        <option value="" disabled>
+                        <option value="" disabled className="bg-[#12121f] text-white">
                             Selecciona un rango
                         </option>
                         {budgetOptions.map((opt) => (
-                            <option key={opt} value={opt}>
+                            <option key={opt} value={opt} className="bg-[#12121f] text-white">
                                 {opt}
                             </option>
                         ))}

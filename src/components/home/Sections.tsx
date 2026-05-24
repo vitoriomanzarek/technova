@@ -193,24 +193,30 @@ export const ProjectsSection = () => (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
                     {
-                        title: 'Landing Page',
-                        res: 'Incremento del 40% en leads',
+                        sector: 'Startup de Servicios B2B',
+                        tag: 'Landing + Embudo',
+                        reto: 'Invertía en anuncios, pero el tráfico no se convertía en clientes.',
+                        res: '+40% en leads calificados',
                         image: '/images/case-landing-page.png',
                         hoverGradient: 'from-cyan-500/20 to-blue-500/20',
                         hoverBorder: 'border-cyan-400/50',
                         textGradient: 'from-cyan-400 to-blue-400'
                     },
                     {
-                        title: 'Tienda eCommerce',
-                        res: 'Ventas duplicadas en 3 meses',
+                        sector: 'Boutique de Moda',
+                        tag: 'eCommerce',
+                        reto: 'Vendía solo por redes sociales, sin tienda propia ni control de inventario.',
+                        res: 'Ventas online duplicadas en 3 meses',
                         image: '/images/case-ecommerce.png',
                         hoverGradient: 'from-purple-500/20 to-pink-500/20',
                         hoverBorder: 'border-purple-400/50',
                         textGradient: 'from-purple-400 to-pink-400'
                     },
                     {
-                        title: 'Estrategia SEO',
-                        res: 'Posicionamiento Top 3 en Google',
+                        sector: 'Negocio Local',
+                        tag: 'Estrategia SEO',
+                        reto: 'Invisible en Google fuera de las búsquedas por su propio nombre.',
+                        res: 'Top 3 en sus búsquedas clave',
                         image: '/images/case-seo.png',
                         hoverGradient: 'from-emerald-500/20 to-teal-500/20',
                         hoverBorder: 'border-emerald-400/50',

@@ -47,6 +47,20 @@ Generada en Fases 2-4. Consultar el relevante antes de tocar código:
 
 ---
 
+## 📈 Phase C: Growth Platform + Content Engine (2026-05-23)
+
+### Estrategia de Contenido & Leads
+- [`LEAD_MANAGEMENT_PLATFORM.md`](./LEAD_MANAGEMENT_PLATFORM.md) — Sistema propietario de gestión de leads (Supabase + Next.js). Schema (5 tablas), 6 endpoints API, dashboard `/admin/leads`, integración Resend/Stripe/Claude API, roadmap 4 semanas (Jun 1-28). KPI: 100+ leads/mes, 60%+ qualification, 1+ deals.
+- [`BLOG_AUTOMATION_STRATEGY.md`](./BLOG_AUTOMATION_STRATEGY.md) — Máquina de contenido diario (1 post/día = 30/mes). Batch Friday (7 posts), auto-publish Mon-Sun 8am UTC, Claude Haiku API ($1.50/mes). Lead magnets por tipo, secuencias email Resend, distribución multi-canal (blog → Twitter → LinkedIn → email). 90-día targets: 150-250 leads, $3k-$25k revenue.
+- [`CONTENT_STRATEGY.md`](./CONTENT_STRATEGY.md) — Fundación estratégica completa. Buyer journey (Awareness 40% / Consideration 35% / Conversion 20% / Loyalty 5%), 3 personas (Dev Director / Founder / Growth Manager), 5 content clusters, calendar Jun 26-30 posts con keywords y lead magnets, SEO checklist 20 items, año 1 vision (300+ posts, 50k+/mes pageviews, 1.5k+ leads, $50k+ revenue).
+
+### Decisiones Logradas
+- **D-018:** Lead HUB propietario (Supabase + Next.js vs SaaS), timeline Jun 1-28, reversible después de 4 semanas si ROI < $1k.
+- **D-019:** Blog 1 post/día (no 2/semana), 100% AI-generated (Claude Haiku), rotación manual si se consigue writer.
+- **D-020:** Email Resend free tier → Loops at 20k/mes threshold, cost <$20/mes Phase C.
+
+---
+
 ## 🔍 Referencias Cruzadas (no se cargan automáticamente, consultar bajo demanda)
 
 | Documento | Ubicación | Para qué |
@@ -82,5 +96,5 @@ Generada en Fases 2-4. Consultar el relevante antes de tocar código:
 
 ---
 
-**Última actualización:** 2026-05-20
-**Status:** ✅ Fases 1-4 entregadas. Producción viva en `tech-nova.mx` (lead funnel + Stripe TEST + rate limit + security headers). Documentación técnica 100% completa. Pendiente = **implementación** de gaps (Sentry, CI, error boundaries, tests) — ver última entrada de `docs/BITACORA.md`.
+**Última actualización:** 2026-05-23  
+**Status:** ✅ **Fases 1-4 entregadas.** Producción viva en `tech-nova.mx` (lead funnel + Stripe TEST + rate limit + security headers). **Phase C Strategy Complete** (Lead HUB architecture, Daily blog plan, Content strategy). Documentación técnica 100% completa. Próximo: **Implementación Phase C** jun 1-28 (Lead DB/API/dashboard + Blog automation pipeline). Pendiente técnico = Sentry, CI, error boundaries, tests — ver última entrada de `docs/BITACORA.md`.

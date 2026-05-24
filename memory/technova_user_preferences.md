@@ -134,6 +134,7 @@ Toda propuesta debe atarse a una de estas. "¿Cómo esto ayuda a vender/entregar
 - **Aceleración con IA** asumida en pricing — el modelo de negocio depende de que Claude/Cursor produzcan rápido (ver [[technova-business-context]] §3).
 - **Recomendaciones propias** ("aquí están las opciones, recomiendo X porque Y").
 - **Automatizar** lo repetitivo. **Build persistent systems**, no one-offs.
+- **Prompts para agentes** — siempre incluir instrucción de **actualizar documentación al terminar la tarea** (BITACORA, DECISION_LOG, memory según corresponda). No dejar agentes sin cerrar contexto.
 
 ---
 
@@ -273,5 +274,5 @@ Claude elige herramientas e implementación; Vic valida resultados.
 
 ---
 
-**Última actualización:** 2026-05-19
+**Última actualización:** 2026-05-23 (añadida regla de prompts para agentes)
 **Próxima revisión:** cuando Vic dé feedback explícito sobre tono / formato / autonomía, o cambien herramientas/canales.
