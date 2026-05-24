@@ -8,7 +8,9 @@ import { neon } from '@neondatabase/serverless';
 import 'dotenv/config';
 
 const BASE = 'https://tech-nova.mx';
-const DB_URL = 'postgresql://neondb_owner:REDACTED@ep-gentle-meadow-aph6dcnk-pooler.c-7.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require';
+// DB_URL se lee desde .env (DATABASE_URL_UNPOOLED o DATABASE_URL).
+// NUNCA hardcodear credenciales aquí. Usar: node --env-file=.env scripts/site-test.mjs
+const DB_URL = process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL;
 
 let passed = 0, failed = 0;
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
