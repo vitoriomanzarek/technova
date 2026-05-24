@@ -1263,6 +1263,39 @@ Los siguientes registros se añadirán aquí conforme se tomen nuevas decisiones
 
 ---
 
+### D-027: Lead Magnet — PDF estático + flujo Sofía (no reemplazar uno con otro)
+**Fecha:** 2026-05-23
+**Dueño:** Vic (decisión) + Claude (implementación)
+**Status:** ✅ IMPLEMENTADO
+
+**Decisión:**
+Para "Auditoría Web Express" se conserva el flujo personalizado de Sofía (D-006) y **se añade** un PDF descargable de valor inmediato — NO se reemplaza un modelo con el otro. El spec original pedía un PDF auto-descargable que sustituía el flujo; se descartó esa ruta porque contradice D-006.
+
+**Contexto:**
+- El spec `AUDITORIA_WEB_EXPRESS_SPEC.md` proponía un PDF self-serve como única entrega.
+- D-006 (Vic) ya eligió el modelo personalizado por mayor conversión ("50x mejor que checklist genérico"). El flujo Sofía ya estaba live (commit 43055fc).
+- Reemplazarlo habría tirado trabajo intencional reciente.
+
+**Implementación:**
+- PDF generado con `pdfkit` vía script one-off `scripts/generate-auditoria-pdf.mjs` → `public/assets/auditoria-web-express.pdf` (6 págs, ~70KB, branding espacial).
+- `pdfkit` es dependencia **solo de generación** (devDependency); el PDF se commitea, runtime no lo necesita.
+- `LeadMagnetSection`: al enviar, descarga la checklist al instante + dispara GA4 `lead_magnet_downloaded`. El email de Sofía (24-48h) sigue igual + ahora enlaza el PDF.
+
+**Por qué pdfkit (vs html2pdf / puppeteer):**
+- Control vectorial programático, sin headless browser (puppeteer pesa ~300MB).
+- El documento es estático → se genera una vez y se versiona. No hace falta runtime de render.
+
+**Trade-offs:**
+- ❌ El PDF es estático (no personalizado por sitio). Aceptable: el valor personalizado lo da el diagnóstico de Sofía.
+- ❌ Editar el PDF requiere re-correr el script. Aceptable por baja frecuencia de cambio.
+
+**KPI de Éxito:**
+- PDF <5MB ✅ (~70KB), se abre sin errores ✅
+- Evento GA4 `lead_magnet_downloaded` dispara en submit
+- Conversión lead magnet > 15% (heredado de D-006)
+
+---
+
 ## 🔗 REFERENCIAS
 
 **Documentación relacionada:**

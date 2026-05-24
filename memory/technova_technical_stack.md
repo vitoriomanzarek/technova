@@ -48,6 +48,7 @@ metadata:
 | `resend` | `^6.12.2` | Email transaccional (lead magnet, nurturing). |
 | `dotenv` | `^17.4.2` | Solo para scripts standalone (Next.js carga `.env` nativo). |
 | `tsx` | `^4.21.0` | Ejecutar scripts TS (`migrate.mjs`, `create_routes.mjs`). |
+| `pdfkit` | devDep | **Solo generación**: lead magnet PDF (`scripts/generate-auditoria-pdf.mjs` → `public/assets/auditoria-web-express.pdf`). El PDF se versiona; runtime NO lo necesita. Ver D-027. |
 
 ### Pagos, Validación & Rate Limiting (instalados 2026-05-20)
 | Paquete | Versión | Notas |

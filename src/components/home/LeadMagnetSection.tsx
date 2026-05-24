@@ -1,10 +1,28 @@
 "use client";
-import { Radar, ArrowRight, Rocket, Loader2 } from 'lucide-react';
+import { Radar, ArrowRight, Rocket, Loader2, Download } from 'lucide-react';
 import { useState } from 'react';
+
+const AUDIT_PDF = '/assets/auditoria-web-express.pdf';
+
+// gtag se inyecta globalmente en layout.tsx (GA4 + GTM).
+declare global {
+    interface Window {
+        gtag?: (...args: unknown[]) => void;
+    }
+}
 
 const LeadMagnetSection = () => {
     const [form, setForm] = useState({ email: '', website_url: '' });
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+    const downloadChecklist = () => {
+        const a = document.createElement('a');
+        a.href = AUDIT_PDF;
+        a.download = 'auditoria-web-express.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,6 +41,14 @@ const LeadMagnetSection = () => {
             if (!res.ok) throw new Error();
             setStatus('success');
             setForm({ email: '', website_url: '' });
+
+            // Valor inmediato: la checklist se descarga al instante; el
+            // diagnóstico personalizado de Sofía llega en 24-48h aparte.
+            downloadChecklist();
+            window.gtag?.('event', 'lead_magnet_downloaded', {
+                magnet_type: 'auditoria-web-express',
+                source: 'homepage',
+            });
         } catch {
             setStatus('error');
         }
@@ -45,7 +71,7 @@ const LeadMagnetSection = () => {
                                 ¿Tu sitio web está <span className="text-gradient">perdiendo altitud</span>?
                             </h2>
                             <p className="text-gray-400 text-lg mb-6 leading-relaxed">
-                                Déjanos escanear tu sitio. En 24-48 horas, Sofía — nuestra navegante digital — te enviará un diagnóstico personalizado con las 3 correcciones más urgentes para recuperar velocidad, visibilidad y ventas.
+                                Descarga al instante nuestra checklist de auditoría (17 puntos de control). Y déjanos escanear tu sitio: en 24-48 horas, Sofía — nuestra navegante digital — te enviará un diagnóstico personalizado con las 3 correcciones más urgentes para recuperar velocidad, visibilidad y ventas.
                             </p>
                             <ul className="space-y-2 text-gray-400 text-sm">
                                 {[
@@ -66,12 +92,18 @@ const LeadMagnetSection = () => {
                                     <div className="text-5xl animate-bounce">🚀</div>
                                     <h3 className="text-xl font-bold text-white">¡Misión iniciada!</h3>
                                     <p className="text-gray-400 text-sm leading-relaxed">
-                                        Sofía ya recibió tu solicitud y está preparando el escáner orbital.
-                                        Revisa tu correo en las próximas 24-48 horas — vendrá con tu diagnóstico completo y un plan de acción.
+                                        Tu checklist <span className="text-cyan-400 font-semibold">Auditoría Web Express</span> se está descargando.
+                                        Y esto es solo el mapa: Sofía ya prepara el escáner orbital y en 24-48 horas recibirás por correo tu diagnóstico personalizado con un plan de acción.
                                     </p>
                                     <button
+                                        onClick={downloadChecklist}
+                                        className="inline-flex items-center gap-2 text-sm text-cyan-400 hover:underline mt-2"
+                                    >
+                                        <Download className="w-4 h-4" /> Descargar la checklist de nuevo
+                                    </button>
+                                    <button
                                         onClick={() => setStatus('idle')}
-                                        className="text-xs text-cyan-400 hover:underline mt-2"
+                                        className="text-xs text-gray-500 hover:underline"
                                     >
                                         Enviar otra solicitud
                                     </button>
@@ -117,7 +149,7 @@ const LeadMagnetSection = () => {
                                         {status === 'loading' ? (
                                             <><Loader2 className="w-5 h-5 animate-spin" /> Iniciando misión...</>
                                         ) : (
-                                            <><Rocket className="w-5 h-5" /> Quiero mi Diagnóstico Gratis <ArrowRight className="w-4 h-4" /></>
+                                            <><Rocket className="w-5 h-5" /> Descargar checklist + diagnóstico <ArrowRight className="w-4 h-4" /></>
                                         )}
                                     </button>
 

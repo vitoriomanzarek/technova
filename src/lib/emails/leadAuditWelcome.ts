@@ -81,6 +81,20 @@ export function welcomeAuditEmail({ name, websiteUrl }: AuditWelcomeParams = {})
         </p>
         `}
 
+        <!-- Descarga inmediata: checklist PDF -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(14,165,233,0.25);border-radius:12px;padding:20px;margin:0 0 28px;text-align:center;">
+          <p style="color:#7dd3fc;font-size:13px;font-weight:600;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.5px;">
+            📋 Tu checklist ya está lista
+          </p>
+          <p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 16px;">
+            Mientras preparamos tu diagnóstico personalizado, descarga la <strong style="color:#fff;">Auditoría Web Express</strong>: 17 puntos de control para revisar tu sitio hoy mismo.
+          </p>
+          <a href="https://tech-nova.mx/assets/auditoria-web-express.pdf"
+             style="display:inline-block;background:#0ea5e9;color:#fff;font-weight:700;font-size:14px;padding:12px 28px;border-radius:10px;text-decoration:none;">
+            Descargar checklist (PDF)
+          </a>
+        </div>
+
         <!-- What they'll get -->
         <div style="margin:0 0 28px;">
           <p style="color:#94a3b8;font-size:13px;font-weight:600;margin:0 0 12px;text-transform:uppercase;letter-spacing:0.5px;">
