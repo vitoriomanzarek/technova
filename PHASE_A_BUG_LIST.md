@@ -292,4 +292,31 @@ Problem:
 
 | Bug | Estimated | Actual | Status |
 |-----|-----------|--------|--------|
-| BUG 1 | 1 hour | - | ⏸️ Sin acción (decisión: dejar c
+| BUG 1 | 1 hour | - | ⏸️ Sin acción (decisión: dejar como está) |
+| BUG 2 | 1.5 hours | - | ✅ DONE (commit `cc3b5a1`) |
+| BUG 3 | 30 min | ~15 min | ✅ DONE (2026-05-23) |
+| BUG 4 | 2 hours | - | ✅ DONE (sin `bg-white` planos) |
+| BUG 5 | 1 hour | ~10 min | ✅ DONE (2026-05-23) |
+| BUG 6 | 30 min | - | ✅ DONE (email real configurado) |
+| BUG 7 | 15 min | - | ✅ DONE (`+52 722 166 9672`) |
+| BUG 8 | 30 min | - | ✅ DONE (wizard reescrito, commit `a9a1b78`) |
+| **TOTAL** | **~7.5 hours** | **~25 min nuevos** | **7/8 resueltos, 1 sin acción por decisión** |
+
+**Owner:** Claude Code  
+**Timeline:** ✅ Completado antes de Fase B  
+**Priority:** Fix all CRITICAL bugs, defer MEDIA if time-constrained
+
+---
+
+## 📝 NOTAS
+
+- Esta lista debe ser completada **antes** de pasar a Fase B
+- Todos estos bugs pueden ser encontrados por usuarios nuevos
+- Afectan credibilidad + conversión
+- Los bugs de texto/contraste son especialmente críticos para accessibility
+
+---
+
+**Agregado a Backlog:** 2026-05-20  
+**Actualizado:** 2026-05-23 (auditoría vs. código real)  
+**Status:** 🟢 RESUELTO — 7/8 fixes aplicados, BUG 1 sin acción por decisión. Ya no bloquea Fase B.
