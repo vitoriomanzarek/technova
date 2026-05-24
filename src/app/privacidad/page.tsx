@@ -15,7 +15,7 @@ const Privacy = () => {
                         <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                             Política de Privacidad
                         </h1>
-                        <p className="text-gray-400">Última actualización: Diciembre 2024</p>
+                        <p className="text-gray-400">Última actualización: Mayo 2026</p>
                     </motion.div>
 
                     <motion.div

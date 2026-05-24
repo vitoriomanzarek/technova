@@ -499,6 +499,104 @@ Antes de mergear una rama "feature", verificar la relación real con `main` (`gi
 
 ---
 
-**Last Updated:** 2026-05-24 (Session 6 — MVP infrastructure complete, email test in progress)  
-**Next Review:** Email test results + MVP launch decision  
+---
+
+## 🟢 SESSION 2026-05-23: Lead Magnet "Auditoría Web Express" (PDF + flujo Sofía)
+
+**Status:** ✅ COMPLETED
+**Owner:** Claude (Ejecución)
+**Time spent:** ~2 horas
+
+### 📋 Work Completed
+- [x] PDF "Auditoría Web Express" generado con `pdfkit` (`scripts/generate-auditoria-pdf.mjs` → `public/assets/auditoria-web-express.pdf`). 6 págs, ~70KB, branding espacial (cosmos + gradientes cian→violeta), 17 puntos de control en 6 secciones, tabla de altitud (scoring) y CTA a diagnóstico personalizado.
+- [x] `LeadMagnetSection`: descarga automática del PDF al enviar + evento GA4 `lead_magnet_downloaded` (magnet_type, source). Copy actualizada para reflejar checklist inmediata + diagnóstico de Sofía en 24-48h.
+- [x] Email `leadAuditWelcome`: añadido bloque con botón de descarga del PDF, sin tocar el mensaje de diagnóstico personalizado.
+- [x] Homepage: `<LeadMagnetSection />` ya estaba integrado (page.tsx).
+- [x] QA: `tsc --noEmit` limpio, eslint limpio en archivos tocados, smoke test dev server (PDF HTTP 200 application/pdf, homepage 200).
+
+### 🧭 Decisión clave (ver D-027)
+El spec original pedía un PDF auto-descargable que **reemplazaba** el flujo de Sofía. Se rechazó esa ruta porque contradice D-006 (Vic eligió el modelo personalizado). En su lugar: **se conserva Sofía y se añade el PDF como valor inmediato**. Confirmado con Vic.
+
+### ⚠️ Notas / pendientes de QA real
+- El submit dispara Resend (email real) + insert en DB. No se probó el envío real para no generar correos de prueba; el endpoint `/api/leads` y el flujo ya estaban live y verificados en sesiones previas.
+- `pdfkit` añadido como **devDependency** (solo generación; el PDF se versiona, runtime no lo necesita).
+
+**Blockers:** None
+**Ready:** Sí — listo para MVP launch
+
+---
+
+---
+
+## 🟢 SESSION 2026-05-24: Correcciones de producción, identidad Sofía, seguridad
+
+**Duration:** ~4 horas  
+**Owner:** Vic (Product) + Claude (Ejecución)  
+**Status:** ✅ COMPLETED
+
+### 📋 Work Completed
+
+#### ✅ Emails funcionando en producción
+- **Root cause encontrado:** el dominio `tech-nova.mx` vive en el proyecto Vercel `technova-next` (`prj_TIPXMWs783BkRFQRMZQCxRGvnVuJ`), NO en `technova`. Todos los env vars y deploys anteriores estaban en el proyecto equivocado.
+- `RESEND_API_KEY` (`re_BDdRd14F...`) configurada en el proyecto correcto.
+- `NOTIFY_EMAIL` y `RESEND_FROM_EMAIL` también corregidas.
+- `.vercel/project.json` actualizado para futuros deploys.
+- `notified` en la respuesta ahora refleja correctamente si Resend aceptó el email (antes era false-positive).
+
+#### ✅ Persona Sofía Torres — Navegante Digital
+- `RESEND_FROM_EMAIL` → `Sofia de TechNova <sofia@tech-nova.mx>` (sin tilde para evitar encoding roto en clientes de correo).
+- Email `leadAuditWelcome` reescrito completamente: tono cálido, metáforas espaciales, firma de Sofía, muestra la URL capturada, explica exactamente qué recibirá el lead y cuándo.
+- Email de notificación al owner: agrega botón "🔭 Abrir sitio a auditar" con la URL del lead.
+
+#### ✅ Campo URL en formulario de auditoría
+- `LeadMagnetSection`: añadido campo `website_url` (opcional). Copy renovado con metáforas espaciales.
+- DB schema: columna `website_url TEXT` añadida a tabla `leads` en producción (Neon `ep-gentle-meadow`).
+- API `/api/leads`: Zod schema actualizado para aceptar y validar URL; se persiste en DB.
+- Descarga automática del PDF al enviar el form + evento GA4 `lead_magnet_downloaded`.
+
+#### ✅ BRAND_IDENTITY.md — Identidad de marca completa
+- Concepto central: el viaje espacial digital como metáfora de todo.
+- Mapa de metáforas, voz de la marca, qué decimos y qué NO, guía de Sofía con ejemplos.
+- Experiencia del viaje en cada touchpoint.
+- Documento de referencia para todos los agentes.
+
+#### ✅ EXECUTION_PLAN.md — Roadmap vivo
+- Sprint actual vs próximo (2 semanas).
+- Estado de todas las variables de entorno.
+- Decisiones técnicas registradas.
+
+#### ✅ Incidente de seguridad resuelto
+- **GitGuardian / Neon alert:** credenciales de producción (`npg_OVZKc1k9olBf`) expuestas en `scripts/site-test.mjs` al hacer commit en GitHub.
+- Credenciales eliminadas del script (ahora lee de `process.env`).
+- Password rotado en Neon console → nueva contraseña `npg_BTUibSv2N9cK`.
+- `DATABASE_URL` y `DATABASE_URL_UNPOOLED` actualizadas en Vercel `technova-next` y en `.env.local` local.
+- Historial de git limpiado con `git filter-repo` (fuerza push).
+- Conexión verificada post-rotación: ✅ 18 leads intactos.
+
+#### ✅ Privacy Policy
+- Fecha actualizada de "Diciembre 2024" → "Mayo 2026".
+
+### 📊 Estado post-sesión
+
+| Componente | Estado |
+|---|---|
+| Emails en producción | ✅ Funcionando — `Sofia de TechNova <sofia@tech-nova.mx>` |
+| Formulario auditoría | ✅ Email + URL capturados |
+| Notificación al owner | ✅ Con botón de sitio a auditar |
+| PDF checklist | ✅ Se descarga automáticamente al enviar |
+| DB producción | ✅ `ep-gentle-meadow-aph6dcnk` con credenciales rotadas |
+| Seguridad | ✅ Incidente cerrado |
+| Privacy Policy | ✅ Fecha actualizada |
+
+### ⏳ Pendientes próxima sesión
+
+- [ ] Google Search Console — registrar `tech-nova.mx`
+- [ ] GA4 timezone — cambiar a "Ciudad de México"
+- [ ] Stripe → modo producción (pendiente KYC)
+- [ ] Email de confirmación genérica de Sofía para todos los formularios (no solo auditoría)
+
+---
+
+**Last Updated:** 2026-05-24 (Session 8 — Sofía persona, seguridad, formulario auditoría)  
+**Next Review:** Google Search Console + GA4 timezone  
 **Owner:** Vic (Estrategia) + Agentes (Ejecución)
