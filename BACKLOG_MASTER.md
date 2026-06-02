@@ -3,7 +3,7 @@
 
 **Dueño:** Vic (Fundador/CEO)  
 **Autoridad:** Vic (APROBADO)  
-**Última actualización:** 2026-05-20  
+**Última actualización:** 2026-06-02 ← sincronizado con realidad  
 **Status:** 🟢 MASTER REFERENCE DOCUMENT
 
 ---
@@ -12,378 +12,260 @@
 
 TechNova está estructurado en 4 fases de desarrollo. Este documento consolida TODO el trabajo planificado:
 
-| Fase | Status | Duration | Focus | Files |
-|------|--------|----------|-------|-------|
-| **A** | 🟢 Active | 4-6 weeks | Foundation & Architecture | FASE1_EXECUTION.md |
-| **B** | 🔴 Planned | 8-10 weeks | Growth & Credibility | IMAGERY_AGENT_KICKOFF.md, MARKETING_FUNNEL_AGENT_KICKOFF.md, NOVA_AI_REPLANNING.md |
-| **C** | 🟠 Scheduled | 4-6 weeks | Polish & DevOps | PHASE4_KICKOFF.md |
-| **Future** | 🟡 Backlog | TBD | Advanced Features | TBD |
+| Fase | Status | Duration | Focus |
+|------|--------|----------|-------|
+| **A** | ✅ COMPLETADA | May 20 – Jun 2, 2026 | Foundation & Architecture |
+| **B** | 🔴 Iniciando | Jul 2026 – Sep 2026 | Growth & Credibility |
+| **C** | 🟠 Scheduled | Oct – Nov 2026 | Polish & DevOps |
+| **Future** | 🟡 Backlog | Q1 2027+ | Advanced Features |
 
 ---
 
-## 📊 FASE A: FOUNDATION & ARCHITECTURE ✅
-**Status:** 🟢 ACTIVE (In Progress)  
-**Timeline:** May 20 - July 1, 2026 (4-6 weeks)  
-**Owner:** Claude Code  
-**Success Metric:** Complete codebase, CI/CD pipeline ready, database schemas finalized
+## ✅ FASE A: FOUNDATION & ARCHITECTURE — COMPLETADA
+**Status:** ✅ COMPLETADA (2026-06-02)  
+**Timeline:** May 20 – Jun 2, 2026  
+**Owner:** Claude Code + Vic  
+**Result:** Sitio live en tech-nova.mx, leads funcionando, emails funcionando, pagos en test mode
 
 ### A.1 Homepage & Core Pages ✅
-**Status:** 🟢 DONE
-- [x] Hero section with gradient backgrounds
-- [x] NOVA AI Section (current form-based wizard)
-- [x] Services section (10 services listed)
-- [x] Benefits section
-- [x] Projects section (placeholder)
-- [x] Testimonials section (placeholder)
-- [x] Process section
-- [x] Team section (placeholder, no photos yet)
-- [x] Lead magnet section
+- [x] Hero section con fondos animados (ParticleBackground)
+- [x] NovaAI Section (wizard cotizador)
+- [x] Services section (8 servicios)
+- [x] Benefits, Process, Testimonials, Team sections
+- [x] Lead magnet section + PDF "Auditoría Web Express"
 - [x] Final CTA
 
-**Owner:** Claude Code  
-**Deliverable:** src/app/page.tsx + components
-
----
-
 ### A.2 About Us Page (/nosotros) ✅
-**Status:** 🟢 DONE
-- [x] Hero with company values headline
-- [x] Mission section
-- [x] Vision section
-- [x] Values cards (4 values)
-- [x] Responsive design, dark theme
-
-**Owner:** Claude Code  
-**Deliverable:** src/app/nosotros/page.tsx
-
----
+- [x] Hero, misión, visión, valores
+- [x] Diseño responsive, tema oscuro
 
 ### A.3 Pricing Page (/pricing) ✅
-**Status:** 🟢 DONE
-- [x] 3 pricing tiers (Start, Growth, Scale)
-- [x] Feature lists per tier
-- [x] FAQ section (4 questions)
-- [x] Final CTA section
-- [x] Animations + responsive design
-
-**Owner:** Claude Code  
-**Deliverable:** src/app/pricing/page.tsx
-
----
+- [x] 3 tiers (Start, Growth, Scale)
+- [x] FAQ, CTA final, animaciones
 
 ### A.4 Start Project Form (/start-project) ✅
-**Status:** 🟢 DONE (Will be replaced by NOVA AI in Phase B)
-- [x] Basic form (5-7 fields)
-- [x] Form submission handling
-- [x] Email notification to admin
-- [x] Validation + error states
+- [x] Form multi-paso, validación, email de notificación
 
-**Owner:** Claude Code  
-**Deliverable:** src/app/start-project/page.tsx
+### A.5 Database & Backend ✅
+- [x] **Neon Postgres** (no Supabase — decisión D-002)
+- [x] **Drizzle ORM** type-safe
+- [x] Tabla `leads` (id, name, email, phone, message, website_url, project_type, created_at)
+- [x] Tabla `orders` (Stripe checkout, estados: pending/paid/expired/refunded/disputed)
+- [x] API `/api/leads` — rate limited, validación Zod, email decouple
+- [x] API `/api/checkout` + `/api/checkout/webhook` (Stripe)
 
----
+### A.6 Email Setup ✅
+- [x] **Resend** (no Mailchimp — decisión por DX y pricing)
+- [x] Persona **"Sofia de TechNova"** `sofia@tech-nova.mx`
+- [x] Template `leadAuditWelcome.ts` — email cálido espacial para auditoría
+- [x] Template `newLeadNotification.ts` — notificación interna con botón "Abrir sitio a auditar"
+- [x] Email de bienvenida solo para `project_type === 'auditoria-web'` (⚠️ ver pendientes)
+- [x] `notified: true` solo si Resend confirma sin error (fix del false-positive)
 
-### A.5 Database & Backend Structure 🔄
-**Status:** 🟡 IN PROGRESS
-- [ ] Supabase setup (PostgreSQL)
-- [ ] User table schema
-- [ ] Project table schema
-- [ ] Lead/Contact table schema
-- [ ] Email logs table
-- [ ] Conversation history table (for NOVA AI)
-- [ ] Analytics events table
-- [ ] API routes for form submissions
-- [ ] Authentication setup (optional for Phase A)
+### A.7 Navigation & Layout ✅
+- [x] Navbar con dropdown, responsive, hamburger mobile
+- [x] Footer completo
+- [x] Metadata SEO por página
+- [x] Páginas legales: `/privacidad`, `/terminos`
+- [x] Página `/gracias` post-conversión
 
-**Owner:** Claude Code  
-**Dependencies:** None  
-**Deliverable:** Database schemas + API routes
+### A.8 Design System ✅
+- [x] Tailwind v4, tema oscuro cosmos (#0a0a14)
+- [x] Paleta: cyan (#0ea5e9), violeta (#7c3aed), cosmos negro
+- [x] Componentes reutilizables, animaciones framer-motion
 
----
+### A.9 Deployment & Hosting ✅
+- [x] **Vercel** proyecto `technova-next` (prj_TIPXMWs783BkRFQRMZQCxRGvnVuJ)
+- [x] Dominio `tech-nova.mx` conectado + SSL
+- [x] Variables de entorno configuradas en Vercel production
+- [x] `.vercel/project.json` apuntando al proyecto correcto
 
-### A.6 Email Setup (Mailchimp Integration) 🔄
-**Status:** 🟡 IN PROGRESS
-- [ ] Mailchimp account + API key
-- [ ] List structure (main list + segments)
-- [ ] Welcome email template
-- [ ] Basic email on new lead
-- [ ] Webhook for form submissions
-- [ ] Test email sending
+### A.10 Analytics Setup ✅
+- [x] **Google Analytics 4** (GTM-55RLL2LW)
+- [x] **Meta Pixel** (718504998021592)
+- [x] Timezone GA4: Ciudad de México
+- [x] Evento `lead_magnet_downloaded` en GA4
+- [x] Google Search Console conectado, sitemap enviado
 
-**Owner:** Claude Code  
-**Dependencies:** A.5 (database)  
-**Deliverable:** /lib/email/mailchimp.ts + templates
+### A.11 QA Bugs ✅ RESUELTO
+- [x] BUG 2: Navbar dropdown opacidad
+- [x] BUG 3: Sección "casos de éxito" renombrada
+- [x] BUG 4: Botones blancos con buen contraste
+- [x] BUG 5: Dropdown presupuesto legible
+- [x] BUG 6: Email real configurado
+- [x] BUG 7: Teléfono +52 722 166 9672
+- [x] BUG 8: Botón blanco en presupuesto
+- [~] BUG 1: Hero text-gradient — sin acción (decisión aceptada)
 
----
+### A.12 Infraestructura de Seguridad y Pagos ✅ (no estaba en backlog original)
+- [x] **Stripe** test mode activo — webhook `we_1TZD1ILk0zEvx0OqP87KrvOW`
+- [x] **Rate limiting** Upstash Redis — 5 req/min leads, 3 req/min checkout
+- [x] **Security headers** — X-Frame-Options, X-Content-Type-Options, Referrer-Policy, etc.
+- [x] Credenciales hardcodeadas removidas de git history (incidente seg. resuelto)
+- [x] Password Neon DB rotada post-exposición
 
-### A.7 Navigation & Layout 🔄
-**Status:** 🟡 IN PROGRESS
-- [ ] Header/navbar component
-- [ ] Footer component
-- [ ] Mobile navigation (hamburger menu)
-- [ ] Link structure across pages
-- [ ] SEO metadata per page
+### A.13 Lead Magnet "Auditoría Web Express" ✅ (no estaba en backlog original)
+- [x] PDF `public/assets/auditoria-web-express.pdf` (6 páginas, ~70 KB)
+- [x] Auto-descarga al registrarse en el form
+- [x] Identidad "Sofia Torres, Navegante Digital" + branding espacial
+- [x] `BRAND_IDENTITY.md` — conceptualización del viaje espacial
 
-**Owner:** Claude Code  
-**Deliverable:** src/components/layout/
+### A.14 Admin Dashboards Internos ✅ (no estaba en backlog original)
+- [x] `/admin/project-status` — lee BITACORA.md en vivo
+- [x] `/internal/architecture` — visualiza stack, datos, integraciones
+- [x] Auth gate con `ADMIN_DASHBOARD_TOKEN` (constant-time comparison)
+- [x] `ADMIN_DASHBOARD_TOKEN` configurado en Vercel (2026-06-02)
 
----
-
-### A.8 Design System & Tailwind ✅
-**Status:** 🟢 DONE
-- [x] Color palette (cyan, purple, emerald)
-- [x] Tailwind v4 configuration
-- [x] Reusable components (buttons, cards, etc.)
-- [x] Animations (gradients, glows, hovers)
-- [x] Dark theme throughout
-
-**Owner:** Claude Code  
-**Deliverable:** tailwind.config.ts + component library
-
----
-
-### A.9 Deployment & Hosting 🔄
-**Status:** 🟡 IN PROGRESS
-- [ ] Vercel account setup
-- [ ] Environment variables (.env.local)
-- [ ] Domain connection (technova.mx)
-- [ ] SSL certificate
-- [ ] Basic monitoring (error tracking)
-- [ ] Staging environment
-
-**Owner:** Claude Code  
-**Dependencies:** A.5, A.6  
-**Deliverable:** Deployed site on Vercel
+### A.15 SEO Técnico ✅ (no estaba en backlog original)
+- [x] `sitemap.ts` → `/sitemap.xml` con 18 URLs
+- [x] GSC verificado, sitemap enviado
+- [x] Política de privacidad actualizada (Mayo 2026)
 
 ---
 
-### A.10 Analytics Setup 🔄
-**Status:** 🟡 IN PROGRESS
-- [ ] Google Analytics 4 installed
-- [ ] Google Tag Manager setup
-- [ ] Basic event tracking (page views, form submissions)
-- [ ] Event data model defined
-- [ ] Analytics dashboard (basic)
+## ⚡ PENDIENTES OPERATIVOS (antes de arrancar Fase B)
 
-**Owner:** Claude Code  
-**Deliverable:** Event tracking + GA integration
+Estas tareas son rápidas pero afectan la operación del día a día:
 
----
+### OP-1: Email de bienvenida para /contacto 🔴
+**Status:** 🔴 PENDIENTE  
+**Impacto:** Alto — leads del form de contacto no reciben confirmación  
+**Descripción:** Solo `project_type === 'auditoria-web'` recibe email de Sofia. El form `/contacto` manda `project_type: 'contacto'` y no envía nada al cliente.  
+**Acción:** Crear template `leadContactWelcome.ts` (más corto, sin PDF) y conectarlo en `route.ts`  
+**Tiempo estimado:** ~1h
 
-### A.11 QA BUGS & FIXES (Phase A Blockers) 🟢
-**Document:** PHASE_A_BUG_LIST.md  
-**Status:** 🟢 RESUELTO (2026-05-23) — 7/8 fixes aplicados; BUG 1 sin acción por decisión. Ya no bloquea Fase B.  
-**Priority:** 🔴 ALTA  
-**Owner:** Claude Code
+### OP-2: Verificar dominio en Resend 🟡
+**Status:** 🟡 PENDIENTE  
+**Impacto:** Medio — emails salen bien, pero el fallback es `onboarding@resend.dev`  
+**Descripción:** `tech-nova.mx` no está verificado en Resend. Si `RESEND_FROM_EMAIL` falla, el FROM cambia.  
+**Acción:** Resend dashboard → Domains → Add `tech-nova.mx` → añadir DNS records en Cloudflare  
+**Tiempo estimado:** ~30 min
 
-#### A.11.1 CRITICAL Bugs (Must fix)
-- [~] BUG 1: Hero banner - Mejorar contraste texto gradient — ⏸️ SIN ACCIÓN (decisión 2026-05-23: dejar como está)
-- [x] BUG 2: Navbar dropdown - Fixear transparencia + contraste — ✅ commit `cc3b5a1` (`bg-[#0d0d1a]` opaco)
-- [x] BUG 4: Audit todos los botones (contrast check) — ✅ 0 `bg-white` planos en `src/`
-- [x] BUG 5: Dropdown presupuesto - Fixear colores — ✅ 2026-05-23 (`<option>` con `bg-[#12121f] text-white`)
+### OP-3: Gmail filter para auditorías 🟡
+**Status:** 🟡 PENDIENTE  
+**Impacto:** Medio — organización operativa  
+**Descripción:** Leads de `project_type: 'auditoria-web'` deberían ir a label "Auditoría Pendiente" en Gmail  
+**Acción:** Gmail → Settings → Filters → From: `sofia@tech-nova.mx` + subject "Nuevo lead" → label  
+**Tiempo estimado:** ~15 min
 
-**Estimated hours:** 5 hours  
-**Timeline:** ✅ Completado  
-**Deliverable:** All buttons/dropdowns readable, good contrast
+### OP-4: Stripe live mode 🟡
+**Status:** 🟡 BLOQUEADO EN STRIPE  
+**Impacto:** Alto — sin esto no se puede cobrar en producción  
+**Descripción:** KYC pendiente en Stripe dashboard. Hoy está en test mode.  
+**Acción:** Completar KYC en Stripe → activar live mode → actualizar keys en Vercel  
+**Tiempo estimado:** Depende de Stripe (1-3 días hábiles)
 
-#### A.11.2 MEDIA Bugs (Should fix)
-- [x] BUG 3: Renombrar/ajustar sección "casos de éxito" — ✅ 2026-05-23 (cards → formato caso de éxito en `Sections.tsx`)
-- [x] BUG 6: Setup email — ✅ email real `thisistechnova2026@gmail.com` (en vez de `hola@technova.com`)
-- [x] BUG 7: Actualizar teléfono a 722 166 9672 — ✅ muestra `+52 722 166 9672`
-- [x] BUG 8: Fixear botón blanco en presupuesto — ✅ `bg-primary text-primary-foreground` (commit `a9a1b78`)
-
-**Estimated hours:** 2.5 hours  
-**Timeline:** ✅ Completado  
-**Deliverable:** Corrected contact info, renamed section
-
-**Total Phase A Bug Fixes:** ~7.5 hours estimadas → resueltos con ~25 min de trabajo nuevo (la mayoría ya estaban arreglados en commits posteriores al 2026-05-20)  
-**Critical Path Impact:** ✅ RESUELTO - ya no bloquea Fase B
+### OP-5: Template de diagnóstico manual 🟡
+**Status:** 🟡 PENDIENTE  
+**Impacto:** Medio — proceso operativo Fase 1 de auditorías  
+**Descripción:** Necesitamos un Google Doc / Notion template que Vic use para auditar clientes manualmente antes de responder con diagnóstico + propuesta.  
+**Tiempo estimado:** ~1h
 
 ---
 
-## ⚡ PENDIENTES INMEDIATOS (antes de Fase B)
+## 🔴 FASE B: GROWTH & CREDIBILITY
+**Status:** 🔴 INICIANDO (Julio 2026)  
+**Timeline:** Jul 1 – Sep 30, 2026 (8-10 semanas)  
+**Owner:** Vic + Claude Code  
+**Success Metrics:** 500+ visitors/mes, 30+ leads/mes, conversion rate >20%
 
-### ENV VAR: ADMIN_DASHBOARD_TOKEN en Vercel ✅
-**Status:** ✅ RESUELTO (2026-06-02)  
-**Descripción:** Variable configurada en Vercel production + preview. Dashboards activos en `/admin/project-status` e `/internal/architecture`. Token guardado en gestor de contraseñas.
+### B.1 CREDIBILIDAD VISUAL (Imagery)
 
----
-
-## 🔴 FASE B: GROWTH & CREDIBILITY 🔴
-**Status:** 🔴 PLANNED (Starts after Phase A complete)  
-**Timeline:** July 1 - September 30, 2026 (8-10 weeks)  
-**Owner:** Claude Code (with AI agents)  
-**Success Metric:** 500+ visitors/month, 30+ qualified leads/month, conversion rate >20%
-
-### B.1 IMAGERY ENHANCEMENT MEGA-TASK
-**Document:** IMAGERY_AGENT_KICKOFF.md  
-**Agent:** Claude Code (Imagery Agent)
-
-#### B.1.1 Portfolio / Cases de Éxito Page 🔴
+#### B.1.1 Portfolio / Casos de Éxito 🔴
 **Status:** 🔴 NO INICIADO  
-**Priority:** 🔴 CRÍTICA
+**Priority:** 🔴 CRÍTICA — lo que más impacta la conversión
 
-- [ ] Create /casos-de-éxito page
-- [ ] Create 3-5 detailed case studies
-- [ ] Case study data structure (case-studies.ts)
-- [ ] CaseStudyCard component
-- [ ] CaseStudyDetail component (modal)
-- [ ] Before/after images for each case (600x400px)
-- [ ] Main case images (1200x800px)
-- [ ] Client logos (200x200px)
-- [ ] Client avatars (80x80px)
-- [ ] SEO metadata + schema markup
-- [ ] Responsive design (mobile/tablet/desktop)
+- [ ] Página `/casos-de-exito`
+- [ ] 3-5 case studies (aunque sean semi-reales o proyectos propios)
+- [ ] Estructura de datos `case-studies.ts`
+- [ ] Componentes `CaseStudyCard`, `CaseStudyDetail`
+- [ ] Imágenes: antes/después, main image, logo cliente, avatar
+- [ ] Schema markup, SEO
 
-**Owner:** Claude Code  
-**Timeline:** Week 1-2 of Phase B  
-**Deliverable:** /casos-de-exito page + 3-5 case studies with images
+**Timeline:** Semana 1-2 de Fase B
 
 ---
 
-#### B.1.2 Services Section Visual Enhancement 🔴
+#### B.1.2 Servicios — Visuales 🔴
 **Status:** 🔴 NO INICIADO  
 **Priority:** 🔴 ALTA
 
-- [ ] 10+ service screenshots/mockups (600x400px each)
-- [ ] Update ServiceCard component (add images)
-- [ ] Service galleries by category (UX/Dev/Systems/Marketing)
-- [ ] Create /public/images/services/ folder
-- [ ] Optimize all images (compression)
+- [ ] 8 mockups/screenshots por servicio (600x400px)
+- [ ] Actualizar `ServiceCard` con imágenes
+- [ ] Carpeta `/public/images/services/`
 
-**Owner:** Claude Code  
-**Timeline:** Week 2-3 of Phase B  
-**Deliverable:** Service images + updated component library
+**Timeline:** Semana 2-3 de Fase B
 
 ---
 
-#### B.1.3 Team Section Photos 🔴
+#### B.1.3 Fotos del Equipo 🔴
 **Status:** 🔴 NO INICIADO  
 **Priority:** 🟡 MEDIA
 
-- [ ] Vic's professional photo (400x400px)
-- [ ] Team member photos (300x300px each, 5-7 people)
-- [ ] Group photo (1200x800px)
-- [ ] Team data structure (team.ts)
-- [ ] TeamMember component
-- [ ] Social links integration (LinkedIn, GitHub)
-- [ ] Responsive team grid
+- [ ] Foto profesional de Vic (400x400px)
+- [ ] Fotos o avatares del equipo
+- [ ] Estructura `team.ts` + componente `TeamMember`
 
-**Owner:** Claude Code  
-**Timeline:** Week 3-4 of Phase B  
-**Deliverable:** Team section with photos + component
+**Timeline:** Semana 3-4 de Fase B
 
 ---
 
-#### B.1.4 Hero Section Background 🔴
+#### B.1.4 Testimoniales con visuals 🔴
 **Status:** 🔴 NO INICIADO  
 **Priority:** 🟡 MEDIA
 
-- [ ] Design/source hero background image (2000x1200px)
-- [ ] Update Hero.tsx component
-- [ ] Responsive versions for mobile/tablet
-- [ ] Lazy loading optimization
-- [ ] Ensure text legibility over image
+- [ ] Avatares de clientes (80x80px)
+- [ ] Logos de empresas (120x60px)
+- [ ] Actualizar `TestimonialCard` + rating stars
 
-**Owner:** Claude Code  
-**Timeline:** Week 4 of Phase B  
-**Deliverable:** Hero component with background image
+**Timeline:** Semana 2-3 de Fase B
 
 ---
 
-#### B.1.5 Testimonials Visual Enhancement 🔴
-**Status:** 🔴 NO INICIADO  
-**Priority:** 🟡 MEDIA
-
-- [ ] 5-10 client avatars (80x80px each)
-- [ ] Company logos (120x60px each)
-- [ ] Update testimonials.ts data structure
-- [ ] Update TestimonialCard component (add avatars/logos)
-- [ ] Add rating stars (1-5)
-- [ ] Responsive testimonials carousel
-
-**Owner:** Claude Code  
-**Timeline:** Week 2-3 of Phase B  
-**Deliverable:** Updated testimonials with visuals
-
----
-
-#### B.1.6 Pricing Page Illustration 🔴
-**Status:** 🔴 NO INICIADO  
-**Priority:** 🟠 BAJA
-
-- [ ] 3 pricing plan illustrations (300x300px each)
-- [ ] Update pricing page with illustrations
-- [ ] Color coding per plan (cyan, purple, emerald)
-- [ ] Responsive rendering
-
-**Owner:** Claude Code  
-**Timeline:** Week 4-5 of Phase B  
-**Deliverable:** Pricing page with visual enhancements
-
----
-
-### B.2 MARKETING FUNNEL SYSTEM
-**Document:** MARKETING_FUNNEL_AGENT_KICKOFF.md  
-**Agent:** Claude Code (Marketing Agent)
+### B.2 MARKETING FUNNEL
 
 #### B.2.1 Blog System 🔴
 **Status:** 🔴 NO INICIADO  
-**Priority:** 🔴 CRÍTICA
+**Priority:** 🔴 CRÍTICA — única fuente de tráfico orgánico gratis
 
-- [ ] Create /blog/page.tsx (blog hub/listing)
-- [ ] Create /blog/[slug]/page.tsx (individual post)
-- [ ] Blog data structure (blog-posts.ts)
-- [ ] BlogCard, BlogHero, TableOfContents components
-- [ ] Write 6-12 blog posts (SEO-optimized)
-- [ ] Create blog post cover images (1200x800px)
-- [ ] Implement blog search (optional)
-- [ ] SEO: Meta tags, keywords, internal linking
+- [ ] `/blog/page.tsx` (hub/listado)
+- [ ] `/blog/[slug]/page.tsx` (post individual)
+- [ ] Estructura `blog-posts.ts`
+- [ ] Componentes: `BlogCard`, `BlogHero`, `TableOfContents`
+- [ ] 6-12 posts SEO-optimizados (México, desarrollo web, IA)
+- [ ] Cover images por post (1200x800px)
+- [ ] Meta tags + internal linking
 
-**Owner:** Claude Code  
-**Timeline:** Week 1-3 of Phase B (parallel with imagery)  
-**Deliverable:** Complete blog system + 6-12 posts
+**Timeline:** Semana 1-3 de Fase B
 
 ---
 
-#### B.2.2 Google Ads Setup 🔴
+#### B.2.2 Google Ads 🔴
 **Status:** 🔴 NO INICIADO  
 **Priority:** 🔴 CRÍTICA
 
-- [ ] Create Google Ads account
-- [ ] Setup search campaigns (4 campaigns):
-  - Landing pages (CPC: $0.50-1.50, Budget: $300/mo)
-  - eCommerce (CPC: $1.00-2.50, Budget: $400/mo)
-  - SaaS development (CPC: $1.50-3.50, Budget: $300/mo)
-  - Brand (CPC: $0.20-0.50, Budget: $100/mo)
-- [ ] Setup display campaigns (Remarketing)
-- [ ] Create ad creatives (headlines, descriptions, CTAs)
-- [ ] Link to landing pages (/start-project, /pricing, etc.)
-- [ ] Setup conversion tracking
-- [ ] Daily budget: $1,300/month
+- [ ] Cuenta Google Ads
+- [ ] 4 campañas de búsqueda: Landing pages / eCommerce / SaaS / Brand
+- [ ] Campañas display (remarketing)
+- [ ] Creativos (headlines, descriptions, CTAs)
+- [ ] Conversion tracking conectado a GA4
+- [ ] Presupuesto inicial sugerido: ~$1,300/mes
 
-**Owner:** Claude Code  
-**Timeline:** Week 3-4 of Phase B  
-**Deliverable:** Google Ads account configured + running
+**Timeline:** Semana 3-4 de Fase B
 
 ---
 
-#### B.2.3 Facebook/Instagram Ads 🔴
+#### B.2.3 Facebook / Instagram Ads 🔴
 **Status:** 🔴 NO INICIADO  
 **Priority:** 🔴 ALTA
 
-- [ ] Create Facebook Ads account
-- [ ] Audience setup:
-  - Awareness (broad): Entrepreneurs Mexico
-  - Consideration (retargeting): Website visitors
-- [ ] Ad creatives (static images, carousel, video)
-- [ ] Setup Facebook pixel + conversion tracking
-- [ ] Daily budget: $700/month ($400 awareness + $300 consideration)
-- [ ] A/B testing setup
+- [ ] Cuenta Facebook Ads
+- [ ] Audiencias: emprendedores México (awareness) + retargeting visitantes
+- [ ] Creativos: imagen estática, carrusel, video
+- [ ] Meta Pixel ya instalado ✅ — conectar conversiones
+- [ ] Presupuesto sugerido: ~$700/mes
 
-**Owner:** Claude Code  
-**Timeline:** Week 4-5 of Phase B  
-**Deliverable:** Facebook Ads account configured + running
+**Timeline:** Semana 4-5 de Fase B
 
 ---
 
@@ -391,606 +273,237 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 **Status:** 🔴 NO INICIADO  
 **Priority:** 🟡 MEDIA
 
-- [ ] Create LinkedIn Campaign Manager account
-- [ ] Thought Leadership campaign
-- [ ] Lead Generation campaign
-- [ ] Targeting: Entrepreneurs, Marketing Managers, Decision makers
-- [ ] Daily budget: $500/month
+- [ ] Campaign Manager
+- [ ] Thought Leadership + Lead Gen campaigns
+- [ ] Target: emprendedores, directores, decision makers MX
+- [ ] Presupuesto sugerido: ~$500/mes
 
-**Owner:** Claude Code  
-**Timeline:** Week 5 of Phase B  
-**Deliverable:** LinkedIn Ads account configured + running
+**Timeline:** Semana 5 de Fase B
 
 ---
 
-#### B.2.5 Retargeting Pixel & Audiences 🔴
-**Status:** 🔴 NO INICIADO
-
-- [ ] Install Facebook/Google/LinkedIn retargeting pixels
-- [ ] Create audience segments:
-  - Blog visitors (30 days)
-  - Pricing page visitors (7 days)
-  - /start-project abandoners (3 days)
-  - High engagement (3+ pages)
-- [ ] Create retargeting campaigns for each audience
-- [ ] Setup reminder ads (urgency messaging)
-
-**Owner:** Claude Code  
-**Timeline:** Week 3-5 of Phase B (parallel with ads setup)  
-**Deliverable:** Retargeting infrastructure + audiences
-
----
-
-#### B.2.6 Email Sequences Setup 🔴
+#### B.2.5 Secuencias de Email 🔴
 **Status:** 🔴 NO INICIADO  
-**Priority:** 🔴 CRÍTICA
+**Priority:** 🔴 CRÍTICA  
+**Nota:** Se usa **Resend** (no Mailchimp como decía el backlog original)
 
-- [ ] Welcome series (5 emails, 10 days)
-- [ ] Pricing page visitor sequence (3 emails, 5 days)
-- [ ] Blog reader sequence (3 emails, 7 days)
-- [ ] Abandoned cart sequence (2 emails, 3 days)
-- [ ] Post-delivery sequence (4 emails, 30 days)
-- [ ] Monthly newsletter template
-- [ ] Upsell sequences (3 sets):
-  - Maintenance plan offer
-  - New service upsell
-  - Additional project upsell
-- [ ] Setup Mailchimp automations + triggers
-- [ ] Template design + copywriting
+- [ ] Welcome series (5 emails, 10 días) — post lead magnet
+- [ ] Secuencia pricing visitors (3 emails, 5 días)
+- [ ] Secuencia post-blog (3 emails, 7 días)
+- [ ] Secuencia post-delivery (4 emails, 30 días)
+- [ ] Newsletter mensual template
+- [ ] Upsells: mantenimiento, nuevo servicio, proyecto adicional
+- [ ] Automatización vía Resend Broadcasts / webhooks
 
-**Owner:** Claude Code  
-**Timeline:** Week 1-4 of Phase B (can be parallel)  
-**Deliverable:** All email sequences live + automated
+**Timeline:** Semana 1-4 de Fase B
 
 ---
 
-#### B.2.7 Consideration Pages Optimization 🔴
+#### B.2.6 Optimización páginas de consideración 🔴
 **Status:** 🔴 NO INICIADO
 
-- [ ] Improve /casos-de-éxito (see B.1.1)
-- [ ] Improve /pricing (transparency, real screenshots)
-- [ ] Improve /nosotros (team photos, trust signals)
-- [ ] Improve /servicios (service visuals, testimonials)
-- [ ] Add FAQ to pricing page
-- [ ] Add client logos to services
+- [ ] `/pricing` — screenshots reales, más transparencia
+- [ ] `/nosotros` — fotos equipo, trust signals
+- [ ] `/servicios` — visuales, testimoniales
+- [ ] Logos de clientes en servicios
+- [ ] FAQ en pricing
 
-**Owner:** Claude Code  
-**Timeline:** Week 2-4 of Phase B (parallel with B.1)  
-**Deliverable:** Optimized consideration pages
+**Timeline:** Semana 2-4 de Fase B
 
 ---
 
-#### B.2.8 Marketing Analytics Dashboard 🔴
+#### B.2.7 Dashboard Marketing Analytics 🔴
 **Status:** 🔴 NO INICIADO
 
-- [ ] Create /admin/marketing-analytics page
-- [ ] Real-time metrics display:
-  - Visitors by source (organic, paid, direct)
-  - Conversion rate by channel
-  - Cost per acquisition (CPA)
-  - Email metrics (open rate, CTR, conversion)
-  - Ad performance (CTR, CPC, ROI)
-- [ ] Historical data + trend analysis
-- [ ] Weekly/monthly reports
+- [ ] `/admin/marketing-analytics` — métricas en vivo
+- [ ] Visitors por fuente, CPA, email metrics, ad performance
+- [ ] Reportes semanales/mensuales
 
-**Owner:** Claude Code  
-**Timeline:** Week 6-7 of Phase B  
-**Deliverable:** Marketing analytics dashboard
+**Timeline:** Semana 6-7 de Fase B
 
 ---
 
-### B.3 NOVA AI REPLANNING & IMPLEMENTATION
-**Document:** NOVA_AI_REPLANNING.md  
-**Agent:** Claude Code (NOVA Agent)
+### B.3 NOVA AI
 
 #### B.3.1 NOVA AI Core Engine 🔴
 **Status:** 🔴 NO INICIADO  
 **Priority:** 🔴 CRÍTICA
 
-- [ ] Create /nova-ai/page.tsx (chat interface)
-- [ ] Chat UI component with message history
-- [ ] Message bubbles (user vs NOVA)
-- [ ] Typing indicator + animations
-- [ ] Question templates by category (5 templates):
-  - eCommerce
-  - SaaS
-  - Corporate website
-  - Landing page
-  - Other
-- [ ] Create API route /api/nova-ai/messages
-- [ ] Create API route /api/nova-ai/analyze
-- [ ] Create API route /api/nova-ai/generate-proposal
+- [ ] `/nova-ai/page.tsx` — chat interface
+- [ ] Componentes: message bubbles, typing indicator, templates
+- [ ] API `/api/nova-ai/messages`, `/api/nova-ai/analyze`, `/api/nova-ai/generate-proposal`
 
-**Owner:** Claude Code  
-**Timeline:** Week 1-3 of Phase B  
-**Deliverable:** NOVA AI chat interface + API
+**Timeline:** Semana 1-3 de Fase B
 
 ---
 
-#### B.3.2 NOVA AI Qualification Logic 🔴
+#### B.3.2 Lógica de Calificación 🔴
 **Status:** 🔴 NO INICIADO
 
-- [ ] Implement qualification scoring formula
-- [ ] Decision tree logic:
-  - Auto-checkout (80%+)
-  - Manual review (60-79%)
-  - Reject (< 60%)
-- [ ] Lead scoring factors:
-  - Budget alignment
-  - Project clarity
-  - Timeline realism
-  - Business viability
-  - Intent to proceed
-- [ ] Routing decision generation
-- [ ] Create /lib/nova/qualify.ts
-
-**Owner:** Claude Code  
-**Timeline:** Week 2-3 of Phase B  
-**Deliverable:** Qualification logic implemented
+- [ ] Scoring formula (budget, claridad, timeline, viabilidad, intención)
+- [ ] Routing: auto-checkout (80%+), revisión manual (60-79%), rechazo (<60%)
+- [ ] `/lib/nova/qualify.ts`
 
 ---
 
-#### B.3.3 NOVA AI Claude Integration 🔴
+#### B.3.3 Integración Claude API 🔴
 **Status:** 🔴 NO INICIADO
 
-- [ ] Create Claude API prompts (4 sets):
-  1. Initial analysis
-  2. Follow-up generation
-  3. Proposal generation
-  4. Qualification decision
-- [ ] Integrate claude-opus-4-6 API calls
-- [ ] Error handling + fallbacks
-- [ ] Response streaming (optional)
-- [ ] Create /lib/nova/analyze.ts
-- [ ] Create /lib/nova/generate.ts
-
-**Owner:** Claude Code  
-**Timeline:** Week 2-4 of Phase B  
-**Deliverable:** Claude integration + prompts
+- [ ] 4 sets de prompts: análisis inicial, follow-up, propuesta, calificación
+- [ ] claude-sonnet-4-6 (o claude-opus-4 para propuestas)
+- [ ] Error handling + fallbacks + streaming opcional
+- [ ] `/lib/nova/analyze.ts`, `/lib/nova/generate.ts`
 
 ---
 
-#### B.3.4 Proposal Generation System 🔴
+#### B.3.4 Sistema de Propuestas 🔴
 **Status:** 🔴 NO INICIADO
 
-- [ ] Create proposal template components
-- [ ] ProposalCard component
-- [ ] JSON proposal data structure
-- [ ] Proposal customization (modify timeline/budget)
-- [ ] Proposal download/email option
-- [ ] Integration with checkout
-
-**Owner:** Claude Code  
-**Timeline:** Week 3-4 of Phase B  
-**Deliverable:** Proposal generation + rendering
+- [ ] Template components de propuesta
+- [ ] JSON estructura de propuesta
+- [ ] Customización (timeline/budget)
+- [ ] Descarga / email / integración con checkout
 
 ---
 
-#### B.3.5 NOVA AI Database 🔴
+#### B.3.5 Base de Datos NOVA AI 🔴
 **Status:** 🔴 NO INICIADO
 
-- [ ] Database table: nova_conversations
-  - session_id (UUID)
-  - user_email
-  - user_name
-  - responses (JSON)
-  - qualification_score
-  - routing_decision
-  - proposal (JSON)
-  - created_at
-  - updated_at
-- [ ] Database table: nova_leads (leads that went through NOVA)
-  - lead_id
-  - qualification_score
-  - conversion_status (checkout/manual_review/rejected)
-  - proposal_amount
-- [ ] API for retrieving lead data
-
-**Owner:** Claude Code  
-**Timeline:** Week 1-2 of Phase B  
-**Deliverable:** Database schemas
+- [ ] Tabla `nova_conversations` (session, email, responses JSON, score, routing, proposal JSON)
+- [ ] Tabla `nova_leads` (lead_id, score, conversion_status, proposal_amount)
 
 ---
 
-#### B.3.6 NOVA AI Testing & Refinement 🔴
+#### B.3.6 QA + Lanzamiento 🔴
 **Status:** 🔴 NO INICIADO
 
-- [ ] QA all conversation flows (5 categories)
-- [ ] Test qualification accuracy
-- [ ] Load testing (100+ concurrent users)
-- [ ] A/B test message tone/wording
-- [ ] User acceptance testing (with early customers)
-- [ ] Iterate based on feedback
-
-**Owner:** Claude Code  
-**Timeline:** Week 5-6 of Phase B  
-**Deliverable:** QA pass + refinements
+- [ ] QA 5 flujos de conversación
+- [ ] Load testing
+- [ ] A/B test tono de mensajes
+- [ ] Video demo (3-5 min)
+- [ ] Update landing page con NOVA AI highlight
+- [ ] Email a leads existentes
 
 ---
 
-#### B.3.7 NOVA AI Demo & Launch 🔴
-**Status:** 🔴 NO INICIADO
+### B.4 CHECKLIST FASE B COMPLETA
 
-- [ ] Create demo video (3-5 min)
-- [ ] Demo script + presentation
-- [ ] Case study: "First 100 conversations"
-- [ ] Update landing page (highlight NOVA AI)
-- [ ] Social media announcement
-- [ ] Email to existing leads
-- [ ] Monitor first month of conversations
-- [ ] Create feedback loop for improvements
-
-**Owner:** Claude Code  
-**Timeline:** Week 7-8 of Phase B  
-**Deliverable:** NOVA AI live + demo
+- [ ] Credibilidad visual (B.1): portfolio, servicios, equipo, testimoniales
+- [ ] Blog live con 6-12 posts
+- [ ] Ads corriendo: Google + Meta + LinkedIn
+- [ ] Secuencias email automatizadas
+- [ ] NOVA AI live con propuestas automáticas
+- [ ] **Métricas objetivo:** 500+ visitors/mes · 30-50 leads/mes · 5-10 qualified · 2-3 clientes/mes
 
 ---
 
-### B.4 PHASE B COMPLETION CHECKLIST
+## 🟠 FASE C: POLISH & DEVOPS
+**Status:** 🟠 SCHEDULED (Oct – Nov 2026)  
+**Success Metric:** Lighthouse >90, CI/CD automatizado, 99.9% uptime
 
-- [ ] All imagery tasks complete (B.1)
-  - Portfolio page live
-  - Service visuals added
-  - Team photos live
-  - Hero background updated
-  - Testimonials with visuals
-  - Pricing illustrations added
+### C.1 Librería de Componentes
+- [ ] Auditar componentes existentes
+- [ ] Estandarizar nombres
+- [ ] Storybook (documentación de componentes)
+- [ ] UI kit Figma
 
-- [ ] Marketing funnel operational (B.2)
-  - Blog system live (6-12 posts published)
-  - Google/Facebook/LinkedIn ads running
-  - Email sequences automated
-  - Retargeting pixels active
-  - Analytics dashboard active
-
-- [ ] NOVA AI operational (B.3)
-  - Chat interface live
-  - Qualification logic working
-  - Proposal generation automated
-  - Database tracking conversations
-  - Demo published
-
-- [ ] Overall Phase B metrics
-  - 500+ monthly visitors
-  - 30-50 monthly leads
-  - 5-10 qualified leads per month
-  - 2-3 new customers per month
-  - Blog gets 300+ monthly organic visitors
-
----
-
-## 🟠 FASE C: POLISH & DEVOPS 🟠
-**Status:** 🟠 SCHEDULED (Starts after Phase B complete)  
-**Timeline:** October 1 - November 15, 2026 (4-6 weeks)  
-**Owner:** Claude Code (with DevOps tools)  
-**Success Metric:** Site speed >90 Lighthouse, zero 404s, automated CI/CD
-
-### C.1 Component Library & Design System
-**Document:** COMPONENTS_LIBRARY.md  
-**Agent:** Claude Code (Component Agent)
-
-- [ ] Audit existing components
-- [ ] Standardize naming conventions
-- [ ] Create Storybook (component documentation)
-- [ ] Export component usage guide
-- [ ] Create UI kit (Figma)
-
-**Timeline:** Week 1-2 of Phase C  
-**Deliverable:** Complete component library + Storybook
-
----
-
-### C.2 CI/CD Pipeline & Automation
-**Document:** CI_CD_PIPELINE.md  
-**Agent:** Claude Code (DevOps Agent)
-
-- [ ] Setup GitHub Actions workflows
-- [ ] Automated testing (unit + integration)
-- [ ] Automated linting + formatting
-- [ ] Automated deployment to Vercel
-- [ ] Automated performance checks
-- [ ] Automated SEO validation
-
-**Timeline:** Week 2-3 of Phase C  
-**Deliverable:** Full CI/CD pipeline configured
-
----
+### C.2 CI/CD Pipeline
+- [ ] GitHub Actions workflows (lint, build, test, deploy)
+- [ ] Husky + lint-staged pre-commit hooks
+- [ ] Automated performance checks post-deploy
 
 ### C.3 Monitoring & Observability
-**Document:** MONITORING_&_OBSERVABILITY.md  
-**Agent:** Claude Code (Monitoring Agent)
-
-- [ ] Error tracking (Sentry)
-- [ ] Performance monitoring (New Relic / DataDog)
+- [ ] **Sentry** — error tracking en producción (mayor gap actual)
 - [ ] Uptime monitoring
-- [ ] Log aggregation
-- [ ] Alert system (Slack notifications)
-- [ ] Dashboard for real-time metrics
-
-**Timeline:** Week 3-4 of Phase C  
-**Deliverable:** Monitoring infrastructure live
-
----
+- [ ] Alertas Slack
+- [ ] PostHog — comportamiento de usuario + funnel NOVA AI
 
 ### C.4 Performance Optimization
-**Status:** 🟠 SCHEDULED
-
-- [ ] Image optimization (next/image)
+- [ ] next/image en todas las imágenes
 - [ ] Code splitting + lazy loading
-- [ ] CSS minification + purging
 - [ ] Database query optimization
-- [ ] Caching strategy (browser, server, CDN)
-- [ ] Lighthouse score optimization
-
-**Timeline:** Week 2-4 of Phase C  
-**Deliverable:** Lighthouse score >90
-
----
+- [ ] Lighthouse score >90
 
 ### C.5 SEO Final Pass
-**Status:** 🟠 SCHEDULED
-
-- [ ] Meta tags on all pages
+- [x] Sitemap.xml (18 URLs) ✅ ya hecho
+- [x] GSC conectado ✅ ya hecho
 - [ ] Schema markup (LocalBusiness, Organization, Product)
-- [ ] Sitemap generation
-- [ ] robots.txt configuration
+- [ ] robots.txt
+- [ ] Alt text en todas las imágenes
 - [ ] Internal linking strategy
-- [ ] Alt text on all images
 - [ ] Core Web Vitals optimization
 
-**Timeline:** Week 4-5 of Phase C  
-**Deliverable:** SEO audit pass
-
----
-
 ### C.6 Security Hardening
-**Status:** 🟠 SCHEDULED
+- [x] HTTPS/SSL ✅ Vercel
+- [x] Env vars seguros ✅ rotados y en Vercel
+- [x] Rate limiting ✅ Upstash
+- [x] Security headers ✅ next.config.ts
+- [x] Input validation ✅ Zod
+- [ ] CSP (Content Security Policy) — pendiente por scripts de terceros
+- [ ] CSRF protection review
 
-- [ ] HTTPS/SSL verification
-- [ ] Environment variable security
-- [ ] API rate limiting
-- [ ] CSRF protection
-- [ ] Input validation + sanitization
-- [ ] Security headers (CSP, X-Frame-Options, etc.)
-
-**Timeline:** Week 5 of Phase C  
-**Deliverable:** Security audit pass
-
----
-
-### C.7 Documentation
-**Status:** 🟠 SCHEDULED
-
-- [ ] API documentation (endpoints, auth, responses)
-- [ ] Deployment guide (how to deploy)
-- [ ] Architecture documentation
-- [ ] Coding standards guide
-- [ ] Troubleshooting guide
-- [ ] Runbook for common tasks
-
-**Timeline:** Week 4-5 of Phase C  
-**Deliverable:** Complete documentation
+### C.7 Documentación
+- [ ] Guía de deployment
+- [ ] API documentation
+- [ ] Runbook de tareas comunes
 
 ---
 
-## 🟡 FUTURE FEATURES (Post-Phase C)
-**Status:** 🟡 BACKLOG  
-**Timeline:** TBD (Q1 2027+)
-
-### Future Features List
+## 🟡 FUTURE FEATURES (Q1 2027+)
 
 ```
 Q1 2027:
-├── Customer Dashboard (project tracking, real-time updates)
-├── Payment Plans (flexible payment options)
-├── Referral Program (rewards for customer referrals)
+├── Customer Dashboard (tracking de proyectos)
+├── Payment Plans (pagos flexibles)
+├── Referral Program
 └── Knowledge Base / Support Portal
 
 Q2 2027:
-├── Video testimonials (auto-transcription)
-├── Webinar system (educational content)
-├── Advanced analytics (predictive insights)
-└── Customer Portal (file sharing, project updates)
+├── Video testimonials (auto-transcripción)
+├── Webinar system
+├── Advanced analytics (predictive)
+└── Customer Portal (archivos, actualizaciones)
 
 Q3 2027:
-├── Mobile app (iOS/Android)
-├── Multimodal NOVA AI (voice/video input)
-├── AI-powered content generation (blog posts, ads)
-└── Advanced scheduling (automated project scheduling)
-
-Q4 2027+:
-├── Marketplace (freelance talent pool)
-├── White-label solution (reseller program)
-├── International expansion (other countries)
-└── Enterprise features (SSO, advanced reporting)
+├── App móvil (iOS/Android)
+├── NOVA AI multimodal (voz/video)
+├── AI content generation (blog, ads)
+└── Automated project scheduling
 ```
 
 ---
 
-## 📊 SUMMARY TABLE
+## 📈 OKRs por Fase
 
-| Phase | Status | Start | End | Duration | Owner | Key Deliverables | Success Metrics |
-|-------|--------|-------|-----|----------|-------|------------------|-----------------|
-| A | 🟢 Active | May 20 | Jul 1 | 6 weeks | Code | Codebase, pages, DB | 0 bugs, all pages live |
-| B | 🔴 Planned | Jul 1 | Sep 30 | 10 weeks | Code | Images, funnel, NOVA AI | 500 visitors, 30 leads, 2-3 customers |
-| C | 🟠 Scheduled | Oct 1 | Nov 15 | 6 weeks | Code | Pipeline, monitoring, docs | Lighthouse >90, zero 404s |
-| Future | 🟡 Backlog | 2027+ | TBD | TBD | TBD | Advanced features | Market fit, $100K MRR |
+### Fase A 🎯 ✅ COMPLETADA
+- [x] Sitio live y funcional
+- [x] Leads capturándose en DB
+- [x] Emails funcionando (Sofia persona)
+- [x] Pagos en test mode (Stripe)
+- [x] Analytics activos (GA4 + Meta Pixel)
 
----
-
-## 📈 MILESTONES
-
-```
-🎯 Milestone 1: "Sitio Básico" (Early July)
-   └─ Fase A complete: Site live, all pages, DB setup
-   
-🎯 Milestone 2: "Sitio Creíble" (Early September)
-   └─ Fase B Phase 1: Imagery + cases live, blog active
-   
-🎯 Milestone 3: "Sitio que Convierte" (Late September)
-   └─ Fase B Phase 2: Marketing funnel + NOVA AI live
-   
-🎯 Milestone 4: "Sitio Profesional" (Mid November)
-   └─ Fase C complete: CI/CD, monitoring, 90+ Lighthouse
-
-🎯 Milestone 5: "$100K MRR Business" (2027)
-   └─ Future: Advanced features, market dominance
-```
-
----
-
-## 🚨 DEPENDENCIES & BLOCKERS
-
-### Critical Path (Tasks that block others)
-
-```
-A.5 Database Setup
-  ├─→ A.6 Email (depends on DB)
-  │    ├─→ B.2.6 Email Sequences (depends on Mailchimp)
-  │    └─→ B.2.8 Analytics (depends on DB for logging)
-  │
-  ├─→ A.9 Deployment (depends on DB + env vars)
-  │    └─→ All Phase B (depends on deployed site)
-  │
-  └─→ B.3.5 NOVA AI Database
-       └─→ B.3.1-B.3.4 NOVA AI Implementation
-            └─→ Checkout integration
-
-A.10 Analytics Setup
-  └─→ B.2 All marketing tasks (depend on GA + tracking)
-
-B.1 Imagery
-  └─→ B.2 Marketing (ads, blog, email need images)
-  └─→ B.3 NOVA AI (proposals show screenshots)
-
-B.2 Marketing Funnel
-  ├─→ Blog (independent, can run parallel)
-  ├─→ Ads (independent, can run parallel)
-  └─→ Email (independent, can run parallel)
-
-B.3 NOVA AI
-  └─→ Checkout integration (depends on Stripe setup)
-```
-
----
-
-## 💰 RESOURCE ALLOCATION
-
-### Phase A (4-6 weeks)
-- **Developer time:** 40 hours/week × 6 weeks = 240 hours
-- **Designer time:** 10 hours/week (minimal)
-- **Founder time:** 5 hours/week (reviews + decisions)
-
-### Phase B (8-10 weeks)
-- **Developer time:** 35 hours/week × 10 weeks = 350 hours
-- **Content/Marketing:** 20 hours/week (blog, ad copy, emails)
-- **Designer time:** 20 hours/week (imagery, graphics)
-- **Founder time:** 10 hours/week (reviews + customer testing)
-- **Budget (ads):** $2,500/month × 2.5 months = $6,250
-
-### Phase C (4-6 weeks)
-- **Developer time:** 30 hours/week × 6 weeks = 180 hours
-- **DevOps:** 20 hours/week
-- **QA:** 15 hours/week
-
-**Total Estimated Resource:** ~900 developer hours + marketing costs
-
----
-
-## ⚡ QUICK REFERENCE: WHAT TO DO NEXT
-
-### This Week (May 20-24)
-- [ ] Review BACKLOG_MASTER.md (this document)
-- [ ] Confirm Phase A completion status
-- [ ] Identify any Phase A blockers
-
-### Before Phase B Starts (June 24-30)
-- [ ] Final Phase A QA
-- [ ] Prepare imagery sourcing (find designers/mockups)
-- [ ] Prepare marketing resources (copywriting, ad templates)
-- [ ] Setup Google/Facebook/LinkedIn ad accounts
-
-### Phase B Week 1 (July 1-7)
-- [ ] Start blog system (create templates)
-- [ ] Start case studies writing/design
-- [ ] Start NOVA AI chat interface
-- [ ] Start email sequence setup
-
-### Phase B Week 4-5 (Late July)
-- [ ] Launch first ads
-- [ ] Send first email sequences
-- [ ] NOVA AI first internal test
-
-### Phase B Week 8 (Late August)
-- [ ] NOVA AI internal launch (test with team)
-- [ ] First real customer conversation with NOVA
-
-### Phase B Week 10 (Late September)
-- [ ] NOVA AI public launch + demo
-- [ ] Marketing funnel fully operational
-
----
-
-## 🔗 REFERENCED DOCUMENTS
-
-```
-├── FASE1_EXECUTION.md (Phase A details)
-├── IMAGERY_AGENT_KICKOFF.md (Phase B imagery tasks)
-├── MARKETING_FUNNEL_AGENT_KICKOFF.md (Phase B marketing)
-├── NOVA_AI_REPLANNING.md (Phase B NOVA AI)
-├── PHASE4_KICKOFF.md (Phase C details)
-├── COMPONENTS_LIBRARY.md (Phase C components)
-├── CI_CD_PIPELINE.md (Phase C DevOps)
-├── MONITORING_&_OBSERVABILITY.md (Phase C monitoring)
-├── technova_business_context.md (Business context)
-└── DECISION_LOG.md (Design decisions)
-```
-
----
-
-## 📞 CONTACTS & OWNERS
-
-| Role | Name | Email | Responsibility |
-|------|------|-------|-----------------|
-| Founder/CEO | Vic | victorsm2893@gmail.com | Approval, strategy, customer feedback |
-| Architect | Claude | - | Planning, documentation |
-| Executor | Claude Code | - | Implementation, code |
-| Designer | TBD | TBD | Imagery, UI/UX |
-| Marketing | TBD | TBD | Content, ads, analytics |
-
----
-
-## 🎯 SUCCESS CRITERIA
-
-### Phase A ✅
-- [x] All pages deployed and accessible
-- [x] Database operational
-- [x] Email system functional
-- [x] Analytics tracking active
-- [x] 0 critical bugs
-
-### Phase B 🎯
+### Fase B 🎯
 - [ ] 500+ monthly visitors
 - [ ] 30-50 monthly leads
 - [ ] 5-10 customers acquired
 - [ ] NOVA AI conversion rate >30%
 - [ ] Blog getting organic traffic
 
-### Phase C 🎯
+### Fase C 🎯
 - [ ] Lighthouse score >90
-- [ ] Deployment automated (0-minutes downtime)
+- [ ] Deployment automated
 - [ ] Error rate <0.1%
-- [ ] MTTR (Mean Time To Recover) <30 min
+- [ ] MTTR <30 min
 - [ ] 99.9% uptime
 
 ### Overall (End of 2026) 🎯
 - [ ] Established credibility ($20K+/month MRR)
 - [ ] Repeatable customer acquisition
-- [ ] Automated operations (minimal manual work)
+- [ ] Automated operations
 - [ ] Ready for scaling
 
 ---
 
 **Preparado por:** Claude (Arquitecto)  
 **Para:** Vic (Fundador/CEO)  
-**Status:** ✅ MASTER REFERENCE
+**Status:** ✅ MASTER REFERENCE — sincronizado 2026-06-02
