@@ -203,11 +203,9 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 
 ## ⚡ PENDIENTES INMEDIATOS (antes de Fase B)
 
-### ENV VAR: ADMIN_DASHBOARD_TOKEN en Vercel 🔴
-**Status:** 🔴 BLOQUEANTE para usar dashboards internos  
-**Descripción:** Los dashboards `/admin/project-status` e `/internal/architecture` fueron mergeados a main (2026-05-23). Sin `ADMIN_DASHBOARD_TOKEN` en Vercel → devuelven 503 por diseño.  
-**Acción:** Vercel → technova-next → Settings → Environment Variables → añadir `ADMIN_DASHBOARD_TOKEN` con un token generado con `openssl rand -hex 32`.  
-**Nota de seguridad:** Guardar el token también en 1Password / gestor de contraseñas.
+### ENV VAR: ADMIN_DASHBOARD_TOKEN en Vercel ✅
+**Status:** ✅ RESUELTO (2026-06-02)  
+**Descripción:** Variable configurada en Vercel production + preview. Dashboards activos en `/admin/project-status` e `/internal/architecture`. Token guardado en gestor de contraseñas.
 
 ---
 

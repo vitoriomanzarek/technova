@@ -120,7 +120,7 @@ Ver `LEAD_MANAGEMENT_PLATFORM.md`.
 | `STRIPE_SECRET_KEY` | technova-next (prod) | ⚠️ Test mode — migrar a prod cuando KYC listo |
 | `UPSTASH_REDIS_*` | technova-next (prod) | ✅ Funcional |
 | `NEXT_PUBLIC_BASE_URL` | technova-next (prod) | ⚠️ Verificar que sea `https://tech-nova.mx` |
-| `ADMIN_DASHBOARD_TOKEN` | technova-next (prod) | 🔴 **PENDIENTE** — sin este token `/admin/*` e `/internal/*` devuelven 503. Generar con `openssl rand -hex 32` y añadir en Vercel → Settings → Environment Variables. |
+| `ADMIN_DASHBOARD_TOKEN` | technova-next (prod) | ✅ Configurado (2026-06-02) — dashboards internos activos en `/admin/project-status` e `/internal/architecture`. |
 
 ---
 
