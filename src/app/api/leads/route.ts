@@ -4,6 +4,7 @@ import { Resend } from 'resend';
 import { db } from '@/db';
 import { leads } from '@/db/schema';
 import { welcomeAuditEmail } from '@/lib/emails/leadAuditWelcome';
+import { welcomeContactEmail } from '@/lib/emails/leadContactWelcome';
 import { newLeadNotificationEmail } from '@/lib/emails/newLeadNotification';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -51,15 +52,18 @@ export async function POST(request: Request) {
     // 2) Emails en paralelo — ninguno bloquea la respuesta si falla.
     //    El lead ya está guardado; perder un email es recuperable.
     const [welcomeResult, notifyResult] = await Promise.allSettled([
-      // Email de bienvenida al lead (solo para auditoría web express)
-      project_type === 'auditoria-web'
-        ? resend.emails.send({
-            from:    FROM_EMAIL,
-            to:      email,
-            subject: welcomeAuditEmail({ name, websiteUrl: website_url }).subject,
-            html:    welcomeAuditEmail({ name, websiteUrl: website_url }).html,
-          })
-        : Promise.resolve(null),
+      // Email de bienvenida al lead según el tipo de formulario
+      (() => {
+        if (project_type === 'auditoria-web') {
+          const tpl = welcomeAuditEmail({ name, websiteUrl: website_url });
+          return resend.emails.send({ from: FROM_EMAIL, to: email, subject: tpl.subject, html: tpl.html });
+        }
+        if (project_type === 'contacto') {
+          const tpl = welcomeContactEmail({ name, message });
+          return resend.emails.send({ from: FROM_EMAIL, to: email, subject: tpl.subject, html: tpl.html });
+        }
+        return Promise.resolve(null);
+      })(),
 
       // Notificación interna al equipo TechNova — SIEMPRE
       resend.emails.send({
