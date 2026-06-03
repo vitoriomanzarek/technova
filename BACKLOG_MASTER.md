@@ -163,7 +163,24 @@ Estas tareas son rápidas pero afectan la operación del día a día:
 **Owner:** Vic + Claude Code  
 **Success Metrics:** 500+ visitors/mes, 30+ leads/mes, conversion rate >20%
 
+### B.0 REFERENCIA A DOCUMENTOS KICKOFF
+
+**IMPORTANTE:** Estas tareas tienen especificaciones detalladas en documentos separados. Consulta:
+
+- **IMAGERY_AGENT_KICKOFF.md** → Cubre B.1 (todas las tareas de imagery)
+- **MARKETING_FUNNEL_AGENT_KICKOFF.md** → Cubre B.2 (blog, ads, email sequences)
+- **NOVA_AI_REPLANNING.md** → Cubre B.3 (NOVA AI rediseño como asesor autónomo)
+- **COMMERCIAL_FLOW.md** → Cubre B.4 (flujo lead → auditoría IA → propuesta IA → Vic revisa → cliente → checkout → pago)
+- **AUTONOMOUS_BACKLOG_MANAGEMENT_PLAN.md** → Cubre B.5 (dashboard admin interno + agent autónomo)
+
+Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejemplos, y éxitometricas.
+
+---
+
 ### B.1 CREDIBILIDAD VISUAL (Imagery)
+
+**Documentación:** `IMAGERY_AGENT_KICKOFF.md`  
+**Agente:** IMAGERY_AGENT (ejecutará todas estas tareas)
 
 #### B.1.1 Portfolio / Casos de Éxito 🔴
 **Status:** 🔴 NO INICIADO  
@@ -217,6 +234,10 @@ Estas tareas son rápidas pero afectan la operación del día a día:
 ---
 
 ### B.2 MARKETING FUNNEL
+
+**Documentación:** `MARKETING_FUNNEL_AGENT_KICKOFF.md`  
+**Agente:** MARKETING_FUNNEL_AGENT (ejecutará todas estas tareas)  
+**Arquitectura:** 4 fases (Awareness → Consideration → Conversion → Loyalty) con ads, email sequences, analytics
 
 #### B.2.1 Blog System 🔴
 **Status:** 🔴 NO INICIADO  
@@ -319,6 +340,11 @@ Estas tareas son rápidas pero afectan la operación del día a día:
 
 ### B.3 NOVA AI
 
+**Documentación:** `NOVA_AI_REPLANNING.md`  
+**Agente:** NOVA_AI_AGENT (ejecutará todas estas tareas)  
+**Arquitectura:** Chat interface → Qualificación automática → Propuesta generada por Claude Haiku → Routing (auto-checkout/manual/reject)  
+**Cambio mayor:** NO es un simple wizard. Es un asesor inteligente que hace preguntas y toma decisiones autónomas.
+
 #### B.3.1 NOVA AI Core Engine 🔴
 **Status:** 🔴 NO INICIADO  
 **Priority:** 🔴 CRÍTICA
@@ -380,124 +406,60 @@ Estas tareas son rápidas pero afectan la operación del día a día:
 
 ---
 
-### B.4 CHECKLIST FASE B COMPLETA
+### B.4 COMMERCIAL FLOW (CRÍTICO — Foundation para todo lo demás)
 
-- [ ] Credibilidad visual (B.1): portfolio, servicios, equipo, testimoniales
-- [ ] Blog live con 6-12 posts
-- [ ] Ads corriendo: Google + Meta + LinkedIn
-- [ ] Secuencias email automatizadas
-- [ ] NOVA AI live con propuestas automáticas
-- [ ] **Métricas objetivo:** 500+ visitors/mes · 30-50 leads/mes · 5-10 qualified · 2-3 clientes/mes
+**Documentación:** `COMMERCIAL_FLOW.md`  
+**Priority:** 🔴 CRÍTICA — Sin esto, nada funciona  
+**Contexto:** Define el flujo **completo** desde que un lead entra hasta que paga y comienza el onboarding. Es la "espina dorsal" operativa.
 
----
+#### B.4.1 Auditoría Automática (IA + Puppeteer) 🔴
+**Status:** 🔴 NO INICIADO  
+**Priority:** 🔴 CRÍTICA
 
-## 🟠 FASE C: POLISH & DEVOPS
-**Status:** 🟠 SCHEDULED (Oct – Nov 2026)  
-**Success Metric:** Lighthouse >90, CI/CD automatizado, 99.9% uptime
+- [ ] Setup Puppeteer (headless browser) para auditar sitios web
+- [ ] API `/api/audits` que recibe URL del cliente
+- [ ] Claude Haiku prompt para generar reporte 17-puntos
+- [ ] Tabla `audits` en DB con resultados, score 0-100
+- [ ] Trigger automático cuando lead entra (background job)
+- [ ] Email a Vic cuando auditoría completa
 
-### C.1 Librería de Componentes
-- [ ] Auditar componentes existentes
-- [ ] Estandarizar nombres
-- [ ] Storybook (documentación de componentes)
-- [ ] UI kit Figma
-
-### C.2 CI/CD Pipeline
-- [ ] GitHub Actions workflows (lint, build, test, deploy)
-- [ ] Husky + lint-staged pre-commit hooks
-- [ ] Automated performance checks post-deploy
-
-### C.3 Monitoring & Observability
-- [ ] **Sentry** — error tracking en producción (mayor gap actual)
-- [ ] Uptime monitoring
-- [ ] Alertas Slack
-- [ ] PostHog — comportamiento de usuario + funnel NOVA AI
-
-### C.4 Performance Optimization
-- [ ] next/image en todas las imágenes
-- [ ] Code splitting + lazy loading
-- [ ] Database query optimization
-- [ ] Lighthouse score >90
-
-### C.5 SEO Final Pass
-- [x] Sitemap.xml (18 URLs) ✅ ya hecho
-- [x] GSC conectado ✅ ya hecho
-- [ ] Schema markup (LocalBusiness, Organization, Product)
-- [ ] robots.txt
-- [ ] Alt text en todas las imágenes
-- [ ] Internal linking strategy
-- [ ] Core Web Vitals optimization
-
-### C.6 Security Hardening
-- [x] HTTPS/SSL ✅ Vercel
-- [x] Env vars seguros ✅ rotados y en Vercel
-- [x] Rate limiting ✅ Upstash
-- [x] Security headers ✅ next.config.ts
-- [x] Input validation ✅ Zod
-- [ ] CSP (Content Security Policy) — pendiente por scripts de terceros
-- [ ] CSRF protection review
-
-### C.7 Documentación
-- [ ] Guía de deployment
-- [ ] API documentation
-- [ ] Runbook de tareas comunes
+**Timeline:** Semana 1-2 de Fase B.4
 
 ---
 
-## 🟡 FUTURE FEATURES (Q1 2027+)
+#### B.4.2 Generación Automática de Propuestas (IA) 🔴
+**Status:** 🔴 NO INICIADO  
+**Priority:** 🔴 CRÍTICA
 
-```
-Q1 2027:
-├── Customer Dashboard (tracking de proyectos)
-├── Payment Plans (pagos flexibles)
-├── Referral Program
-└── Knowledge Base / Support Portal
+- [ ] Claude Haiku prompt para generar propuesta basada en:
+  - Audit report (resultados 17 puntos)
+  - Preferencias cliente (presupuesto, timeline, prioridades)
+  - catalog.ts (56 componentes + precios MXN)
+- [ ] API `/api/proposals/generate`
+- [ ] Tabla `proposals` en DB
+- [ ] JSON schema para propuesta (módulos, precio, horas, timeline)
+- [ ] Trigger automático después de auditoría
+- [ ] Email a Vic: "Propuesta generada, requiere revisión"
 
-Q2 2027:
-├── Video testimonials (auto-transcripción)
-├── Webinar system
-├── Advanced analytics (predictive)
-└── Customer Portal (archivos, actualizaciones)
-
-Q3 2027:
-├── App móvil (iOS/Android)
-├── NOVA AI multimodal (voz/video)
-├── AI content generation (blog, ads)
-└── Automated project scheduling
-```
+**Timeline:** Semana 2-3 de Fase B.4
 
 ---
 
-## 📈 OKRs por Fase
+#### B.4.3 Panel de Revisión para Vic (Dashboard Admin) 🔴
+**Status:** 🔴 NO INICIADO  
+**Priority:** 🔴 CRÍTICA
 
-### Fase A 🎯 ✅ COMPLETADA
-- [x] Sitio live y funcional
-- [x] Leads capturándose en DB
-- [x] Emails funcionando (Sofia persona)
-- [x] Pagos en test mode (Stripe)
-- [x] Analytics activos (GA4 + Meta Pixel)
+- [ ] Nueva página `/admin/proposals-review`
+- [ ] Muestra: lead info + audit report + propuesta generada
+- [ ] Botones: Aprobar / Modificar / Rechazar
+- [ ] Si modifica: puede quitar/agregar módulos, precio recalcula
+- [ ] Si aprueba: trigger envío a cliente
+- [ ] Tabla de histórico
 
-### Fase B 🎯
-- [ ] 500+ monthly visitors
-- [ ] 30-50 monthly leads
-- [ ] 5-10 customers acquired
-- [ ] NOVA AI conversion rate >30%
-- [ ] Blog getting organic traffic
-
-### Fase C 🎯
-- [ ] Lighthouse score >90
-- [ ] Deployment automated
-- [ ] Error rate <0.1%
-- [ ] MTTR <30 min
-- [ ] 99.9% uptime
-
-### Overall (End of 2026) 🎯
-- [ ] Established credibility ($20K+/month MRR)
-- [ ] Repeatable customer acquisition
-- [ ] Automated operations
-- [ ] Ready for scaling
+**Timeline:** Semana 3 de Fase B.4
 
 ---
 
-**Preparado por:** Claude (Arquitecto)  
-**Para:** Vic (Fundador/CEO)  
-**Status:** ✅ MASTER REFERENCE — sincronizado 2026-06-02
+#### B.4.4 Envío de Propuesta a Cliente 🔴
+**Status:** 🔴 NO INICIADO  
+**Pri
