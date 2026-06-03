@@ -150,11 +150,10 @@ Estas tareas son rápidas pero afectan la operación del día a día:
 **Acción:** Completar KYC en Stripe → activar live mode → actualizar keys en Vercel  
 **Tiempo estimado:** Depende de Stripe (1-3 días hábiles)
 
-### OP-5: Template de diagnóstico manual 🟡
-**Status:** 🟡 PENDIENTE  
-**Impacto:** Medio — proceso operativo Fase 1 de auditorías  
-**Descripción:** Necesitamos un Google Doc / Notion template que Vic use para auditar clientes manualmente antes de responder con diagnóstico + propuesta.  
-**Tiempo estimado:** ~1h
+### OP-5: Template de diagnóstico manual ✅
+**Status:** ✅ RESUELTO (2026-06-02)  
+**Archivo:** `docs/OP-5-AUDIT-TEMPLATE.md`  
+**Contenido:** Checklist 17 puntos, scoring 0-100, template email, 3 ejemplos reales, gotchas operativos. Decisión D-028: .md en repo (no Google Doc).
 
 ---
 

@@ -1296,6 +1296,17 @@ Para "Auditoría Web Express" se conserva el flujo personalizado de Sofía (D-00
 
 ---
 
+### D-028: Template de diagnóstico manual en repo (no Google Doc)
+**Fecha:** 2026-06-02 | **Dueño:** Vic | **Status:** ✅ IMPLEMENTADO
+
+**Decisión:** `docs/OP-5-AUDIT-TEMPLATE.md` en el repositorio (no Google Doc / Notion).
+
+**Por qué repo:** versionado git automático, siempre sincronizado con el producto, visible en GitHub sin instalar nada, Claude Code puede actualizarlo junto al código.
+
+**Trade-off:** Vic necesita abrir el repo para consultarlo — aceptable dado que ya trabaja aquí.
+
+---
+
 ## 🔗 REFERENCIAS
 
 **Documentación relacionada:**
