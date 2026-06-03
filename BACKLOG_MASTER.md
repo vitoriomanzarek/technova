@@ -127,12 +127,10 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 
 Estas tareas son rápidas pero afectan la operación del día a día:
 
-### OP-1: Email de bienvenida para /contacto 🔴
-**Status:** 🔴 PENDIENTE  
-**Impacto:** Alto — leads del form de contacto no reciben confirmación  
-**Descripción:** Solo `project_type === 'auditoria-web'` recibe email de Sofia. El form `/contacto` manda `project_type: 'contacto'` y no envía nada al cliente.  
-**Acción:** Crear template `leadContactWelcome.ts` (más corto, sin PDF) y conectarlo en `route.ts`  
-**Tiempo estimado:** ~1h
+### OP-1: Email de bienvenida para /contacto ✅
+**Status:** ✅ RESUELTO (2026-06-02)  
+**Template:** `src/lib/emails/leadContactWelcome.ts` — Sofia firma, echo del mensaje, links a servicios/pricing/PDF/WhatsApp.  
+**route.ts:** dispatch por `project_type` — `auditoria-web` → audit email, `contacto` → contact email, otros → solo notificación interna.
 
 ### OP-2: Verificar dominio en Resend 🟡
 **Status:** 🟡 PENDIENTE  

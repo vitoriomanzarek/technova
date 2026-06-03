@@ -756,3 +756,61 @@ El spec original pedía un PDF auto-descargable que **reemplazaba** el flujo de 
 **Last Updated:** 2026-05-24 (Session 8 cierre — GSC, sitemap, GA4, contexto actualizado)  
 **Next Review:** Sofía en /contacto + revisión GSC en ~1 semana  
 **Owner:** Vic (Estrategia) + Agentes (Ejecución)
+
+---
+
+## 🟢 SESSION 2026-06-02: Cleanup, Status Review & Contact Email
+
+**Duration:** ~2 horas  
+**Owner:** Vic + Claude  
+**Status:** ✅ Completado
+
+### Trabajo Realizado
+
+#### 1. Branch Cleanup & Merge ✅
+- Mergeado worktree `angry-tharp` (dashboards internos) a `main`
+- Eliminados 7 ramas laterales + 3 worktrees de Claude
+- Resuelto conflicto en `next.config.ts` (turbopack + outputFileTracingIncludes)
+- `ADMIN_DASHBOARD_TOKEN` generado, añadido a Vercel y desplegado
+
+#### 2. Dashboards Internos Activos ✅
+- `/admin/project-status` — lee BITACORA.md en vivo
+- `/internal/architecture` — stack técnico y decisiones
+- Auth gate con token seguro (constant-time comparison)
+- URL: `https://tech-nova.mx/admin/project-status?token=<token>`
+
+#### 3. BACKLOG_MASTER.md — Sincronización Completa ✅
+- Fase A marcada COMPLETADA con estado real de cada item
+- Corregidos: DB=Neon/Drizzle (no Supabase), Email=Resend (no Mailchimp)
+- Añadidos A.12-A.15: seguridad, lead magnet, dashboards, SEO técnico
+- Sección "Pendientes Operativos" (OP-1 a OP-5)
+- Fase B y C limpiadas con items ya hechos marcados
+
+#### 4. CLAUDE.md — Reglas de Documentación ✅
+- Añadidas reglas obligatorias para actualizar BITACORA, BACKLOG y DECISION_LOG
+- Aplica en todas las sesiones futuras automáticamente
+
+#### 5. Email de Bienvenida para /contacto (OP-1) ✅
+- Nuevo template `src/lib/emails/leadContactWelcome.ts`
+- Sofia firma el email, muestra echo del mensaje del usuario
+- Links a servicios, pricing, PDF checklist y WhatsApp
+- `route.ts` actualizado con dispatch por `project_type`:
+  - `auditoria-web` → `leadAuditWelcome.ts`
+  - `contacto` → `leadContactWelcome.ts`
+  - otros → solo notificación interna (patrón extensible)
+
+### Commits
+- `711b675` merge: dashboards from angry-tharp
+- `fd01e63` docs: context files post-session
+- `959f657` docs: ADMIN_DASHBOARD_TOKEN flagged
+- `0f62784` docs: token resolved
+- `9519c04` docs: BACKLOG_MASTER full sync
+- `498d525` chore: doc rules in CLAUDE.md
+- `108f974` feat: Sofia welcome email for /contacto
+
+### Pendientes Operativos (estado actual)
+- OP-1 Email /contacto ✅ RESUELTO
+- OP-2 Verificar dominio Resend 🟡 pendiente
+- OP-3 Gmail filter 🟡 pendiente
+- OP-4 Stripe live mode 🟡 bloqueado en Stripe KYC
+- OP-5 Template diagnóstico manual 🟡 pendiente
