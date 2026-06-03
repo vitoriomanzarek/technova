@@ -132,12 +132,9 @@ Estas tareas son rápidas pero afectan la operación del día a día:
 **Template:** `src/lib/emails/leadContactWelcome.ts` — Sofia firma, echo del mensaje, links a servicios/pricing/PDF/WhatsApp.  
 **route.ts:** dispatch por `project_type` — `auditoria-web` → audit email, `contacto` → contact email, otros → solo notificación interna.
 
-### OP-2: Verificar dominio en Resend 🟡
-**Status:** 🟡 PENDIENTE  
-**Impacto:** Medio — emails salen bien, pero el fallback es `onboarding@resend.dev`  
-**Descripción:** `tech-nova.mx` no está verificado en Resend. Si `RESEND_FROM_EMAIL` falla, el FROM cambia.  
-**Acción:** Resend dashboard → Domains → Add `tech-nova.mx` → añadir DNS records en Cloudflare  
-**Tiempo estimado:** ~30 min
+### OP-2: Verificar dominio en Resend ✅
+**Status:** ✅ YA ESTABA RESUELTO (verificado May 20, 2026)  
+**Descripción:** `tech-nova.mx` está `Verified` en Resend (DNS verificado en 1 min vía Cloudflare). Emails salen de `sofia@tech-nova.mx` sin fallback.
 
 ### OP-3: Gmail filter para auditorías 🟡
 **Status:** 🟡 PENDIENTE  
