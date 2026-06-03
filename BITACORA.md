@@ -505,8 +505,20 @@ Se pidió mergear `feat/sentry-observability` → `main` y commitear los docs de
 
 ---
 
+### 🧹 Git Cleanup (Post-session)
+
+**Status:** ✅ COMPLETED
+- Worktrees huérfanos limpiados (3 ramas claude viejas)
+- Branches: solo `main` + feature branches activas
+- Remote: clean
+- `git branch -a` shows: main, remotes/origin/main, docs/phase-2-technical, docs/phase-3-operations, docs/phase-4-polish, feat/pre-traffic-hardening
+- Carpeta residual en `.claude/worktrees/sad-elgamal-ada3ba` se limpiarà al cerrar Claude Code (no impacta)
+
+---
+
 **Última actualización:** 2026-05-24  
 **MVP Status:** 🟢 **READY FOR LAUNCH**  
+**Git Status:** ✅ **CLEAN**  
 **Next Review:** Post-launch metrics (Day 3-5)
   - `a0dd609` chore: add Sentry instrumentation files
   - `fca2c76` fix: conditional Sentry config (fixes broken build)
