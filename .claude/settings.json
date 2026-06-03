@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "REPO=\"C:/Users/vitor/.gemini/antigravity/playground/technova\"; SRC=$(git -C \"$REPO\" status --porcelain 2>/dev/null | grep -cE 'src/' || true); DOCS=$(git -C \"$REPO\" status --porcelain 2>/dev/null | grep -cE '(BITACORA|BACKLOG_MASTER|DECISION_LOG)' || true); if [ \"$SRC\" -gt 0 ] && [ \"$DOCS\" -eq 0 ]; then printf '{\"systemMessage\":\"\\u26a0\\ufe0f DOCS PENDIENTES: hay cambios en src/ sin actualizar BITACORA.md / BACKLOG_MASTER.md / DECISION_LOG.md. Actualiza antes de continuar (regla CLAUDE.md).\"}'; fi",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
