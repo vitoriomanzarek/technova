@@ -22,6 +22,44 @@ export const leads = pgTable('leads', {
   presupuesto_estimado: integer('presupuesto_estimado'), // MXN (pesos, not cents)
   timeline: varchar('timeline', { length: 100 }),
   prioridades: json('prioridades').$type<string[]>(),
+
+  // B.4.8 — lead lifecycle tracking
+  status: varchar('status', { length: 50 }).notNull().default('new'),
+  // new → captured → audit_completed → proposal_generated → proposal_sent
+  // → client_reviewing → in_checkout → paid → project_active → completed
+  lead_score: integer('lead_score').default(0), // 0-100
+  unsubscribed: integer('unsubscribed').default(0), // 1 = unsubscribed
+
+  captured_at: timestamp('captured_at'),
+  audit_started_at: timestamp('audit_started_at'),
+  audit_completed_at: timestamp('audit_completed_at'),
+  proposal_generated_at: timestamp('proposal_generated_at'),
+  proposal_sent_at: timestamp('proposal_sent_at'),
+  proposal_opened_at: timestamp('proposal_opened_at'),
+  in_checkout_at: timestamp('in_checkout_at'),
+  paid_at: timestamp('paid_at'),
+
+  last_email_sent_at: timestamp('last_email_sent_at'),
+  last_email_type: varchar('last_email_type', { length: 100 }),
+  email_sequence_stage: integer('email_sequence_stage').default(0),
+
+  created_at: timestamp('created_at').defaultNow(),
+});
+
+// B.4.8 — email delivery events log
+export const emailEvents = pgTable('email_events', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  lead_id: integer('lead_id').notNull().references(() => leads.id),
+
+  email_type: varchar('email_type', { length: 100 }).notNull(),
+  resend_event_id: varchar('resend_event_id', { length: 255 }),
+
+  sent_at: timestamp('sent_at').notNull(),
+  opened_at: timestamp('opened_at'),
+  clicked_at: timestamp('clicked_at'),
+  bounced_at: timestamp('bounced_at'),
+  complained_at: timestamp('complained_at'),
+
   created_at: timestamp('created_at').defaultNow(),
 });
 

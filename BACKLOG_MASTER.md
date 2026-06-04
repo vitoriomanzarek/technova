@@ -15,8 +15,8 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 | Fase | Status | Duration | Focus | Progress |
 |------|--------|----------|-------|----------|
 | **A** | ✅ COMPLETADA | May 20 – Jun 2, 2026 | Foundation & Architecture | 100% |
-| **B.4.1-6** | ✅ COMPLETADA | Jun 3, 2026 | Commercial Flow Stage 1-6 | 75% (6/8 completados) |
-| **B.4.7-8** | 🔴 PRÓXIMOS | Jun 3-10, 2026 | Commercial Flow Stage 7-8 | 0% (listos para ejecutar) |
+| **B.4.1-7** | ✅ COMPLETADA | Jun 3, 2026 | Commercial Flow Stage 1-7 | 88% (7/8 completados) |
+| **B.4.8** | 🔴 PRÓXIMO | Jun 3-10, 2026 | Commercial Flow Stage 8 (FINAL) | 0% (listo para ejecutar) |
 | **B.1-3, B.5** | 🟠 Scheduled | Jun-Aug 2026 | Imagery, Marketing, NOVA AI, Dashboard | 0% |
 | **C** | 🟠 Scheduled | Oct – Nov 2026 | Polish & DevOps | 0% |
 | **Future** | 🟡 Backlog | Q1 2027+ | Advanced Features | — |
@@ -556,17 +556,24 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 ---
 
-#### B.4.8 Lead Management & Tracking 🔴
-**Status:** 🔴 NO INICIADO  
+#### B.4.8 CRM + Email Workflows Automáticos ✅ 🎉
+**Status:** ✅ COMPLETADO (2026-06-04) — **FASE B.4 COMPLETA**  
 **Priority:** 🟡 MEDIA
 
-- [ ] Lead lifecycle states (nueva → capturada → propuesta_generada → propuesta_revisada → propuesta_enviada → cliente_viendo → en_checkout → pagada)
-- [ ] Tabla `leads` actualizada con estados
-- [ ] Email automáticos según estado (workflows)
-- [ ] Admin dashboard `/admin/lead-management`
-- [ ] Tracking: tiempo de propuesta → tiempo de decisión
+- [x] Lead lifecycle states en tabla `leads` (new→captured→audit_completed→proposal_sent→in_checkout→paid→project_active)
+- [x] Timestamps de cada etapa (captured_at, audit_completed_at, proposal_sent_at, paid_at, etc.)
+- [x] `lead_score` + `unsubscribed` + `email_sequence_stage`
+- [x] `email_events` table — delivery tracking (sent, opened, clicked, bounced, complained)
+- [x] Email automation engine: 6 workflows automáticos (welcome, audit_ready, follow_up, urgent, checkout_reminder, project_started)
+- [x] Cron `/api/cron/email-automation` — cada 4h, con idempotency via emailEvents
+- [x] CRM Dashboard `/admin/crm` — funnel visual, activity timeline, leads table con filtros
+- [x] `GET /api/admin/leads` — leads con status counts, recent activity
+- [x] Resend webhook `/api/webhooks/resend` — actualiza opened_at, clicked_at, bounced_at, unsubscribe
+- [x] Lead scoring function (0-100) + routing (high/medium/low)
 
-**Timeline:** Semana 2-4 de Fase B.4
+**Timeline:** Semana 2 de Fase B.4 ✅
+
+### 🎉 COMERCIAL FLOW B.4: 8/8 COMPLETADO — 100%
 
 ---
 
