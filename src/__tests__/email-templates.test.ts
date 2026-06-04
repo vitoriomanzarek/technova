@@ -15,7 +15,7 @@ describe('proposalSentToClient email', () => {
       leadEmail: 'juan@acme.mx',
       auditScore: 42,
       priorityAreas: ['Performance', 'Mobile', 'UX'],
-      modulos: [{ modulo_id: 'MOD-01', nombre: 'Identidad', componentes: [], precio_total: 8500, horas: 28, justificacion: 'Test' }],
+      modulos: [{ modulo_id: 'MOD-01', nombre: 'Identidad', precio_total: 8500, horas: 28, justificacion: 'Test' }],
       precioSubtotal: 8500,
       pmFee: 1700,
       precioTotal: 10200,

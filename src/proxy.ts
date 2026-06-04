@@ -122,7 +122,7 @@ function handleAdminAuth(request: NextRequest): NextResponse {
   return NextResponse.next();
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Gate de dashboards internos y APIs admin antes que cualquier otra cosa.
