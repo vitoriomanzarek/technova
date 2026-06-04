@@ -434,21 +434,21 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 ---
 
-#### B.4.2 Generación Automática de Propuestas (IA) 🔴
-**Status:** 🔴 NO INICIADO  
+#### B.4.2 Generación Automática de Propuestas (IA) ✅
+**Status:** ✅ COMPLETADO (2026-06-04)  
 **Priority:** 🔴 CRÍTICA
 
-- [ ] Claude Haiku prompt para generar propuesta basada en:
+- [x] Claude Haiku prompt para generar propuesta basada en:
   - Audit report (resultados 17 puntos)
   - Preferencias cliente (presupuesto, timeline, prioridades)
-  - catalog.ts (56 componentes + precios MXN)
-- [ ] API `/api/proposals/generate`
-- [ ] Tabla `proposals` en DB
-- [ ] JSON schema para propuesta (módulos, precio, horas, timeline)
-- [ ] Trigger automático después de auditoría
-- [ ] Email a Vic: "Propuesta generada, requiere revisión"
+  - catalog.ts (12 módulos, 56 componentes + precios MXN)
+- [x] API `/api/proposals/generate`
+- [x] Tabla `proposals` en DB (+ campos enriquecidos en `leads`)
+- [x] Zod schema para validación de propuesta (módulos, precio, horas, timeline)
+- [x] Trigger automático después de auditoría
+- [x] Email a Vic: "Propuesta generada, requiere revisión"
 
-**Timeline:** Semana 2-3 de Fase B.4
+**Timeline:** Semana 1-2 de Fase B.4 ✅
 
 ---
 

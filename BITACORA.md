@@ -1017,4 +1017,39 @@ Implementación completa del sistema de auditoría automática de sitios web (St
 - Puppeteer: dynamic import para evitar problemas de bundling en serverless
 
 ### Próximo paso
-B.4.2 — Propuestas IA automáticas (Stage 4 COMMERCIAL_FLOW)
+B.4.3 — Panel de revisión para Vic (Dashboard Admin `/admin/proposals-review`)
+
+---
+
+## 🟢 SESSION 2026-06-04: B.4.2 — Propuestas IA Automáticas (Claude Haiku + catalog.ts)
+
+**Quién:** Claude Code Agent  
+**Duración:** 1 sesión  
+**Estado final:** ✅ Completado
+
+### Qué se hizo
+
+Implementación completa del sistema de generación automática de propuestas (Stage 4 del COMMERCIAL_FLOW_v2).
+
+**Entregables:**
+1. `src/lib/jobs/generate-proposal.ts` — función `generateProposal(leadId, auditId)` con Claude Haiku + retry
+2. `src/lib/prompts/generate-proposal.prompt.ts` — prompt con catálogo de 12 módulos, presupuesto y audit findings
+3. `src/lib/schemas/proposal.ts` — Zod schema que valida IDs de módulos contra catálogo real
+4. `src/lib/emails/proposalGeneratedNotification.ts` — email a Vic con indicador de presupuesto (🟢/🟡/🔴)
+5. `src/app/api/proposals/generate/route.ts` — endpoint POST fire-and-forget
+6. `src/db/schema.ts` — tabla `proposals` + campos `empresa`, `presupuesto_estimado`, `timeline`, `prioridades` en `leads`
+7. `src/lib/jobs/audit-website.ts` — trigger automático al finalizar auditoría (`.returning()` para capturar audit ID)
+
+**Migración BD:** tabla `proposals` + 4 columnas en `leads` aplicadas en Neon Postgres via `drizzle-kit push`
+
+### Decisiones técnicas
+
+- Catálogo: prompt incluye 12 módulos (con costo calculado por `calcModuleCost`) en lugar de 56 componentes individuales — más conciso, misma información relevante
+- Precios: Claude genera MXN → se convierte a cents al guardar en BD (`Math.round(total * 100)`)
+- Lead budget: almacenado en MXN (pesos enteros), no en cents, para simplificar la UI
+- Zod schema: valida que `modulo_id` sea uno de los 12 IDs reales del catálogo (usando `z.enum` dinámico)
+- Trigger: `audit-website.ts` usa `.returning({ id: audits.id })` para capturar UUID del audit y pasarlo al job de propuesta
+- Retry: 2 intentos a Claude Haiku antes de abandonar silenciosamente
+
+### Commits
+Pendiente commit final

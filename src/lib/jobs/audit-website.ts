@@ -4,6 +4,7 @@ import { leads, audits } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { auditWebsitePrompt, type ExtractedSiteData } from '@/lib/prompts/audit-website.prompt';
 import { auditCompleteNotification } from '@/lib/emails/auditCompleteNotification';
+import { generateProposal } from '@/lib/jobs/generate-proposal';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -238,8 +239,8 @@ export async function auditWebsite(leadId: number, websiteUrl: string): Promise<
     return;
   }
 
-  // Persist audit
-  await db.insert(audits).values({
+  // Persist audit — capture ID to trigger proposal generation
+  const [insertedAudit] = await db.insert(audits).values({
     lead_id: leadId,
     site_url: websiteUrl,
     score: report.score,
@@ -248,7 +249,7 @@ export async function auditWebsite(leadId: number, websiteUrl: string): Promise<
     priority_areas: report.priority_areas,
     extracted_data: extractedData,
     status: 'completed',
-  });
+  }).returning({ id: audits.id });
 
   console.log(`[audit] Completed for lead ${leadId}. Score: ${report.score}`);
 
@@ -258,7 +259,7 @@ export async function auditWebsite(leadId: number, websiteUrl: string): Promise<
   if (leadData) {
     const tpl = auditCompleteNotification({
       leadName: leadData.name,
-      empresa: leadData.name,
+      empresa: leadData.empresa ?? leadData.name,
       websiteUrl,
       score: report.score,
       priorityAreas: report.priority_areas,
@@ -266,5 +267,12 @@ export async function auditWebsite(leadId: number, websiteUrl: string): Promise<
     resend.emails
       .send({ from: FROM_EMAIL, to: NOTIFY_EMAIL, subject: tpl.subject, html: tpl.html })
       .catch(e => console.error('[audit] Notify email failed:', e));
+  }
+
+  // B.4.2 — trigger proposal generation automatically after audit completes
+  if (insertedAudit?.id) {
+    generateProposal(leadId, insertedAudit.id).catch(err =>
+      console.error(`[proposal] async trigger failed for lead ${leadId}:`, err)
+    );
   }
 }

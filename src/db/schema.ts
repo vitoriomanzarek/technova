@@ -1,4 +1,4 @@
-import { pgTable, serial, uuid, text, varchar, timestamp, json, numeric, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, uuid, text, varchar, timestamp, json, numeric, integer, date } from "drizzle-orm/pg-core";
 
 export const services = pgTable('services', {
   id: serial('id').primaryKey(),
@@ -17,6 +17,11 @@ export const leads = pgTable('leads', {
   message: text('message'),
   website_url: text('website_url'),
   project_type: varchar('project_type', { length: 255 }),
+  // B.4.2 — enriched lead data for proposal generation
+  empresa: varchar('empresa', { length: 255 }),
+  presupuesto_estimado: integer('presupuesto_estimado'), // MXN (pesos, not cents)
+  timeline: varchar('timeline', { length: 100 }),
+  prioridades: json('prioridades').$type<string[]>(),
   created_at: timestamp('created_at').defaultNow(),
 });
 
@@ -31,6 +36,34 @@ export const audits = pgTable('audits', {
   extracted_data: json('extracted_data'),
   status: varchar('status', { length: 32 }).notNull().default('completed'),
   error_message: text('error_message'),
+  created_at: timestamp('created_at').defaultNow(),
+  updated_at: timestamp('updated_at').defaultNow(),
+});
+
+// B.4.2 — AI-generated proposals. status flow: pending_vic_review → approved | modified | rejected | client_reviewing | client_confirmed | paid
+export const proposals = pgTable('proposals', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  lead_id: integer('lead_id').notNull().references(() => leads.id),
+  audit_id: uuid('audit_id').notNull().references(() => audits.id),
+  status: varchar('status', { length: 50 }).notNull().default('pending_vic_review'),
+
+  modulos_seleccionados: json('modulos_seleccionados').notNull().$type<object[]>(),
+
+  precio_subtotal_tecnico: integer('precio_subtotal_tecnico').notNull(), // MXN cents
+  pm_fee_20_pct: integer('pm_fee_20_pct').notNull(),                    // MXN cents
+  precio_total: integer('precio_total').notNull(),                       // MXN cents
+
+  horas_totales: integer('horas_totales').notNull(),
+  timeline_dias: integer('timeline_dias').notNull(),
+  fecha_entrega_estimada: date('fecha_entrega_estimada').notNull(),
+
+  justificacion_general: text('justificacion_general').notNull(),
+  observaciones: text('observaciones'),
+
+  aprobado_por: varchar('aprobado_por', { length: 255 }),
+  aprobado_at: timestamp('aprobado_at'),
+  notas_internas_vic: text('notas_internas_vic'),
+
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
 });
