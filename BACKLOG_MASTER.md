@@ -491,19 +491,23 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 ---
 
-#### B.4.5 Ecommerce Dinámico (Cliente elige módulos) 🔴
-**Status:** 🔴 NO INICIADO  
+#### B.4.5 Ecommerce Dinámico (Cliente elige módulos) ✅
+**Status:** ✅ COMPLETADO (2026-06-04)  
 **Priority:** 🔴 CRÍTICA
 
-- [ ] Página `/checkout/{proposal_uuid}`
-- [ ] Módulos propuestos (preseleccionados)
-- [ ] Cliente puede QUITAR módulos (precio ↓)
-- [ ] Cliente puede AGREGAR módulos a la carte (precio ↑)
-- [ ] Precio recalcula en vivo
-- [ ] Timeline estimado se actualiza
-- [ ] Carrito JSON guardado en DB
+- [x] Página `/checkout/{uuid}` con módulos del catálogo
+- [x] Módulos preseleccionados de la propuesta (con checkboxes)
+- [x] Cliente puede QUITAR módulos (precio recalcula en vivo)
+- [x] Cliente puede AGREGAR módulos a la carte (catálogo completo)
+- [x] Presupuesto recalcula en vivo (subtotal + 20% PM fee)
+- [x] Timeline estimado actualiza automáticamente
+- [x] "Pagar 50%" → Stripe Checkout Session (con módulos actualizados)
+- [x] "Solicitar cambios" → email a Vic con diff + notas
+- [x] "Guardar para después" → localStorage
+- [x] Webhook Stripe actualizado: proposal → client_confirmed + emails
+- [x] Schema: proposal_id + payment_percentage en orders
 
-**Timeline:** Semana 3-4 de Fase B.4
+**Timeline:** Semana 2 de Fase B.4 ✅
 
 ---
 

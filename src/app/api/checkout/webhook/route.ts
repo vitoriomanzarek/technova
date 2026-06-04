@@ -3,7 +3,13 @@ import type Stripe from 'stripe';
 import { eq } from 'drizzle-orm';
 import { stripe } from '@/lib/stripe';
 import { db } from '@/db';
-import { orders } from '@/db/schema';
+import { orders, proposals, leads } from '@/db/schema';
+import { paymentConfirmedEmail } from '@/lib/emails/paymentConfirmedEmail';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'TechNova <onboarding@resend.dev>';
+const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? 'thisistechnova2026@gmail.com';
 
 const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET ?? '';
 
@@ -37,14 +43,54 @@ export async function POST(request: Request) {
           : session.payment_intent?.id ?? null;
 
         await db.update(orders)
-          .set({
-            status: 'paid',
-            paid_at: new Date(),
-            stripe_payment_intent_id: piId,
-          })
+          .set({ status: 'paid', paid_at: new Date(), stripe_payment_intent_id: piId })
           .where(eq(orders.stripe_session_id, session.id));
 
         console.log(`[stripe] Order marked paid: session=${session.id} pi=${piId}`);
+
+        // B.4.5 — if linked to a proposal, update proposal status and notify
+        const proposalId = session.metadata?.proposal_id;
+        const paymentPct = Number(session.metadata?.payment_percentage ?? 50);
+        if (proposalId) {
+          const propRows = await db
+            .select({ proposal: proposals, lead: leads })
+            .from(proposals)
+            .leftJoin(leads, eq(proposals.lead_id, leads.id))
+            .where(eq(proposals.id, proposalId))
+            .limit(1);
+
+          if (propRows.length) {
+            const { proposal, lead } = propRows[0];
+            await db.update(proposals)
+              .set({ status: 'client_confirmed', updated_at: new Date() })
+              .where(eq(proposals.id, proposalId));
+
+            // Email to client
+            if (lead) {
+              const montoPagado = Math.round((session.amount_total ?? 0) / 100);
+              const tpl = paymentConfirmedEmail({
+                leadName: lead.name,
+                empresa: lead.empresa ?? lead.name,
+                montoPagado,
+                precioTotal: Math.round(proposal.precio_total / 100),
+                timelineDias: proposal.timeline_dias,
+                fechaEntrega: proposal.fecha_entrega_estimada,
+                proposalId,
+              });
+              resend.emails
+                .send({ from: FROM_EMAIL, to: lead.email, subject: tpl.subject, html: tpl.html })
+                .catch(e => console.error('[stripe/webhook] client email failed:', e));
+
+              // Notify Vic
+              resend.emails.send({
+                from: FROM_EMAIL,
+                to: NOTIFY_EMAIL,
+                subject: `💰 Nuevo pago recibido — ${lead.empresa ?? lead.name} ($${montoPagado.toLocaleString('es-MX')} MXN)`,
+                html: `<p><strong>${lead.empresa ?? lead.name}</strong> pagó $${montoPagado.toLocaleString('es-MX')} MXN (${paymentPct}% inicial). Propuesta ID: ${proposalId}</p><p>Contacta al cliente para el kickoff call.</p>`,
+              }).catch(() => {});
+            }
+          }
+        }
         break;
       }
 

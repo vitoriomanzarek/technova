@@ -98,6 +98,9 @@ export const orders = pgTable('orders', {
   currency: varchar('currency', { length: 3 }).notNull().default('mxn'),
   description: text('description'),
   status: varchar('status', { length: 32 }).notNull().default('pending'),
+  // B.4.5 — link orders to proposals
+  proposal_id: uuid('proposal_id').references(() => proposals.id),
+  payment_percentage: integer('payment_percentage'), // 50 or 100
   created_at: timestamp('created_at').defaultNow(),
   paid_at: timestamp('paid_at'),
 });
