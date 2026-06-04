@@ -6,6 +6,138 @@ Fuente de verdad para Autonomous Backlog Manager (D-016) y análisis de velocida
 
 ---
 
+## 🟢 SESSION 2026-06-02: COMMERCIAL FLOW Architecture + Documentation Consolidation
+
+**Duration:** 2-3 horas (conversación continua, sin interrupciones)  
+**Owner:** Vic (validación comercial) + Claude (arquitecto)  
+**Status:** ✅ COMPLETED — Commercial Flow v2 finalized, Backlog updated, Diagram created
+
+### 📋 Work Completed (4 Major Deliverables)
+
+#### 1. Documentation Audit (DOCUMENTATION_AUDIT_2026-06-02.md)
+**What:** Comprehensive audit of all .md files to identify duplicates, gaps, inconsistencies
+**Findings:**
+- 2 duplicate BITACORA.md files → resolved (rename docs/BITACORA → IMPLEMENTATION_LOG)
+- docs/BACKLOG.md obsolete → marked for deletion
+- CLAUDE.md outdated → updated with new document references
+- Gaps: COMMERCIAL_FLOW.md, NOVA_AI_REPLANNING, MARKETING_FUNNEL not referenced
+
+**Actions Taken:**
+- ✅ CLAUDE.md: Updated with all critical docs + Phase B KICKOFF references
+- ✅ Renamed: docs/BITACORA.md → docs/IMPLEMENTATION_LOG.md
+- ✅ Structure: Defined clear convention (raíz = active, docs/technical = specs)
+
+---
+
+#### 2. COMMERCIAL_FLOW_v2_FINAL.md
+**What:** Complete commercial flow architecture (validated with Vic)
+**Scope:** 9 stages, 3 entry points (COLD/WARM/HOT), multi-channel, automated + manual
+
+**Key Decisions (ALL VALIDATED):**
+- ✅ 3 Entry Points maintained (LeadMagnet, /contacto, /cotizador renamed from /start-project)
+- ✅ Pricing: FIXED (catalog.ts modular) — NO variation by lead type
+- ✅ Contrato: Local PDF + checkbox (no DocuSign, MVP)
+- ✅ Pago: 50%+50% DEFAULT (configurable by Vic)
+- ✅ Scheduling: Calendly Pro ($12/mo) MVP
+- ✅ Email sequences: 3 automated workflows (nurturing, proposal tracking, onboarding)
+- ✅ CRM: Airtable MVP → custom later
+- ✅ Approach: "One Million Dollar Landing Page" stratified (4 levels: awareness → consideration → conversion → loyalty)
+
+**Technical Details:**
+- 9 stages (lead capture → onboarding)
+- 4 new DB tables (proposals, audits, projects, contracts)
+- 3 distinct email workflows (5+5+4 emails total)
+- Success metrics: HOT 30%+, WARM 15-20%, COLD 2-5% conversion
+
+**Status:** ✅ Ready for Fase B.4 implementation
+
+---
+
+#### 3. BACKLOG_MASTER.md Updated
+**What:** Integrated COMMERCIAL_FLOW_v2_FINAL into Fase B.4 tasks
+**Changes:**
+- ✅ Added B.0 references to ALL KICKOFF docs
+- ✅ Updated B.4 (COMMERCIAL FLOW) with 8 detailed subtasks
+- ✅ Added B.5 (Dashboard & Autonomy)
+- ✅ Updated Phase B checklist with document links
+
+**Result:** Backlog now fully synchronized with reality (no more orphan docs)
+
+---
+
+#### 4. Interactive Diagram: technova_commercial_flow_complete
+**What:** Visual HTML diagram of entire flow (clickable, responsive)
+**Features:**
+- Entry points explained (COLD/WARM/HOT)
+- 9 stages mapped (click to see details)
+- 3 email sequences visualized
+- Success metrics dashboard
+- Color-coded by lead temperature
+
+**Purpose:** Single source of truth for understanding complete flow
+
+---
+
+### 🎯 Key Decisions Logged (to add to DECISION_LOG.md)
+
+**D-029:** 3 Entry Points vs Simplification → MAINTAINED 3 (COLD/WARM/HOT routing)  
+**D-030:** Contrato: DocuSign vs Local → LOCAL PDF + checkbox (MVP)  
+**D-031:** Pago: 100% vs 50%+50% → 50%+50% DEFAULT (configurable)  
+**D-032:** Scheduling: Calendly vs Custom → CALENDLY PRO ($12/mo MVP)  
+**D-033:** Precios: Variable vs Fixed → FIXED (catalog.ts modular)  
+**D-034:** CRM: Build vs Buy → AIRTABLE MVP → custom Phase C  
+
+---
+
+### 📊 Current State vs Desired
+
+| Aspecto | Before | After | Status |
+|---------|--------|-------|--------|
+| Documentation clarity | Fragmented (12+ docs, some duplicate) | Consolidated (clear hierarchy) | ✅ |
+| Commercial flow definition | Basic outline | 9-stage detailed architecture | ✅ |
+| Email sequences | Not documented | 3 sequences specified | ✅ |
+| Pricing model | Uncertain (variable?) | Fixed modular (catalog.ts) | ✅ |
+| Lead routing | Not defined | 3-path COLD/WARM/HOT | ✅ |
+| Backlog alignment | Outdated (vs docs) | In sync (all refs updated) | ✅ |
+| Visual clarity | None | Interactive diagram created | ✅ |
+
+---
+
+### 🚨 No Blockers Remaining
+
+All major architectural decisions validated. Ready to start Phase B.4 (Commercial Flow implementation) next sprint.
+
+**Dependencies for Phase B.4:**
+- Puppeteer setup (Auditoría automática)
+- Claude Haiku quota confirmed
+- Stripe test mode validated
+- Neon DB schema ready
+- Calendly Pro account (TBD by Vic)
+
+---
+
+### 📝 Files Modified/Created
+- ✅ DOCUMENTATION_AUDIT_2026-06-02.md (NEW — audit results)
+- ✅ COMMERCIAL_FLOW_v2_FINAL.md (NEW — validated flow)
+- ✅ CLAUDE.md (UPDATED — references + checklist)
+- ✅ BACKLOG_MASTER.md (UPDATED — B.4, B.5 integrated)
+- ✅ docs/BITACORA.md → docs/IMPLEMENTATION_LOG.md (RENAMED)
+- ✅ Interactive diagram artifact (NEW — visual)
+
+---
+
+### 🎬 Next Session Priority
+
+1. Start B.4.1: Auditoría Automática (Puppeteer + Claude Haiku setup)
+2. Implement DB migrations (4 new tables)
+3. Build `/admin/proposals-review` (Vic's dashboard)
+4. Email template setup (Resend integration)
+
+**Committed to:** 2026-06-02 (this session)  
+**Ready to:** Start Fase B.4 implementation whenever
+
+---
+
 ## 🔵 SESSION 2026-05-20: Fase B Planning Sprint (Architecture & Documentation)
 
 **Duration:** 4-5 horas (conversación extendida, interrupted 1x)  
@@ -825,3 +957,64 @@ El spec original pedía un PDF auto-descargable que **reemplazaba** el flujo de 
 - Emails salen de `sofia@tech-nova.mx` sin fallback — confirmado en dashboard Resend
 
 #### 7. OP-3 — Gmail Filter (instrucciones entregadas a Vic)
+- Filtro: De `sofia@tech-nova.mx` + asunto contiene `auditoria-web` → label "Auditoría Pendiente"
+- Vic lo configura manualmente en Gmail (~15 min)
+
+#### 8. OP-5 — Template de Diagnóstico Manual ✅
+- Creado `docs/OP-5-AUDIT-TEMPLATE.md`
+- Checklist 17 puntos (Rendimiento, SEO, UX, Conversión, Seguridad)
+- Scoring 0-100 con 4 categorías
+- Template email personalizado para enviar al cliente
+- 3 ejemplos: score 32 (Wix), 58 (agencia), 81 (empresa consolidada)
+- Gotchas operativos: follow-up 5 días, score <30, score >80
+- Decisión D-028: .md en repo (no Google Doc)
+
+### Commits de esta sesión
+- `711b675` merge: dashboards from angry-tharp
+- `498d525` chore: doc rules in CLAUDE.md
+- `108f974` feat: Sofia welcome email for /contacto
+- `85a27ba` docs: OP-2 resolved
+- `036d2a3` docs(op-5): audit template + D-028
+
+### Estado Final Pendientes Operativos
+- OP-1 ✅ Email /contacto resuelto
+- OP-2 ✅ Dominio Resend ya estaba verificado
+- OP-3 ✅ Instrucciones entregadas a Vic
+- OP-4 🟡 Stripe live mode — bloqueado en KYC de Stripe
+- OP-5 ✅ Template diagnóstico `docs/OP-5-AUDIT-TEMPLATE.md`
+
+**Fase A: 100% completa. Operaciones listas. Próximo: Fase B.**
+
+---
+
+## 🟢 SESSION 2026-06-03: B.4.1 — Auditoría Automática (Puppeteer + Claude Haiku)
+
+**Quién:** Claude Code Agent  
+**Duración:** 1 sesión  
+**Estado final:** ✅ Completado
+
+### Qué se hizo
+
+Implementación completa del sistema de auditoría automática de sitios web (Stage 3 del COMMERCIAL_FLOW_v2).
+
+**Entregables entregados:**
+1. `src/lib/jobs/audit-website.ts` — función `auditWebsite(leadId, websiteUrl)` con Puppeteer + Claude Haiku
+2. `src/lib/prompts/audit-website.prompt.ts` — prompt estructurado para 17-puntos, score 0-100
+3. `src/db/schema.ts` — tabla `audits` agregada (uuid PK, FK a leads, findings JSON, etc.)
+4. `src/app/api/audits/create/route.ts` — endpoint POST `/api/audits/create` (fire-and-forget)
+5. `src/app/api/leads/route.ts` — trigger background job cuando lead tiene `website_url`
+6. `src/lib/emails/auditCompleteNotification.ts` — email de notificación a Vic con score visual
+
+**Dependencias instaladas:** `puppeteer`, `@anthropic-ai/sdk`
+
+**Migración BD:** tabla `audits` creada en Neon Postgres via `drizzle-kit push`
+
+### Decisiones técnicas
+
+- `leads.id` es `serial` (integer), no UUID — la tabla audits usa `integer` FK, no UUID
+- Lighthouse scores marcados como `null` (no se corre Lighthouse CLI por serverless constraints; Claude infiere performance desde `loadTimeMs` y Core Web Vitals)
+- Background job: fire-and-forget en ambos endpoints (leads y audits/create)
+- Puppeteer: dynamic import para evitar problemas de bundling en serverless
+
+### Próximo paso
+B.4.2 — Propuestas IA automáticas (Stage 4 COMMERCIAL_FLOW)

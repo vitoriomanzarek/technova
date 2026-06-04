@@ -1,4 +1,4 @@
-import { pgTable, serial, text, varchar, timestamp, json, numeric, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, uuid, text, varchar, timestamp, json, numeric, integer } from "drizzle-orm/pg-core";
 
 export const services = pgTable('services', {
   id: serial('id').primaryKey(),
@@ -18,6 +18,21 @@ export const leads = pgTable('leads', {
   website_url: text('website_url'),
   project_type: varchar('project_type', { length: 255 }),
   created_at: timestamp('created_at').defaultNow(),
+});
+
+export const audits = pgTable('audits', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  lead_id: integer('lead_id').notNull().references(() => leads.id),
+  site_url: text('site_url').notNull(),
+  score: integer('score').notNull(),
+  findings: json('findings').notNull().$type<object[]>(),
+  summary: text('summary').notNull(),
+  priority_areas: json('priority_areas').notNull().$type<string[]>(),
+  extracted_data: json('extracted_data'),
+  status: varchar('status', { length: 32 }).notNull().default('completed'),
+  error_message: text('error_message'),
+  created_at: timestamp('created_at').defaultNow(),
+  updated_at: timestamp('updated_at').defaultNow(),
 });
 
 // Stripe Checkout orders. status flow: pending → paid | expired | refunded | disputed.

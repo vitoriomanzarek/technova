@@ -6,6 +6,7 @@ import { leads } from '@/db/schema';
 import { welcomeAuditEmail } from '@/lib/emails/leadAuditWelcome';
 import { welcomeContactEmail } from '@/lib/emails/leadContactWelcome';
 import { newLeadNotificationEmail } from '@/lib/emails/newLeadNotification';
+import { auditWebsite } from '@/lib/jobs/audit-website';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -40,14 +41,22 @@ export async function POST(request: Request) {
     const { email, name, phone, project_type, message, website_url } = parsed.data;
 
     // 1) Persistir el lead. Si falla esto, devolvemos 500 — el cliente debe reintentar.
-    await db.insert(leads).values({
+    const [newLead] = await db.insert(leads).values({
       email,
       name:         name         ?? 'Anónimo',
       phone:        phone        ?? null,
       project_type: project_type ?? null,
       message:      message      ?? null,
       website_url:  website_url  ?? null,
-    });
+    }).returning();
+
+    // 1b) Trigger background audit if the lead provided a website URL.
+    //     Runs for any project type that implies an existing site to audit.
+    if (website_url && newLead) {
+      auditWebsite(newLead.id, website_url).catch(err =>
+        console.error(`[audit] async job failed for lead ${newLead.id}:`, err)
+      );
+    }
 
     // 2) Emails en paralelo — ninguno bloquea la respuesta si falla.
     //    El lead ya está guardado; perder un email es recuperable.

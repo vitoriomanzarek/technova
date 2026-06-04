@@ -408,9 +408,16 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 ### B.4 COMMERCIAL FLOW (CRÍTICO — Foundation para todo lo demás)
 
-**Documentación:** `COMMERCIAL_FLOW.md`  
+**Documentación:** `COMMERCIAL_FLOW_v2_FINAL.md` (validado con Vic)  
 **Priority:** 🔴 CRÍTICA — Sin esto, nada funciona  
-**Contexto:** Define el flujo **completo** desde que un lead entra hasta que paga y comienza el onboarding. Es la "espina dorsal" operativa.
+**Contexto:** Define el flujo **completo** desde que un lead entra (3 entry points) hasta que paga y comienza onboarding. 9 stages, multi-canal, automático + manual intervention.
+
+**Key decisions:**
+- 3 Entry Points: LeadMagnet (COLD) + /contacto (WARM) + /cotizador (HOT)
+- Precios FIJOS (catalog.ts modular, sin variación por tipo)
+- Contrato local + pago 50%+50% default
+- Calendly Pro para scheduling (MVP)
+- Email sequences automáticas (5 secuencias diferentes)
 
 #### B.4.1 Auditoría Automática (IA + Puppeteer) 🔴
 **Status:** 🔴 NO INICIADO  
@@ -462,4 +469,240 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 #### B.4.4 Envío de Propuesta a Cliente 🔴
 **Status:** 🔴 NO INICIADO  
-**Pri
+**Priority:** 🔴 CRÍTICA
+
+- [ ] Email con propuesta PDF (generado desde JSON)
+- [ ] Landing privado `/propuesta/{uuid}`
+- [ ] Cliente ve propuesta, botón "Ir a checkout"
+- [ ] Fecha de expiración (7 días)
+- [ ] Tabla `propuesta_emails` para tracking
+
+**Timeline:** Semana 3 de Fase B.4
+
+---
+
+#### B.4.5 Ecommerce Dinámico (Cliente elige módulos) 🔴
+**Status:** 🔴 NO INICIADO  
+**Priority:** 🔴 CRÍTICA
+
+- [ ] Página `/checkout/{proposal_uuid}`
+- [ ] Módulos propuestos (preseleccionados)
+- [ ] Cliente puede QUITAR módulos (precio ↓)
+- [ ] Cliente puede AGREGAR módulos a la carte (precio ↑)
+- [ ] Precio recalcula en vivo
+- [ ] Timeline estimado se actualiza
+- [ ] Carrito JSON guardado en DB
+
+**Timeline:** Semana 3-4 de Fase B.4
+
+---
+
+#### B.4.6 Integración Stripe (Pago) 🔴
+**Status:** 🔴 PENDIENTE (Stripe en test mode, switch a live)  
+**Priority:** 🔴 CRÍTICA
+
+- [ ] Crear Payment Intent desde carrito
+- [ ] Stripe checkout embed en `/checkout/{uuid}`
+- [ ] Webhook `/api/webhooks/stripe` — confirma pago
+- [ ] Crear proyecto en tabla `projects` cuando pago confirma
+- [ ] Email a cliente: "¡Bienvenido! Tu proyecto inicia el..."
+- [ ] Email a Vic: "Nuevo cliente, inicia mañana"
+
+**Timeline:** Semana 4 de Fase B.4
+
+---
+
+#### B.4.7 Onboarding Cliente 🔴
+**Status:** 🔴 NO INICIADO  
+**Priority:** 🟡 MEDIA
+
+- [ ] Dashboard cliente `/cliente/dashboard`
+- [ ] Resumen proyecto, roadmap 4 semanas, documentos
+- [ ] Link a Figma, repo, assets
+- [ ] Booking call (Calendly embed)
+- [ ] Actualizar DB `projects.status` → "onboarding_iniciado"
+
+**Timeline:** Semana 4 de Fase B.4
+
+---
+
+#### B.4.8 Lead Management & Tracking 🔴
+**Status:** 🔴 NO INICIADO  
+**Priority:** 🟡 MEDIA
+
+- [ ] Lead lifecycle states (nueva → capturada → propuesta_generada → propuesta_revisada → propuesta_enviada → cliente_viendo → en_checkout → pagada)
+- [ ] Tabla `leads` actualizada con estados
+- [ ] Email automáticos según estado (workflows)
+- [ ] Admin dashboard `/admin/lead-management`
+- [ ] Tracking: tiempo de propuesta → tiempo de decisión
+
+**Timeline:** Semana 2-4 de Fase B.4
+
+---
+
+---
+
+### B.5 DASHBOARD ADMIN INTERNO & AUTONOMÍA
+
+**Documentación:** `AUTONOMOUS_BACKLOG_MANAGEMENT_PLAN.md`  
+**Agente:** BACKLOG_MANAGER_AGENT (corre automáticamente)
+
+#### B.5.1 Dashboard para Vic 🔴
+**Status:** 🔴 NO INICIADO  
+**Priority:** 🟡 MEDIA (implementar después de B.4.3 estar listo)
+
+- [ ] Página `/admin/project-status` (mejorada)
+- [ ] Muestra: propuestas pendientes, conversión rate, revenue
+- [ ] Gráficos: visitantes/día, leads/semana, ingresos
+- [ ] Botones quick-action
+
+**Timeline:** Semana 5 de Fase B
+
+---
+
+#### B.5.2 Agent Autónomo de Backlog 🔴
+**Status:** 🔴 NO INICIADO  
+**Priority:** 🟠 BAJA (nice to have, implementar al final)
+
+- [ ] Agent que lee BITACORA.md + BACKLOG_MASTER.md diariamente
+- [ ] Genera reportes automáticos
+- [ ] Detecta riesgos, sugiere reprioritización
+- [ ] Envía Slack status message diarios a Vic
+
+**Timeline:** Semana 7-8 de Fase B
+
+---
+
+---
+
+### B.6 CHECKLIST FASE B COMPLETA
+
+**Documentación:** Todos los items arriba → refiere a KICKOFF docs
+
+- [ ] **B.1 Credibilidad visual:** portfolio, servicios, equipo, testimoniales (IMAGERY_AGENT_KICKOFF.md)
+- [ ] **B.2 Marketing Funnel:** Blog live 6-12 posts + Google/Meta/LinkedIn Ads + Email sequences (MARKETING_FUNNEL_AGENT_KICKOFF.md)
+- [ ] **B.3 NOVA AI:** Chat interface + auto-qualification + propuestas automáticas (NOVA_AI_REPLANNING.md)
+- [ ] **B.4 Commercial Flow:** Lead → Auditoría IA → Propuesta IA → Vic revisa → Cliente → Ecommerce → Stripe → Onboarding (COMMERCIAL_FLOW.md)
+- [ ] **B.5 Dashboard & Autonomía:** Panel Vic + Agent autónomo (AUTONOMOUS_BACKLOG_MANAGEMENT_PLAN.md)
+
+**Métricas objetivo Fase B:**
+- 500+ monthly visitors
+- 30-50 monthly leads
+- 5-10 customers acquired (conversión rate >20%)
+- NOVA AI conversion rate >30%
+- Blog getting organic traffic (100+ visits from Google/mes)
+
+**Timeline total Fase B:** 8-10 semanas (Jul 1 – Sep 30, 2026)
+
+---
+
+## 🟠 FASE C: POLISH & DEVOPS
+**Status:** 🟠 SCHEDULED (Oct – Nov 2026)  
+**Success Metric:** Lighthouse >90, CI/CD automatizado, 99.9% uptime
+
+### C.1 Librería de Componentes
+- [ ] Auditar componentes existentes
+- [ ] Estandarizar nombres
+- [ ] Storybook (documentación de componentes)
+- [ ] UI kit Figma
+
+### C.2 CI/CD Pipeline
+- [ ] GitHub Actions workflows (lint, build, test, deploy)
+- [ ] Husky + lint-staged pre-commit hooks
+- [ ] Automated performance checks post-deploy
+
+### C.3 Monitoring & Observability
+- [ ] **Sentry** — error tracking en producción (mayor gap actual)
+- [ ] Uptime monitoring
+- [ ] Alertas Slack
+- [ ] PostHog — comportamiento de usuario + funnel NOVA AI
+
+### C.4 Performance Optimization
+- [ ] next/image en todas las imágenes
+- [ ] Code splitting + lazy loading
+- [ ] Database query optimization
+- [ ] Lighthouse score >90
+
+### C.5 SEO Final Pass
+- [x] Sitemap.xml (18 URLs) ✅ ya hecho
+- [x] GSC conectado ✅ ya hecho
+- [ ] Schema markup (LocalBusiness, Organization, Product)
+- [ ] robots.txt
+- [ ] Alt text en todas las imágenes
+- [ ] Internal linking strategy
+- [ ] Core Web Vitals optimization
+
+### C.6 Security Hardening
+- [x] HTTPS/SSL ✅ Vercel
+- [x] Env vars seguros ✅ rotados y en Vercel
+- [x] Rate limiting ✅ Upstash
+- [x] Security headers ✅ next.config.ts
+- [x] Input validation ✅ Zod
+- [ ] CSP (Content Security Policy) — pendiente por scripts de terceros
+- [ ] CSRF protection review
+
+### C.7 Documentación
+- [ ] Guía de deployment
+- [ ] API documentation
+- [ ] Runbook de tareas comunes
+
+---
+
+## 🟡 FUTURE FEATURES (Q1 2027+)
+
+```
+Q1 2027:
+├── Customer Dashboard (tracking de proyectos)
+├── Payment Plans (pagos flexibles)
+├── Referral Program
+└── Knowledge Base / Support Portal
+
+Q2 2027:
+├── Video testimonials (auto-transcripción)
+├── Webinar system
+├── Advanced analytics (predictive)
+└── Customer Portal (archivos, actualizaciones)
+
+Q3 2027:
+├── App móvil (iOS/Android)
+├── NOVA AI multimodal (voz/video)
+├── AI content generation (blog, ads)
+└── Automated project scheduling
+```
+
+---
+
+## 📈 OKRs por Fase
+
+### Fase A 🎯 ✅ COMPLETADA
+- [x] Sitio live y funcional
+- [x] Leads capturándose en DB
+- [x] Emails funcionando (Sofia persona)
+- [x] Pagos en test mode (Stripe)
+- [x] Analytics activos (GA4 + Meta Pixel)
+
+### Fase B 🎯
+- [ ] 500+ monthly visitors
+- [ ] 30-50 monthly leads
+- [ ] 5-10 customers acquired
+- [ ] NOVA AI conversion rate >30%
+- [ ] Blog getting organic traffic
+
+### Fase C 🎯
+- [ ] Lighthouse score >90
+- [ ] Deployment automated
+- [ ] Error rate <0.1%
+- [ ] MTTR <30 min
+- [ ] 99.9% uptime
+
+### Overall (End of 2026) 🎯
+- [ ] Established credibility ($20K+/month MRR)
+- [ ] Repeatable customer acquisition
+- [ ] Automated operations
+- [ ] Ready for scaling
+
+---
+
+**Preparado por:** Claude (Arquitecto)  
+**Para:** Vic (Fundador/CEO)  
+**Status:** ✅ MASTER REFERENCE — sincronizado 2026-06-02

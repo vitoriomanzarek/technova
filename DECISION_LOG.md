@@ -1312,4 +1312,14 @@ Para "Auditoría Web Express" se conserva el flujo personalizado de Sofía (D-00
 **Documentación relacionada:**
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Documento maestro
 - [TECHNICAL_ARCHITECTURE.md](./docs/technical/TECHNICAL_ARCHITECTURE.md) - Stack en detalle
-- [LEAD_
+- [LEAD_MANAGEMENT_PLATFORM.md](./LEAD_MANAGEMENT_PLATFORM.md) - Lead HUB arquitectura
+- [BLOG_AUTOMATION_STRATEGY.md](./BLOG_AUTOMATION_STRATEGY.md) - Blog strategy + 90-day calendar
+- [CONTENT_STRATEGY.md](./CONTENT_STRATEGY.md) - SEO + keywords + clusters
+- [Technova.md](./Technova.md) - Plan de negocio
+- [strategy.md](./strategy.md) - Estrategia simplificada
+
+---
+
+**Última actualización:** 2026-05-23  
+**Próxima revisión:** Cuando se tome decisión nueva  
+**Owner:** Vic (Estrategia) + Equipo TechNova
