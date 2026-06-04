@@ -1054,6 +1054,7 @@ Dashboard interno para que Vic revise, apruebe, modifique o rechace propuestas g
 
 ### Commits
 - `0fabf67` feat(b4.2): propuestas IA automáticas (sesión anterior)
+- `5e0089d` feat(b4.3): implement proposals review dashboard for Vic
 
 ---
 
