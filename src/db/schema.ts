@@ -64,8 +64,28 @@ export const proposals = pgTable('proposals', {
   aprobado_at: timestamp('aprobado_at'),
   notas_internas_vic: text('notas_internas_vic'),
 
+  // B.4.4 — client delivery tracking
+  sent_at: timestamp('sent_at'), // when emailed to client
+
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
+});
+
+// B.4.4 — lifecycle events for proposals sent to clients
+export const proposalTracking = pgTable('proposal_tracking', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  proposal_id: uuid('proposal_id').notNull().references(() => proposals.id),
+
+  sent_at: timestamp('sent_at').notNull(),
+  opened_at: timestamp('opened_at'),
+  clicked_at: timestamp('clicked_at'),
+  reminder_sent_at: timestamp('reminder_sent_at'),
+  expired_at: timestamp('expired_at'),
+
+  status: varchar('status', { length: 50 }).notNull().default('sent'),
+  // sent → opened → clicked | expired
+
+  created_at: timestamp('created_at').defaultNow(),
 });
 
 // Stripe Checkout orders. status flow: pending → paid | expired | refunded | disputed.

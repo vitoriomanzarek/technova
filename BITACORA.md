@@ -1017,7 +1017,42 @@ Implementación completa del sistema de auditoría automática de sitios web (St
 - Puppeteer: dynamic import para evitar problemas de bundling en serverless
 
 ### Próximo paso
-B.4.4 — Envío de propuesta al cliente (email + landing `/propuesta/{uuid}`)
+B.4.5 — Ecommerce dinámico y checkout personalizado por propuesta
+
+---
+
+## 🟢 SESSION 2026-06-04 (cont.): B.4.4 — Envío de Propuesta al Cliente
+
+**Quién:** Claude Code Agent  
+**Estado final:** ✅ Completado
+
+### Qué se hizo
+
+Sistema completo de entrega de propuestas a clientes.
+
+**Entregables:**
+1. `src/lib/emails/proposalSentToClient.ts` — email profesional con módulos, precios y CTA
+2. `src/lib/emails/proposalReminderEmail.ts` — recordatorio día 10
+3. `src/lib/emails/proposalExpiredEmail.ts` — aviso de expiración día 14
+4. `src/lib/pdf/generate-proposal-pdf.ts` — PDF vía Puppeteer (`setContent()` + `page.pdf()`)
+5. `src/app/propuesta/[uuid]/page.tsx` — landing pública server component
+6. `src/components/propuesta/ProposalSummary.tsx` — resumen visual: audit, módulos, precios, timeline
+7. `src/components/propuesta/ProposalActions.tsx` — botones: Pagar 50%, PDF, Calendly, contacto
+8. `src/app/api/admin/proposals/[id]/send/route.ts` — POST admin: envía email, crea tracking, status → client_reviewing
+9. `src/app/api/proposals/[uuid]/pdf/route.ts` — GET público: descarga PDF
+10. `src/app/api/cron/proposal-timeout/route.ts` — GET cron: procesa reminders/expirations
+11. `src/lib/jobs/proposal-timeout-job.ts` — lógica de timeout reutilizable
+12. `src/db/schema.ts` — tabla `proposal_tracking` + campo `sent_at` en proposals
+13. `src/components/admin/ProposalDetailPanel.tsx` — botón "Enviar a cliente" para status approved/modified
+
+### Decisiones técnicas
+- PDF: Puppeteer `setContent()` + `page.pdf()` — sin necesidad de servidor corriendo
+- Cron secret: usa `CRON_SECRET` o fallback a `ADMIN_DASHBOARD_TOKEN`
+- Landing page: pública (UUID como token de acceso implícito)
+- opened_at tracking: server component actualiza en background (fire and forget)
+- Expiración: calculada desde `sent_at` o `created_at` si nunca fue enviada
+
+### Commits
 
 ---
 

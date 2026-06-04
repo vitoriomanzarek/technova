@@ -79,7 +79,9 @@ export default function ProposalDetailPanel({ proposalId, onActionDone }: Props)
   const [notes, setNotes] = useState('');
   const [rejectReason, setRejectReason] = useState('presupuesto_bajo');
   const [saving, setSaving] = useState(false);
+  const [sending, setSending] = useState(false);
   const [showFindings, setShowFindings] = useState(false);
+  const [sentOk, setSentOk] = useState(false);
 
   // Load detail when proposalId changes
   if (proposalId !== loadedId && !loadingData) {
@@ -130,6 +132,16 @@ export default function ProposalDetailPanel({ proposalId, onActionDone }: Props)
     setSaving(false);
     setMode('view');
     onActionDone();
+  }
+
+  async function handleSendToClient() {
+    setSending(true);
+    const res = await fetch(`/api/admin/proposals/${data!.id}/send`, { method: 'POST' });
+    setSending(false);
+    if (res.ok) {
+      setSentOk(true);
+      onActionDone();
+    }
   }
 
   async function handleReject() {
@@ -299,6 +311,29 @@ export default function ProposalDetailPanel({ proposalId, onActionDone }: Props)
               ❌ Rechazar
             </button>
           </div>
+        </section>
+      )}
+
+      {/* Send to client — visible when approved or modified */}
+      {(data.status === 'approved' || data.status === 'modified') && (
+        <section className="glass-card p-4">
+          <h3 className="text-xs font-bold uppercase tracking-widest text-green-400 mb-3">📤 Enviar a cliente</h3>
+          {sentOk ? (
+            <p className="text-sm text-green-400">✅ Propuesta enviada al cliente exitosamente.</p>
+          ) : (
+            <>
+              <p className="text-xs text-slate-400 mb-3">
+                Envía un email profesional al lead con el resumen de la propuesta y el link a la landing page.
+              </p>
+              <button
+                onClick={handleSendToClient}
+                disabled={sending}
+                className="w-full rounded-lg bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 disabled:opacity-50 px-4 py-2.5 text-sm font-bold text-white transition-all"
+              >
+                {sending ? 'Enviando…' : '📧 Enviar propuesta al cliente'}
+              </button>
+            </>
+          )}
         </section>
       )}
 

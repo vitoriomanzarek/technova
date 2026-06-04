@@ -469,13 +469,21 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 ---
 
-#### B.4.4 Envío de Propuesta a Cliente 🔴
-**Status:** 🔴 NO INICIADO  
+#### B.4.4 Envío de Propuesta a Cliente ✅
+**Status:** ✅ COMPLETADO (2026-06-04)  
 **Priority:** 🔴 CRÍTICA
 
-- [ ] Email con propuesta PDF (generado desde JSON)
-- [ ] Landing privado `/propuesta/{uuid}`
-- [ ] Cliente ve propuesta, botón "Ir a checkout"
+- [x] Email profesional a cliente con resumen + CTA
+- [x] Landing `/propuesta/{uuid}` con propuesta visual completa
+- [x] PDF descargable (Puppeteer, generado desde datos de propuesta)
+- [x] Botón "Aprobar y pagar 50%" → Stripe checkout
+- [x] Botón "Reservar llamada" → Calendly
+- [x] API `/api/admin/proposals/[id]/send` (admin protected)
+- [x] Tabla `proposal_tracking` en BD + campo `sent_at` en proposals
+- [x] Timeout: reminder día 10, expiración día 14
+- [x] Cron endpoint `/api/cron/proposal-timeout`
+- [x] 3 emails: sent, reminder, expired
+- [x] Botón "Enviar a cliente" en B.4.3 dashboard
 - [ ] Fecha de expiración (7 días)
 - [ ] Tabla `propuesta_emails` para tracking
 
