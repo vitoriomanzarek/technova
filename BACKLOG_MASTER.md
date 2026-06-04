@@ -15,8 +15,8 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 | Fase | Status | Duration | Focus | Progress |
 |------|--------|----------|-------|----------|
 | **A** | ✅ COMPLETADA | May 20 – Jun 2, 2026 | Foundation & Architecture | 100% |
-| **B.4.1-5** | ✅ COMPLETADA | Jun 3, 2026 | Commercial Flow Stage 1-5 | 63% (5/8 completados) |
-| **B.4.6-8** | 🔴 PRÓXIMOS | Jun 3-10, 2026 | Commercial Flow Stage 6-8 | 0% (listos para ejecutar) |
+| **B.4.1-6** | ✅ COMPLETADA | Jun 3, 2026 | Commercial Flow Stage 1-6 | 75% (6/8 completados) |
+| **B.4.7-8** | 🔴 PRÓXIMOS | Jun 3-10, 2026 | Commercial Flow Stage 7-8 | 0% (listos para ejecutar) |
 | **B.1-3, B.5** | 🟠 Scheduled | Jun-Aug 2026 | Imagery, Marketing, NOVA AI, Dashboard | 0% |
 | **C** | 🟠 Scheduled | Oct – Nov 2026 | Polish & DevOps | 0% |
 | **Future** | 🟡 Backlog | Q1 2027+ | Advanced Features | — |
@@ -533,17 +533,26 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 ---
 
-#### B.4.7 Onboarding Cliente 🔴
-**Status:** 🔴 NO INICIADO  
+#### B.4.7 Onboarding Cliente + Dashboard ✅
+**Status:** ✅ COMPLETADO (2026-06-04)  
 **Priority:** 🟡 MEDIA
 
-- [ ] Dashboard cliente `/cliente/dashboard`
-- [ ] Resumen proyecto, roadmap 4 semanas, documentos
-- [ ] Link a Figma, repo, assets
-- [ ] Booking call (Calendly embed)
-- [ ] Actualizar DB `projects.status` → "onboarding_iniciado"
+- [x] Dashboard `/cliente/dashboard` — protegido con token en cookie (90 días)
+- [x] ProjectStatus: badge de estado, barra de progreso, módulos
+- [x] TimelineVisual: fases (Kickoff→Setup→Dev→QA→Deploy→Entrega) calculadas dinámicamente
+- [x] ResourcesList: links a repo, Figma, assets, docs, contrato PDF
+- [x] Booking Kickoff Call (link a Calendly)
+- [x] PaymentSection: estado de pagos + botón pagar 50% restante
+- [x] `client_tokens` table — tokens seguros generados post-pago
+- [x] `GET /api/cliente/project` — datos del proyecto vía token
+- [x] Token generado en webhook post-pago → email con link al dashboard
+- [x] Email `dashboardAccessEmail` con link personalizado al dashboard
+- [x] `secondPaymentReminderEmail` — recordatorio 3 días antes y urgente el día del kickoff
+- [x] `runSecondPaymentJob()` + cron `/api/cron/second-payment-reminder`
+- [x] `/checkout/{uuid}/pay-remaining` — página para segundo pago 50%
+- [x] Middleware extendido: `/cliente/*` protegido por token cookie
 
-**Timeline:** Semana 4 de Fase B.4
+**Timeline:** Semana 2 de Fase B.4 ✅
 
 ---
 

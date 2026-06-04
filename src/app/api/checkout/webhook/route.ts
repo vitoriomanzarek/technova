@@ -5,6 +5,8 @@ import { stripe } from '@/lib/stripe';
 import { db } from '@/db';
 import { orders, proposals, leads, projects, contracts } from '@/db/schema';
 import { projectStartedToClient, projectStartedToVic } from '@/lib/emails/projectStartedNotification';
+import { dashboardAccessEmail } from '@/lib/emails/dashboardAccessEmail';
+import { createClientToken } from '@/lib/client-auth';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -107,6 +109,8 @@ export async function POST(request: Request) {
             if (lead && projectId) {
               const kickoffDate = new Date(now);
               kickoffDate.setDate(now.getDate() + 3);
+              const estimatedCompletion = new Date(kickoffDate);
+              estimatedCompletion.setDate(kickoffDate.getDate() + proposal.timeline_dias);
               const fechaFin = proposal.fecha_entrega_estimada;
               const modulos = (proposal.modulos_seleccionados as Array<{ nombre: string; horas: number }>) ?? [];
 
@@ -127,6 +131,28 @@ export async function POST(request: Request) {
               });
               resend.emails.send({ from: FROM_EMAIL, to: NOTIFY_EMAIL, subject: vicTpl.subject, html: vicTpl.html })
                 .catch(() => {});
+
+              // B.4.7 — generate dashboard access token + send email
+              const orderId = (await db.select({ id: orders.id })
+                .from(orders)
+                .where(eq(orders.stripe_session_id, session.id))
+                .limit(1))[0]?.id;
+
+              if (orderId) {
+                createClientToken(projectId, orderId).then(accessToken => {
+                  const dashTpl = dashboardAccessEmail({
+                    leadName: lead!.name,
+                    empresa,
+                    token: accessToken,
+                    precioTotal,
+                    kickoffDate: kickoffDate.toISOString().split('T')[0],
+                    estimatedCompletion: estimatedCompletion.toISOString().split('T')[0],
+                    modulos,
+                  });
+                  resend.emails.send({ from: FROM_EMAIL, to: lead!.email, subject: dashTpl.subject, html: dashTpl.html })
+                    .catch(() => {});
+                }).catch(e => console.error('[stripe/webhook] dashboard token failed:', e));
+              }
             }
           }
         }

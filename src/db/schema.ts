@@ -119,15 +119,39 @@ export const projects = pgTable('projects', {
 
   status: varchar('status', { length: 50 }).notNull().default('awaiting_kickoff'),
   payment_status: varchar('payment_status', { length: 50 }).notNull().default('half_paid'),
-  // half_paid | fully_paid
+  // half_paid | fully_paid | payment_overdue
 
   kickoff_date: timestamp('kickoff_date'),
   estimated_completion: timestamp('estimated_completion'),
   actual_completion: timestamp('actual_completion'),
   second_payment_due: timestamp('second_payment_due'),
 
+  // B.4.7 — onboarding resources (Vic fills manually in admin)
+  repository_url: varchar('repository_url', { length: 500 }),
+  figma_url: varchar('figma_url', { length: 500 }),
+  assets_url: varchar('assets_url', { length: 500 }),
+  documentation_url: varchar('documentation_url', { length: 500 }),
+
+  kickoff_call_booked_at: timestamp('kickoff_call_booked_at'),
+  kickoff_call_date: timestamp('kickoff_call_date'),
+  client_dashboard_accessed_at: timestamp('client_dashboard_accessed_at'),
+
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
+});
+
+// B.4.7 — secure access tokens for the client dashboard (90-day session tokens)
+export const clientTokens = pgTable('client_tokens', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  project_id: uuid('project_id').notNull().references(() => projects.id),
+  order_id: integer('order_id').references(() => orders.id),
+
+  token: varchar('token', { length: 128 }).notNull().unique(), // crypto.randomUUID() × 2
+  expires_at: timestamp('expires_at').notNull(),               // issued + 90 days
+  last_accessed_at: timestamp('last_accessed_at'),
+  revoked_at: timestamp('revoked_at'),
+
+  created_at: timestamp('created_at').defaultNow(),
 });
 
 // B.4.6 — contract records (PDF generated on demand, implicit sign via checkout)

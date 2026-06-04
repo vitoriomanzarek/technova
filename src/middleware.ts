@@ -65,6 +65,7 @@ function getClientIp(request: NextRequest): string {
  * en vez de dejar pasar — preferimos cerrar las páginas internas por defecto.
  */
 const ADMIN_COOKIE = 'admin_token';
+const CLIENT_TOKEN_COOKIE = 'client_access_token'; // mirrors src/lib/client-auth/constants.ts
 
 function constantTimeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
@@ -129,6 +130,36 @@ export async function middleware(request: NextRequest) {
     return handleAdminAuth(request);
   }
 
+  // B.4.7 — Client dashboard: token via query param → set cookie → redirect
+  if (path.startsWith('/cliente')) {
+    const tokenFromQuery = request.nextUrl.searchParams.get('token');
+    const tokenFromCookie = request.cookies.get(CLIENT_TOKEN_COOKIE)?.value;
+
+    if (tokenFromQuery) {
+      // Set cookie and redirect to clean URL
+      const cleanUrl = request.nextUrl.clone();
+      cleanUrl.searchParams.delete('token');
+      const response = NextResponse.redirect(cleanUrl);
+      response.cookies.set(CLIENT_TOKEN_COOKIE, tokenFromQuery, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 90, // 90 days
+      });
+      return response;
+    }
+
+    if (!tokenFromCookie) {
+      return new NextResponse('Acceso no autorizado. Usa el link de tu email.', {
+        status: 401,
+        headers: { 'content-type': 'text/plain; charset=utf-8' },
+      });
+    }
+
+    return NextResponse.next();
+  }
+
   let limiter: Ratelimit | null = null;
   if (path === '/api/leads') limiter = leadsLimiter;
   else if (path === '/api/checkout') limiter = checkoutLimiter;
@@ -185,5 +216,5 @@ export async function middleware(request: NextRequest) {
 // Matcher restringe el middleware a los endpoints rate-limited + dashboards
 // internos. Otros paths (pages públicas, otros API routes) no pagan overhead.
 export const config = {
-  matcher: ['/api/leads', '/api/checkout', '/admin/:path*', '/internal/:path*', '/api/admin/:path*'],
+  matcher: ['/api/leads', '/api/checkout', '/admin/:path*', '/internal/:path*', '/api/admin/:path*', '/cliente/:path*'],
 };
