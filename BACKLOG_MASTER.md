@@ -452,18 +452,20 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 ---
 
-#### B.4.3 Panel de Revisión para Vic (Dashboard Admin) 🔴
-**Status:** 🔴 NO INICIADO  
+#### B.4.3 Panel de Revisión para Vic (Dashboard Admin) ✅
+**Status:** ✅ COMPLETADO (2026-06-04)  
 **Priority:** 🔴 CRÍTICA
 
-- [ ] Nueva página `/admin/proposals-review`
-- [ ] Muestra: lead info + audit report + propuesta generada
-- [ ] Botones: Aprobar / Modificar / Rechazar
-- [ ] Si modifica: puede quitar/agregar módulos, precio recalcula
-- [ ] Si aprueba: trigger envío a cliente
-- [ ] Tabla de histórico
+- [x] Nueva página `/admin/proposals-review` (client component con dos columnas)
+- [x] Lista con filtros: status, búsqueda por empresa
+- [x] Panel de detalles: lead info + audit report + módulos de propuesta
+- [x] Botones: Aprobar / Modificar / Rechazar
+- [x] ModuleSelector: multi-select con recálculo de precio en vivo
+- [x] 5 endpoints API (/list, /detail, /approve, /modify, /reject)
+- [x] Auth middleware extendido a `/api/admin/*`
+- [x] Email a Vic cuando propuesta aprobada
 
-**Timeline:** Semana 3 de Fase B.4
+**Timeline:** Semana 2 de Fase B.4 ✅
 
 ---
 

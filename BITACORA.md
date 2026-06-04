@@ -1017,7 +1017,43 @@ Implementación completa del sistema de auditoría automática de sitios web (St
 - Puppeteer: dynamic import para evitar problemas de bundling en serverless
 
 ### Próximo paso
-B.4.3 — Panel de revisión para Vic (Dashboard Admin `/admin/proposals-review`)
+B.4.4 — Envío de propuesta al cliente (email + landing `/propuesta/{uuid}`)
+
+---
+
+## 🟢 SESSION 2026-06-04 (cont.): B.4.3 — Dashboard Admin Revisión de Propuestas
+
+**Quién:** Claude Code Agent  
+**Duración:** misma sesión que B.4.2  
+**Estado final:** ✅ Completado
+
+### Qué se hizo
+
+Dashboard interno para que Vic revise, apruebe, modifique o rechace propuestas generadas por IA.
+
+**Entregables:**
+1. `src/app/admin/proposals-review/page.tsx` — página client component con lista + panel de detalle en dos columnas
+2. `src/components/admin/ProposalsList.tsx` — tabla de propuestas con status badges, score color, filtros
+3. `src/components/admin/ProposalDetailPanel.tsx` — panel completo con lead info, audit, módulos, acciones
+4. `src/components/admin/ModuleSelector.tsx` — selector interactivo de módulos con recálculo de precio en vivo
+5. `src/app/api/admin/proposals/route.ts` — GET list con filtro status + búsqueda
+6. `src/app/api/admin/proposals/[id]/route.ts` — GET detalle (lead + audit + propuesta)
+7. `src/app/api/admin/proposals/[id]/approve/route.ts` — PATCH: aprueba + email a Vic
+8. `src/app/api/admin/proposals/[id]/modify/route.ts` — PATCH: recalcula precios desde nuevos módulos
+9. `src/app/api/admin/proposals/[id]/reject/route.ts` — PATCH: marca rechazada con razón
+10. `src/lib/emails/proposalApprovedNotification.ts` — email de confirmación a Vic
+11. `src/middleware.ts` — extendido para proteger `/api/admin/:path*`
+
+### Decisiones técnicas
+
+- Página como client component (todo el dashboard necesita state interactivo)
+- ModuleSelector importa catalog.ts directamente en cliente (datos no sensibles, OK para admin tool)
+- Modify endpoint recalcula subtotal + pm_fee server-side para garantizar consistencia
+- Middleware: `/api/admin/*` protegido con el mismo `handleAdminAuth()` existente
+- Status flow enforced en server: no se puede aprobar una propuesta rechazada
+
+### Commits
+- `0fabf67` feat(b4.2): propuestas IA automáticas (sesión anterior)
 
 ---
 

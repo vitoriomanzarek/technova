@@ -124,8 +124,8 @@ function handleAdminAuth(request: NextRequest): NextResponse {
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  // Gate de dashboards internos antes que cualquier otra cosa.
-  if (path.startsWith('/admin') || path.startsWith('/internal')) {
+  // Gate de dashboards internos y APIs admin antes que cualquier otra cosa.
+  if (path.startsWith('/admin') || path.startsWith('/internal') || path.startsWith('/api/admin')) {
     return handleAdminAuth(request);
   }
 
@@ -185,5 +185,5 @@ export async function middleware(request: NextRequest) {
 // Matcher restringe el middleware a los endpoints rate-limited + dashboards
 // internos. Otros paths (pages públicas, otros API routes) no pagan overhead.
 export const config = {
-  matcher: ['/api/leads', '/api/checkout', '/admin/:path*', '/internal/:path*'],
+  matcher: ['/api/leads', '/api/checkout', '/admin/:path*', '/internal/:path*', '/api/admin/:path*'],
 };
