@@ -93,8 +93,8 @@ export async function POST(
       },
       quantity: 1,
     }],
-    success_url: `${BASE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${BASE_URL}/propuesta/${uuid}`,
+    success_url: `${BASE_URL}/checkout/${uuid}/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${BASE_URL}/checkout/${uuid}`,
     metadata: { proposal_id: uuid, payment_percentage: String(payment_percentage) },
   });
 

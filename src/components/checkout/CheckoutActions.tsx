@@ -132,6 +132,16 @@ export default function CheckoutActions({
         </div>
       )}
 
+      {/* Contract download */}
+      <a
+        href={`/api/checkout/${proposalId}/contract`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 w-full rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-2.5 font-medium text-slate-400 text-sm transition-colors"
+      >
+        📄 Revisar contrato antes de pagar
+      </a>
+
       {/* Save locally */}
       <button
         onClick={handleSave}

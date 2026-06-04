@@ -3,8 +3,8 @@ import type Stripe from 'stripe';
 import { eq } from 'drizzle-orm';
 import { stripe } from '@/lib/stripe';
 import { db } from '@/db';
-import { orders, proposals, leads } from '@/db/schema';
-import { paymentConfirmedEmail } from '@/lib/emails/paymentConfirmedEmail';
+import { orders, proposals, leads, projects, contracts } from '@/db/schema';
+import { projectStartedToClient, projectStartedToVic } from '@/lib/emails/projectStartedNotification';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 
         console.log(`[stripe] Order marked paid: session=${session.id} pi=${piId}`);
 
-        // B.4.5 — if linked to a proposal, update proposal status and notify
+        // B.4.5/B.4.6 — if linked to a proposal, create project + notify
         const proposalId = session.metadata?.proposal_id;
         const paymentPct = Number(session.metadata?.payment_percentage ?? 50);
         if (proposalId) {
@@ -61,33 +61,72 @@ export async function POST(request: Request) {
 
           if (propRows.length) {
             const { proposal, lead } = propRows[0];
+            const now = new Date();
+            const montoPagado = Math.round((session.amount_total ?? 0) / 100);
+            const precioTotal = Math.round(proposal.precio_total / 100);
+            const empresa = lead?.empresa ?? lead?.name ?? 'Cliente';
+
+            // Update proposal status (idempotent)
             await db.update(proposals)
-              .set({ status: 'client_confirmed', updated_at: new Date() })
+              .set({ status: 'client_confirmed', updated_at: now })
               .where(eq(proposals.id, proposalId));
 
-            // Email to client
-            if (lead) {
-              const montoPagado = Math.round((session.amount_total ?? 0) / 100);
-              const tpl = paymentConfirmedEmail({
-                leadName: lead.name,
-                empresa: lead.empresa ?? lead.name,
-                montoPagado,
-                precioTotal: Math.round(proposal.precio_total / 100),
-                timelineDias: proposal.timeline_dias,
-                fechaEntrega: proposal.fecha_entrega_estimada,
-                proposalId,
+            // B.4.6 — create project (idempotent: check first)
+            const existingProject = await db.select({ id: projects.id })
+              .from(projects).where(eq(projects.proposal_id, proposalId)).limit(1);
+
+            let projectId = existingProject[0]?.id;
+            if (!projectId) {
+              const kickoffDate = new Date(now);
+              kickoffDate.setDate(now.getDate() + 3);
+              const estimatedCompletion = new Date(kickoffDate);
+              estimatedCompletion.setDate(kickoffDate.getDate() + proposal.timeline_dias);
+
+              const [insertedProject] = await db.insert(projects).values({
+                proposal_id: proposalId,
+                empresa,
+                email_cliente: lead?.email ?? '',
+                modules_json: proposal.modulos_seleccionados,
+                total_amount: proposal.precio_total,
+                status: 'awaiting_kickoff',
+                payment_status: paymentPct === 100 ? 'fully_paid' : 'half_paid',
+                kickoff_date: kickoffDate,
+                estimated_completion: estimatedCompletion,
+              }).returning({ id: projects.id });
+              projectId = insertedProject?.id;
+
+              // Record contract (implicit signature via payment)
+              db.insert(contracts).values({
+                proposal_id: proposalId,
+                signed_by: lead?.email,
+                signed_at: now,
+              }).catch(() => {});
+            }
+
+            // Rich emails to client + Vic (B.4.6)
+            if (lead && projectId) {
+              const kickoffDate = new Date(now);
+              kickoffDate.setDate(now.getDate() + 3);
+              const fechaFin = proposal.fecha_entrega_estimada;
+              const modulos = (proposal.modulos_seleccionados as Array<{ nombre: string; horas: number }>) ?? [];
+
+              const clientTpl = projectStartedToClient({
+                leadName: lead.name, empresa, leadEmail: lead.email,
+                montoPagado, precioTotal, timelineDias: proposal.timeline_dias,
+                fechaInicio: kickoffDate.toISOString().split('T')[0],
+                fechaFin, modulos, proposalId, projectId,
               });
-              resend.emails
-                .send({ from: FROM_EMAIL, to: lead.email, subject: tpl.subject, html: tpl.html })
+              resend.emails.send({ from: FROM_EMAIL, to: lead.email, subject: clientTpl.subject, html: clientTpl.html })
                 .catch(e => console.error('[stripe/webhook] client email failed:', e));
 
-              // Notify Vic
-              resend.emails.send({
-                from: FROM_EMAIL,
-                to: NOTIFY_EMAIL,
-                subject: `💰 Nuevo pago recibido — ${lead.empresa ?? lead.name} ($${montoPagado.toLocaleString('es-MX')} MXN)`,
-                html: `<p><strong>${lead.empresa ?? lead.name}</strong> pagó $${montoPagado.toLocaleString('es-MX')} MXN (${paymentPct}% inicial). Propuesta ID: ${proposalId}</p><p>Contacta al cliente para el kickoff call.</p>`,
-              }).catch(() => {});
+              const vicTpl = projectStartedToVic({
+                leadName: lead.name, empresa, leadEmail: lead.email,
+                montoPagado, precioTotal, timelineDias: proposal.timeline_dias,
+                fechaInicio: kickoffDate.toISOString().split('T')[0],
+                fechaFin, modulos, proposalId, projectId,
+              });
+              resend.emails.send({ from: FROM_EMAIL, to: NOTIFY_EMAIL, subject: vicTpl.subject, html: vicTpl.html })
+                .catch(() => {});
             }
           }
         }

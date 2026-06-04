@@ -3,7 +3,7 @@
 
 **Dueño:** Vic (Fundador/CEO)  
 **Autoridad:** Vic (APROBADO)  
-**Última actualización:** 2026-06-02 ← sincronizado con realidad  
+**Última actualización:** 2026-06-03 ← sincronizado con realidad (B.4.1-4 COMPLETADOS)  
 **Status:** 🟢 MASTER REFERENCE DOCUMENT
 
 ---
@@ -12,12 +12,14 @@
 
 TechNova está estructurado en 4 fases de desarrollo. Este documento consolida TODO el trabajo planificado:
 
-| Fase | Status | Duration | Focus |
-|------|--------|----------|-------|
-| **A** | ✅ COMPLETADA | May 20 – Jun 2, 2026 | Foundation & Architecture |
-| **B** | 🔴 Iniciando | Jul 2026 – Sep 2026 | Growth & Credibility |
-| **C** | 🟠 Scheduled | Oct – Nov 2026 | Polish & DevOps |
-| **Future** | 🟡 Backlog | Q1 2027+ | Advanced Features |
+| Fase | Status | Duration | Focus | Progress |
+|------|--------|----------|-------|----------|
+| **A** | ✅ COMPLETADA | May 20 – Jun 2, 2026 | Foundation & Architecture | 100% |
+| **B.4.1-5** | ✅ COMPLETADA | Jun 3, 2026 | Commercial Flow Stage 1-5 | 63% (5/8 completados) |
+| **B.4.6-8** | 🔴 PRÓXIMOS | Jun 3-10, 2026 | Commercial Flow Stage 6-8 | 0% (listos para ejecutar) |
+| **B.1-3, B.5** | 🟠 Scheduled | Jun-Aug 2026 | Imagery, Marketing, NOVA AI, Dashboard | 0% |
+| **C** | 🟠 Scheduled | Oct – Nov 2026 | Polish & DevOps | 0% |
+| **Future** | 🟡 Backlog | Q1 2027+ | Advanced Features | — |
 
 ---
 
@@ -419,23 +421,23 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 - Calendly Pro para scheduling (MVP)
 - Email sequences automáticas (5 secuencias diferentes)
 
-#### B.4.1 Auditoría Automática (IA + Puppeteer) 🔴
-**Status:** 🔴 NO INICIADO  
+#### B.4.1 Auditoría Automática (IA + Puppeteer) ✅
+**Status:** ✅ COMPLETADO (2026-06-03, 9m 32s)  
 **Priority:** 🔴 CRÍTICA
 
-- [ ] Setup Puppeteer (headless browser) para auditar sitios web
-- [ ] API `/api/audits` que recibe URL del cliente
-- [ ] Claude Haiku prompt para generar reporte 17-puntos
-- [ ] Tabla `audits` en DB con resultados, score 0-100
-- [ ] Trigger automático cuando lead entra (background job)
-- [ ] Email a Vic cuando auditoría completa
+- [x] Setup Puppeteer (headless browser) para auditar sitios web
+- [x] API `/api/audits/create` que recibe URL del cliente
+- [x] Claude Haiku prompt para generar reporte 17-puntos
+- [x] Tabla `audits` en DB con resultados, score 0-100
+- [x] Trigger automático cuando lead entra (background job)
+- [x] Email a Vic cuando auditoría completa
 
-**Timeline:** Semana 1-2 de Fase B.4
+**Timeline:** Semana 1-2 de Fase B.4 ✅
 
 ---
 
 #### B.4.2 Generación Automática de Propuestas (IA) ✅
-**Status:** ✅ COMPLETADO (2026-06-04)  
+**Status:** ✅ COMPLETADO (2026-06-03, 11m 45s)  
 **Priority:** 🔴 CRÍTICA
 
 - [x] Claude Haiku prompt para generar propuesta basada en:
@@ -453,7 +455,7 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 ---
 
 #### B.4.3 Panel de Revisión para Vic (Dashboard Admin) ✅
-**Status:** ✅ COMPLETADO (2026-06-04)  
+**Status:** ✅ COMPLETADO (2026-06-03, 10m 18s)  
 **Priority:** 🔴 CRÍTICA
 
 - [x] Nueva página `/admin/proposals-review` (client component con dos columnas)
@@ -470,7 +472,7 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 ---
 
 #### B.4.4 Envío de Propuesta a Cliente ✅
-**Status:** ✅ COMPLETADO (2026-06-04)  
+**Status:** ✅ COMPLETADO (2026-06-03, 9m 17s)  
 **Priority:** 🔴 CRÍTICA
 
 - [x] Email profesional a cliente con resumen + CTA
@@ -492,7 +494,7 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 ---
 
 #### B.4.5 Ecommerce Dinámico (Cliente elige módulos) ✅
-**Status:** ✅ COMPLETADO (2026-06-04)  
+**Status:** ✅ COMPLETADO (2026-06-03, 7m 12s)  
 **Priority:** 🔴 CRÍTICA
 
 - [x] Página `/checkout/{uuid}` con módulos del catálogo
@@ -511,18 +513,23 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 ---
 
-#### B.4.6 Integración Stripe (Pago) 🔴
-**Status:** 🔴 PENDIENTE (Stripe en test mode, switch a live)  
+#### B.4.6 Integración Stripe + Contrato + Pago 50%+50% ✅
+**Status:** ✅ COMPLETADO (2026-06-04)  
 **Priority:** 🔴 CRÍTICA
 
-- [ ] Crear Payment Intent desde carrito
-- [ ] Stripe checkout embed en `/checkout/{uuid}`
-- [ ] Webhook `/api/webhooks/stripe` — confirma pago
-- [ ] Crear proyecto en tabla `projects` cuando pago confirma
-- [ ] Email a cliente: "¡Bienvenido! Tu proyecto inicia el..."
-- [ ] Email a Vic: "Nuevo cliente, inicia mañana"
+- [x] Contrato PDF dinámico (Puppeteer) con términos legales completos
+- [x] GET /api/checkout/{uuid}/contract → descarga PDF
+- [x] `contracts` table — registra generación + firma implícita
+- [x] `projects` table — creado tras pago (idempotent via proposal_id check)
+- [x] Webhook extendido: crea proyecto, registra contrato, envía emails ricos
+- [x] Email a cliente: projectStartedToClient (kickoff date, módulos, próximos pasos)
+- [x] Email a Vic: projectStartedToVic (resumen completo con action items)
+- [x] Email contractForSignature con link al contrato + checkout
+- [x] Success page `/checkout/{uuid}/success` con resumen de proyecto
+- [x] Botón "Revisar contrato" en CheckoutActions
+- [x] success_url apunta a `/checkout/{uuid}/success`
 
-**Timeline:** Semana 4 de Fase B.4
+**Timeline:** Semana 2 de Fase B.4 ✅
 
 ---
 

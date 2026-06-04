@@ -104,3 +104,40 @@ export const orders = pgTable('orders', {
   created_at: timestamp('created_at').defaultNow(),
   paid_at: timestamp('paid_at'),
 });
+
+// B.4.6 — projects created after first payment. status: awaiting_kickoff → in_progress → delivered → completed | on_hold | cancelled
+export const projects = pgTable('projects', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  proposal_id: uuid('proposal_id').notNull().references(() => proposals.id),
+  order_id: integer('order_id').references(() => orders.id),
+
+  empresa: varchar('empresa', { length: 255 }).notNull(),
+  email_cliente: varchar('email_cliente', { length: 255 }).notNull(),
+
+  modules_json: json('modules_json').notNull().$type<object[]>(),
+  total_amount: integer('total_amount').notNull(), // MXN cents
+
+  status: varchar('status', { length: 50 }).notNull().default('awaiting_kickoff'),
+  payment_status: varchar('payment_status', { length: 50 }).notNull().default('half_paid'),
+  // half_paid | fully_paid
+
+  kickoff_date: timestamp('kickoff_date'),
+  estimated_completion: timestamp('estimated_completion'),
+  actual_completion: timestamp('actual_completion'),
+  second_payment_due: timestamp('second_payment_due'),
+
+  created_at: timestamp('created_at').defaultNow(),
+  updated_at: timestamp('updated_at').defaultNow(),
+});
+
+// B.4.6 — contract records (PDF generated on demand, implicit sign via checkout)
+export const contracts = pgTable('contracts', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  proposal_id: uuid('proposal_id').notNull().references(() => proposals.id),
+
+  generated_at: timestamp('generated_at').defaultNow(),
+  signed_by: varchar('signed_by', { length: 255 }), // client email
+  signed_at: timestamp('signed_at'),
+
+  created_at: timestamp('created_at').defaultNow(),
+});
