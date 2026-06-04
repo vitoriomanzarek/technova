@@ -1052,4 +1052,4 @@ Implementación completa del sistema de generación automática de propuestas (S
 - Retry: 2 intentos a Claude Haiku antes de abandonar silenciosamente
 
 ### Commits
-Pendiente commit final
+- `0fabf67` feat(b4.2): implement automatic AI proposal generation system
