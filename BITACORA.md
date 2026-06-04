@@ -1219,3 +1219,58 @@ El spec original pedía un PDF auto-descargable que **reemplazaba** el flujo de 
 ---
 
 **Próximo:** B.4.8 — CRM + Email Workflows Automáticos (FINAL)
+
+---
+
+## 🚀 DEPLOYMENT 2026-06-04: FASE B.4 → PRODUCCIÓN
+
+**Quién:** Claude Code Agent  
+**Estado:** ✅ Push a origin/main completado — Vercel auto-deploy en marcha
+
+### Acciones realizadas
+
+1. **72 unit tests escritos y ejecutados** — 0 fallos
+   - Vitest instalado y configurado
+   - 7 suites: calculate-proposal, catalog, score-lead, schema, emails, payment jobs
+   
+2. **Git push a origin/main** — commit `4c27253`
+   - Vercel detecta el push automáticamente
+   - Build time esperado: 3-5 minutos
+
+3. **Stripe CLI instalado** — `stripe version 1.42.1`
+   - Ubicación: `%USERPROFILE%\.local\bin\stripe.exe`
+   - PATH actualizado para el usuario
+
+4. **Smoke test**: `tech-nova.mx` responde 200 ✅
+
+### Env Vars NUEVAS necesarias en Vercel
+
+Las siguientes variables son nuevas en B.4 — tienen fallbacks funcionales pero deben configurarse en producción:
+
+| Variable | Usado en | Fallback |
+|----------|---------|---------|
+| `NEXT_PUBLIC_SITE_URL` | Emails B.4 | `https://tech-nova.mx` |
+| `CRON_SECRET` | Cron endpoints | `ADMIN_DASHBOARD_TOKEN` |
+| `CALENDLY_URL` | Dashboard cliente | placeholder URL |
+| `RESEND_WEBHOOK_SECRET` | Webhook Resend | Sin validación |
+
+### Cómo usar Stripe CLI para webhooks locales
+
+```bash
+# 1. Login
+stripe login
+
+# 2. Forward webhooks a tu dev server
+stripe listen --forward-to localhost:3000/api/checkout/webhook
+
+# 3. Copiar el webhook signing secret que aparece
+# → STRIPE_WEBHOOK_SECRET=whsec_...
+
+# 4. Simular pago exitoso
+stripe trigger checkout.session.completed
+```
+
+### Estado
+- `tech-nova.mx`: 200 OK ✅
+- Build Vercel: En progreso (verificar en https://vercel.com/vitoriomanzarek)
+- Commits en main: B.4.1 → B.4.8 + tests ✅
