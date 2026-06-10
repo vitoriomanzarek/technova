@@ -1,6 +1,7 @@
 "use client";
 import { useProjectCalculator } from '@/hooks/useProjectCalculator';
 import { useRouter } from 'next/navigation';
+import { trackEvent } from '@/lib/analytics';
 import StarBackground from '@/components/StarBackground';
 import WizardCard from '@/components/WizardCard';
 import WizardProgress from '@/components/WizardProgress';
@@ -84,21 +85,23 @@ const StartProject = () => {
                     message: data.message,
                 }),
             });
+            trackEvent('form_submit', { form: 'wizard', segment: segment ?? 'unknown' });
         } catch (e) {
             console.error('Error al enviar el lead', e);
+            trackEvent('form_error', { form: 'wizard' });
         }
     };
 
     // ── RENDER STEP ──────────────────────────────
     const renderStep = () => {
         // Step 0: Welcome (igual para todos)
-        if (step === 0) return <StepWelcome onNext={startWizard} />;
+        if (step === 0) return <StepWelcome onNext={() => { trackEvent('wizard_start'); startWizard(); }} />;
 
         // Step 1: Selección de segmento (igual para todos)
         if (step === 1) return (
             <StepSegment
                 selected={segment}
-                onSelect={(val) => setAnswer('segment', val)}
+                onSelect={(val) => { trackEvent('wizard_segment', { segment: val }); setAnswer('segment', val); }}
                 onNext={nextStep}
                 onBack={prevStep}
             />

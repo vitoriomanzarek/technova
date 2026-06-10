@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { Sparkles, Zap, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { trackEvent } from '@/lib/analytics';
 
 const NovaAISection = () => {
     return (
@@ -57,7 +58,7 @@ const NovaAISection = () => {
 
 
                             {/* Central NOVA Orb - Clickeable */}
-                            <Link href="/start-project" className="block">
+                            <Link href="/start-project" className="block" onClick={() => trackEvent('cta_click', { cta: 'nova_orb' })}>
                                 <motion.div
                                     whileHover={{ scale: 1.08 }}
                                     whileTap={{ scale: 0.95 }}
@@ -158,7 +159,7 @@ const NovaAISection = () => {
                                 <p className="text-sm text-gray-400 mb-3 tracking-wider uppercase">Conoce</p>
 
                                 {/* Super Shiny Button */}
-                                <Link href="/start-project">
+                                <Link href="/start-project" onClick={() => trackEvent('cta_click', { cta: 'nova_button' })}>
                                     <motion.div
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}

@@ -1,19 +1,22 @@
 "use client";
 import { Radar, ArrowRight, Rocket, Loader2, Download } from 'lucide-react';
 import { useState } from 'react';
+import { trackEvent } from '@/lib/analytics';
 
 const AUDIT_PDF = '/assets/auditoria-web-express.pdf';
-
-// gtag se inyecta globalmente en layout.tsx (GA4 + GTM).
-declare global {
-    interface Window {
-        gtag?: (...args: unknown[]) => void;
-    }
-}
 
 const LeadMagnetSection = () => {
     const [form, setForm] = useState({ email: '', website_url: '' });
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [started, setStarted] = useState(false);
+
+    // Primera interacción — para medir abandono (form_start sin form_submit)
+    const markStarted = () => {
+        if (!started) {
+            setStarted(true);
+            trackEvent('form_start', { form: 'lead_magnet' });
+        }
+    };
 
     const downloadChecklist = () => {
         const a = document.createElement('a');
@@ -45,12 +48,10 @@ const LeadMagnetSection = () => {
             // Valor inmediato: la checklist se descarga al instante; el
             // diagnóstico personalizado de Sofía llega en 24-48h aparte.
             downloadChecklist();
-            window.gtag?.('event', 'lead_magnet_downloaded', {
-                magnet_type: 'auditoria-web-express',
-                source: 'homepage',
-            });
+            trackEvent('form_submit', { form: 'lead_magnet', magnet_type: 'auditoria-web-express' });
         } catch {
             setStatus('error');
+            trackEvent('form_error', { form: 'lead_magnet' });
         }
     };
 
@@ -119,6 +120,7 @@ const LeadMagnetSection = () => {
                                             placeholder="tu@correo.com"
                                             required
                                             value={form.email}
+                                            onFocus={markStarted}
                                             onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                                             className="w-full bg-dark/50 border border-white/10 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all text-sm"
                                         />
@@ -132,6 +134,7 @@ const LeadMagnetSection = () => {
                                             type="url"
                                             placeholder="https://tu-sitio.com"
                                             value={form.website_url}
+                                            onFocus={markStarted}
                                             onChange={e => setForm(f => ({ ...f, website_url: e.target.value }))}
                                             className="w-full bg-dark/50 border border-white/10 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all text-sm"
                                         />

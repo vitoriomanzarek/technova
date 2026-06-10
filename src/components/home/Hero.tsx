@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import ParticleBackground from './ParticleBackground';
+import { trackEvent } from '@/lib/analytics';
 
 const Hero = () => {
     return (
@@ -37,12 +38,14 @@ const Hero = () => {
                 >
                     <Link
                         href="/start-project"
+                        onClick={() => trackEvent('cta_click', { cta: 'hero_cotizar' })}
                         className="bg-gradient-to-r from-primary to-accent text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-accent/30 hover:shadow-accent/50 hover:scale-105 transition-all text-sm md:text-base tracking-wider"
                     >
                         Cotiza tu proyecto en 2 minutos
                     </Link>
                     <Link
                         href="/servicios"
+                        onClick={() => trackEvent('cta_click', { cta: 'hero_servicios' })}
                         className="border-2 border-highlight text-highlight px-8 py-3 rounded-xl font-bold hover:bg-highlight/10 hover:scale-105 transition-all text-sm md:text-base tracking-wider"
                     >
                         Descubre nuestros servicios

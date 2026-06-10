@@ -1,10 +1,20 @@
 "use client";
 import { Mail, Phone, MapPin, Send, CheckCircle, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import { trackEvent } from '@/lib/analytics';
 
 const Contacto = () => {
     const [form, setForm] = useState({ name: '', email: '', message: '' });
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [started, setStarted] = useState(false);
+
+    // Primera interacción con el form — para medir abandono (form_start sin form_submit)
+    const markStarted = () => {
+        if (!started) {
+            setStarted(true);
+            trackEvent('form_start', { form: 'contacto' });
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,8 +33,10 @@ const Contacto = () => {
             if (!res.ok) throw new Error();
             setStatus('success');
             setForm({ name: '', email: '', message: '' });
+            trackEvent('form_submit', { form: 'contacto' });
         } catch {
             setStatus('error');
+            trackEvent('form_error', { form: 'contacto' });
         }
     };
 
@@ -89,7 +101,7 @@ const Contacto = () => {
                             <p className="text-gray-400 mb-6 text-sm">
                                 Utiliza nuestro cotizador inteligente y descubre el alcance y costo estimado de tu proyecto en minutos.
                             </p>
-                            <a href="/start-project" className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold px-6 py-3 rounded-lg hover:scale-105 transition-all">
+                            <a href="/start-project" onClick={() => trackEvent('cta_click', { cta: 'contacto_cotizador' })} className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold px-6 py-3 rounded-lg hover:scale-105 transition-all">
                                 Ir al Cotizador →
                             </a>
                         </div>
@@ -118,6 +130,7 @@ const Contacto = () => {
                                         placeholder="John Doe"
                                         required
                                         value={form.name}
+                                        onFocus={markStarted}
                                         onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                                         className="w-full bg-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                                     />
@@ -130,6 +143,7 @@ const Contacto = () => {
                                         placeholder="john@ejemplo.com"
                                         required
                                         value={form.email}
+                                        onFocus={markStarted}
                                         onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                                         className="w-full bg-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                                     />
