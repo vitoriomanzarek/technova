@@ -1518,3 +1518,52 @@ Stack traces en producción son legibles. Session Replay activo en errores.
 ### Estado del sistema: 26/27 checkpoints
 
 Solo pendiente: `ANTHROPIC_API_KEY` (NOVA AI) y alertas de Sentry por email.
+
+---
+
+## ✅ SESSION 2026-06-10: B.4.1 Auditoría Automática — Pipeline Completo
+
+**Duration:** ~1 hora
+**Owner:** Claude Code Agent
+**Status:** ✅ COMPLETADO — Auditoría + propuesta generadas automáticamente en producción
+
+### Qué se hizo
+
+**Bugs encontrados y corregidos (3 problemas bloqueantes):**
+
+1. **Puppeteer no corre en Vercel** — `extractSiteData()` usaba Puppeteer/Chrome, que no existe en serverless. Reemplazado con `fetch()` + regex sobre el HTML estático. Mismos 18 data points extraídos.
+
+2. **Fire-and-forget mataba el job** — `auditWebsite()` se llamaba con `.catch()` fire-and-forget. Vercel cierra la función al enviar la respuesta HTTP, matando el proceso. Corregido con `after()` de `next/server` — mantiene la función viva hasta que el job termina.
+
+3. **Modelo Claude deprecado** — `claude-3-5-haiku-20241022` retornaba 404. Actualizado a `claude-haiku-4-5-20251001` en `audit-website.ts` y `generate-proposal.ts`.
+
+### Pipeline verificado en producción
+
+```
+POST /api/leads (website_url)
+  → Lead guardado en DB
+  → after() triggered
+    → fetch(url) + regex extrae 18 data points (138ms load)
+    → claude-haiku-4-5 analiza → score: 72/100
+    → Audit guardado en DB (status: completed)
+    → generateProposal() triggered
+      → claude-haiku-4-5 genera propuesta completa
+      → Proposal guardada (status: pending_vic_review)
+```
+
+### Estado final del sistema: 27/27
+
+**Todos los sistemas operativos en producción:**
+- Leads API: ✅ 200 OK
+- Auditoría automática: ✅ fetch + Claude Haiku 4.5
+- Generación de propuesta: ✅ Claude Haiku 4.5
+- Rate limiting: ✅ Upstash activo
+- Admin dashboard: ✅ 200 OK
+- Sentry: ✅ Source maps, session replay
+- Stripe: ✅ Keys configuradas (test mode)
+- Resend: ✅ Emails enviados
+
+**Pendiente (no bloquea operaciones):**
+- Alertas de Sentry por email → configurar en sentry.io UI
+- Stripe test → live keys cuando vayan a producción real
+- NOVA AI chat (Fase B.3 — Jul-Aug 2026)
