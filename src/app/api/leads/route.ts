@@ -110,7 +110,8 @@ export async function POST(request: Request) {
 
   } catch (error) {
     const msg = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+    const dbUrlPrefix = (process.env.DATABASE_URL ?? '').substring(0, 60);
     console.error('Error capturing lead:', error);
-    return NextResponse.json({ success: false, error: 'Failed to capture lead', _debug: msg }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Failed to capture lead', _debug: msg, _dbPrefix: dbUrlPrefix }, { status: 500 });
   }
 }
