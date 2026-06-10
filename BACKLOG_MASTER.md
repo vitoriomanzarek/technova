@@ -619,7 +619,7 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 Ideas surgidas al construir el Morning Brief. Orden = valor estimado:
 
 - [x] **Microsoft Clarity** ✅ instalado 2026-06-10 (project `x4y36nosox`, directo en layout.tsx) — heatmaps + grabaciones en clarity.microsoft.com
-- [ ] **Eventos custom en CTAs** — trackear: abre form sin enviar, llega a pricing y se va, clicks en CTAs principales. Sin esto, las recomendaciones UX del brief son ciegas al comportamiento pre-lead. (Vercel Analytics custom events)
+- [x] **Eventos custom en CTAs** ✅ 2026-06-10 — `src/lib/analytics.ts` (trackEvent → GA4 + Clarity). Eventos: cta_click (hero, NOVA, contacto), form_start/submit/error (contacto, lead_magnet, wizard), wizard_start/segment. form_start sin form_submit = abandono medible. Nota: se usó GA4+Clarity en vez de Vercel Analytics (custom events requieren plan Pro).
 - [ ] **Brief semanal profundo** (lunes) — tendencias semana vs. semana, conversión por etapa del funnel, no solo snapshot diario. Extiende `daily-digest.ts`.
 - [ ] **UptimeRobot** (gratis) — ping externo cada 5 min con alerta inmediata. Necesario porque el cron corre DENTRO de Vercel: si Vercel cae, el cron cae con él. Alternativa: Sentry Uptime Monitoring (ya tenemos cuenta).
 - [ ] **Lighthouse CI semanal** — evita que SEO/accesibilidad/performance se degraden silenciosamente con cada deploy.
