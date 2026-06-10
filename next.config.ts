@@ -24,21 +24,16 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Sentry solo se activa cuando SENTRY_AUTH_TOKEN está presente.
-// Sin él el build continúa normalmente.
 async function buildConfig() {
-  if (process.env.SENTRY_AUTH_TOKEN) {
-    const { withSentryConfig } = await import('@sentry/nextjs');
-    return withSentryConfig(nextConfig, {
-      org: process.env.SENTRY_ORG,
-      project: process.env.SENTRY_PROJECT,
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      silent: !process.env.CI,
-      sourcemaps: { disable: false },
-      tunnelRoute: '/monitoring',
-    });
-  }
-  return nextConfig;
+  const { withSentryConfig } = await import('@sentry/nextjs');
+  return withSentryConfig(nextConfig, {
+    org: 'technova-xg',
+    project: 'technova',
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+    widenClientFileUpload: true,
+    tunnelRoute: '/monitoring',
+    silent: !process.env.CI,
+  });
 }
 
 export default buildConfig();
