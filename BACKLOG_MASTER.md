@@ -618,7 +618,7 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 Ideas surgidas al construir el Morning Brief. Orden = valor estimado:
 
-- [ ] **Microsoft Clarity** (gratis) — heatmaps + grabaciones de sesión de usuarios sin error. Hoy no hay visibilidad de dónde hacen clic o dónde abandonan. Solo requiere un script tag.
+- [x] **Microsoft Clarity** ✅ instalado 2026-06-10 (project `x4y36nosox`, directo en layout.tsx) — heatmaps + grabaciones en clarity.microsoft.com
 - [ ] **Eventos custom en CTAs** — trackear: abre form sin enviar, llega a pricing y se va, clicks en CTAs principales. Sin esto, las recomendaciones UX del brief son ciegas al comportamiento pre-lead. (Vercel Analytics custom events)
 - [ ] **Brief semanal profundo** (lunes) — tendencias semana vs. semana, conversión por etapa del funnel, no solo snapshot diario. Extiende `daily-digest.ts`.
 - [ ] **UptimeRobot** (gratis) — ping externo cada 5 min con alerta inmediata. Necesario porque el cron corre DENTRO de Vercel: si Vercel cae, el cron cae con él. Alternativa: Sentry Uptime Monitoring (ya tenemos cuenta).
