@@ -7,24 +7,32 @@
 
 ---
 
-## ⚡ ACTUALIZACIÓN 2026-06-10 — Resultado final tras fixes aplicados
+## ⚡ ACTUALIZACIÓN FINAL 2026-06-10 — Estado actual verificado en vivo
 
-| Sistema | Estado Inicial | Estado Actual |
+| Sistema | Estado Inicial (06-09) | Estado Actual (06-10) |
 |---------|---------------|---------------|
 | Leads API | ❌ 500 constante | ✅ **200 OK** — schema migrado a prod DB |
 | Admin Dashboard | ❌ 503 / 500 | ✅ **200 OK** — token + path `BITACORA.md` corregidos |
 | Rate Limiting | ⚠️ Degradado | ✅ **Activo** — Upstash confirmado, 429 a partir de req 6 |
-| Stripe | ❌ Keys ausentes | ✅ **Keys presentes** — estaban en technova-next ya |
+| Stripe | ❌ Keys ausentes | ✅ **FUNCIONA** — checkout session creada en vivo (test mode; live keys = OP-4 KYC Vic) |
 | Neon DB | ✅ Healthy | ✅ **Healthy** |
 | Resend | ✅ Configurado | ✅ **Configurado** + emails confirmed (notified:true) |
-| Sentry | ❌ Inactivo | ❌ **Inactivo** — DSN aún no configurado |
-| NOVA AI | ❌ Sin API key | ❌ **Sin API key** — ANTHROPIC_API_KEY faltante |
+| Sentry | ❌ Inactivo | ✅ **ACTIVO** — DSN + source maps + alerta email probada E2E (regla 651693) |
+| NOVA AI / Auditoría | ❌ Sin API key | ✅ **ACTIVO** — ANTHROPIC_API_KEY set; pipeline audit→proposal verificado (score 72) |
+| Morning Brief | — (no existía) | ✅ **ACTIVO** — cron diario 7am CDMX con insights de Claude |
+| Clarity + eventos | — (no existía) | ✅ **ACTIVO** — heatmaps + cta_click/form_start/form_submit a GA4+Clarity |
 
-**RESULTADO ACTUALIZADO: 22/27 checkpoints — SISTEMA LISTO PARA RECIBIR LEADS. Falta Sentry y NOVA AI.**
+**RESULTADO FINAL: 26/27 checkpoints — SISTEMA OPERATIVO COMPLETO.**
+
+**Únicos pendientes reales (intencionales, no fallas):**
+1. Stripe live keys — requiere KYC de Vic en dashboard de Stripe (OP-4). Hoy en test mode: los pagos se simulan, clientes reales aún no pueden pagar.
+2. Alerta de Stripe disputes — TODO en `src/app/api/checkout/webhook/route.ts:180`.
 
 ---
 
-## Resumen Ejecutivo (Estado Original)
+## Resumen Ejecutivo (HISTÓRICO 2026-06-09 — TODO YA CORREGIDO, ver tabla arriba)
+
+> ⚠️ **NOTA PARA AGENTES/LECTORES:** Esta sección describe el estado ANTES de los fixes del 2026-06-09/10. NO refleja el estado actual. Estado actual verificado 2026-06-10: Stripe FUNCIONA (sesión de checkout creada en vivo, test mode), Sentry ACTIVO con alertas E2E probadas, leads API 200 OK. Únicos pendientes reales: Stripe live keys (KYC de Vic, OP-4) y alerta de disputas (TODO en webhook).
 
 Validación ejecutada en producción real (`https://tech-nova.mx`). Se encontraron **6 variables de entorno críticas faltantes en Vercel**, incluyendo Stripe, Sentry, Anthropic y Admin token. Además, la ruta `/api/leads` retornaba 500 consistentemente. Sentry estaba inactivo. Los pagos de Stripe **no podían completarse** en el estado original.
 
@@ -287,4 +295,4 @@ vercel deploy --prod
 
 ---
 
-**VALIDATION RESULT: 22/27 CHECKPOINTS (81%) — SISTEMA LISTO PARA LEADS. Stripe en test mode. Sentry inactivo. NOVA AI inactivo.**
+**VALIDATION RESULT (actualizado 2026-06-10): 26/27 CHECKPOINTS — SISTEMA OPERATIVO COMPLETO. Stripe funcional en test mode (live = OP-4 KYC). Sentry activo con alertas E2E. Pipeline de auditoría IA verificado.**
