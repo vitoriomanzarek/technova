@@ -1601,3 +1601,38 @@ GET /api/cron/daily?token=... →
 ### Qué incluye el email diario (7am CDMX)
 
 🚦 Sistemas · 📊 Actividad 24h · 📥 Propuestas esperando a Vic · 🔻 Funnel por status · 📧 Open/bounce rate · 💡 Alertas + recomendaciones UX de Claude
+
+---
+
+## ✅ SESSION 2026-06-10 (3): Observabilidad — Clarity, Eventos Custom, Sentry Verificado
+
+**Duration:** ~2 horas
+**Owner:** Claude Code Agent + Vic
+**Status:** ✅ COMPLETADO — B.5.3 avanzado (2/5), Sentry E2E verificado con alertas
+
+### Qué se hizo
+
+**1. Microsoft Clarity instalado** (B.5.3 ✅)
+- Project `x4y36nosox`, directo en `layout.tsx` con next/script (patrón consistente con GA4/Meta Pixel)
+- Decisión: instalación directa, NO vía GTM (repo como fuente de verdad, una capa menos de fallo)
+- Vic conectará la integración nativa Clarity↔GA4 (OAuth, sin código)
+
+**2. Eventos custom en CTAs y forms** (B.5.3 ✅)
+- Nuevo `src/lib/analytics.ts` — trackEvent() dispara a GA4 + Clarity simultáneamente
+- Instrumentado: cta_click (hero ×2, NOVA ×2, contacto), form_start/submit/error (contacto, lead_magnet, wizard), wizard_start/wizard_segment
+- Métrica clave habilitada: form_start sin form_submit = abandono medible + filtrable en grabaciones de Clarity
+- Pendiente Vic: marcar form_submit como key event en GA4 (~24h para que aparezca)
+
+**3. Código muerto eliminado**
+- `src/components/funnel/Wizard.tsx` (189 líneas) — prototipo viejo del cotizador, nunca importado, contenía número de WhatsApp placeholder falso
+
+**4. Sentry verificado E2E + alerta creada**
+- Primer error de prueba disparado vía ruta temporal → confirmado vía API que Sentry lo capturó
+- Alert rule creada vía REST API (id 651693): new issue O regresión → email a miembros activos
+- Prueba de regresión ejecutada: issue resuelto → error re-disparado → substatus regressed → **email de alerta confirmado por Vic**
+- Email de alertas llega a victorsm2893@gmail.com (cuenta Sentry); opcional enrutar a thisistechnova2026
+
+### Recordatorio activo
+- Cron one-shot 2026-06-11 8:53am: verificar eventos custom en GA4 + Clarity (solo vive si la sesión de Claude sigue abierta)
+
+### B.5.3 status: 2/5 — restan brief semanal, UptimeRobot (manual Vic), Lighthouse CI
