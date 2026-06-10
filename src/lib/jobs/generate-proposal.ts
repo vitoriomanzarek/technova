@@ -74,7 +74,7 @@ export async function generateProposal(leadId: number, auditId: string): Promise
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
       const message = await anthropic.messages.create({
-        model: 'claude-3-5-haiku-20241022',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 2048,
         messages: [{ role: 'user', content: prompt }],
       });
