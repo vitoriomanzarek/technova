@@ -1636,3 +1636,27 @@ GET /api/cron/daily?token=... →
 - Cron one-shot 2026-06-11 8:53am: verificar eventos custom en GA4 + Clarity (solo vive si la sesión de Claude sigue abierta)
 
 ### B.5.3 status: 2/5 — restan brief semanal, UptimeRobot (manual Vic), Lighthouse CI
+
+---
+
+## ✅ SESSION 2026-06-11: Prueba E2E de Pago Stripe (Sandbox) — EXITOSA
+
+**Owner:** Vic (pago) + Claude (verificación)
+**Status:** ✅ Flujo de pago completo verificado en sandbox
+
+### Prueba ejecutada
+1. Checkout session creada vía `POST /api/checkout` ($500 MXN test)
+2. Vic pagó en la página hosted de Stripe con tarjeta 4242
+3. Webhook `checkout.session.completed` recibido, firma verificada
+4. Orden marcada `paid` en DB con PaymentIntent + timestamp
+5. Redirect a `/checkout/success` correcto
+6. Órdenes de prueba eliminadas de la DB (para no contaminar métricas del Morning Brief)
+
+### Estado de la cuenta Stripe (verificado vía API)
+- Cuenta: `acct_1TPB37Lk0zEvx0Oq` (MX, MXN)
+- Webhook test: registrado y enabled (6 eventos) ✓
+- **KYC live: NO enviado** (`details_submitted: false`, `charges_enabled: false`)
+
+### Para pasar a producción (cuando Vic decida)
+1. Vic: formulario de activación en dashboard.stripe.com (RFC, CLABE, INE)
+2. Claude: swap a llaves live en Vercel + registrar webhook live + nuevo STRIPE_WEBHOOK_SECRET + redeploy + pago real de prueba con reembolso
