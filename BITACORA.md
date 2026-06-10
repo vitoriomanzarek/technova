@@ -1476,7 +1476,45 @@ ANTHROPIC_API_KEY        → console.anthropic.com (para NOVA AI / auditorías)
 ### Próximos Pasos
 
 1. [ ] Vic agrega `ANTHROPIC_API_KEY` a Vercel → NOVA AI habilitado
-2. [ ] Vic crea proyecto en Sentry → agrega `NEXT_PUBLIC_SENTRY_DSN` → error monitoring activo
+2. [x] ~~Vic crea proyecto en Sentry → agrega DSN~~ → **✅ Sentry activo con source maps**
 3. [ ] Configurar alertas de Sentry → email victor@tech-nova.mx
 4. [ ] Implementar alerta de Stripe disputes (`src/app/api/checkout/webhook/route.ts:180`)
 5. [ ] Cambiar Stripe test keys → live keys cuando listo para producción real
+
+---
+
+## ✅ SESSION 2026-06-10: Sentry Integration — Error Monitoring Completo
+
+**Duration:** ~30 min
+**Owner:** Claude Code Agent
+**Status:** ✅ COMPLETADO — Sentry activo en producción, source maps subidos
+
+### Qué se hizo
+
+Integración completa de Sentry siguiendo el `sentry-nextjs-sdk` skill:
+
+**Fixes al código (vs. config manual anterior):**
+- `sentry.server.config.ts` / `sentry.edge.config.ts`: migrado de `NEXT_PUBLIC_SENTRY_DSN` → `SENTRY_DSN`, añadido `includeLocalVariables`, `enableLogs`, eliminada guarda `enabled`
+- `src/instrumentation-client.ts`: añadido `replayIntegration()`, `enableLogs`, eliminada guarda `enabled`
+- `next.config.ts`: `withSentryConfig` siempre activo (no condicional), org/project hardcodeados (`technova-xg`/`technova`), `widenClientFileUpload: true`
+- `src/app/global-error.tsx`: creado — error boundary que llama `captureException`
+- `.gitignore`: excluye `.env.sentry-build-plugin`
+
+**Env vars agregadas a Vercel:**
+```
+NEXT_PUBLIC_SENTRY_DSN  = https://5bd38e0e...@...ingest.de.sentry.io/...
+SENTRY_DSN              = mismo valor (para server/edge)
+SENTRY_AUTH_TOKEN       = sntryu_d86bd...
+SENTRY_ORG              = technova-xg
+SENTRY_PROJECT          = technova
+```
+
+**Resultado del build:**
+```
+[@sentry/nextjs] Successfully uploaded source maps to Sentry
+```
+Stack traces en producción son legibles. Session Replay activo en errores.
+
+### Estado del sistema: 26/27 checkpoints
+
+Solo pendiente: `ANTHROPIC_API_KEY` (NOVA AI) y alertas de Sentry por email.
