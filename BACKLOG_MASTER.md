@@ -599,18 +599,32 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 
 ---
 
-#### B.5.2 Agent Autónomo de Backlog 🔴
-**Status:** 🔴 NO INICIADO  
+#### B.5.2 Agent Autónomo de Backlog 🟡
+**Status:** 🟡 PARCIAL — Morning Brief diario implementado (2026-06-10)  
 **Priority:** 🟠 BAJA (nice to have, implementar al final)
 
+- [x] ~~Genera reportes automáticos~~ → **Morning Brief**: cron diario 7am CDMX (`/api/cron/daily`) con system checks + actividad 24h + funnel + insights de Claude → email a Vic
 - [ ] Agent que lee BITACORA.md + BACKLOG_MASTER.md diariamente
-- [ ] Genera reportes automáticos
 - [ ] Detecta riesgos, sugiere reprioritización
-- [ ] Envía Slack status message diarios a Vic
+- [ ] Envía Slack status message diarios a Vic (hoy es email)
 
 **Timeline:** Semana 7-8 de Fase B
 
 ---
+
+#### B.5.3 Observabilidad & UX Insights 🔴 (NUEVO 2026-06-10)
+**Status:** 🔴 NO INICIADO  
+**Priority:** 🟡 MEDIA — alimenta los insights del Morning Brief con datos de comportamiento real
+
+Ideas surgidas al construir el Morning Brief. Orden = valor estimado:
+
+- [ ] **Microsoft Clarity** (gratis) — heatmaps + grabaciones de sesión de usuarios sin error. Hoy no hay visibilidad de dónde hacen clic o dónde abandonan. Solo requiere un script tag.
+- [ ] **Eventos custom en CTAs** — trackear: abre form sin enviar, llega a pricing y se va, clicks en CTAs principales. Sin esto, las recomendaciones UX del brief son ciegas al comportamiento pre-lead. (Vercel Analytics custom events)
+- [ ] **Brief semanal profundo** (lunes) — tendencias semana vs. semana, conversión por etapa del funnel, no solo snapshot diario. Extiende `daily-digest.ts`.
+- [ ] **UptimeRobot** (gratis) — ping externo cada 5 min con alerta inmediata. Necesario porque el cron corre DENTRO de Vercel: si Vercel cae, el cron cae con él. Alternativa: Sentry Uptime Monitoring (ya tenemos cuenta).
+- [ ] **Lighthouse CI semanal** — evita que SEO/accesibilidad/performance se degraden silenciosamente con cada deploy.
+
+**Relacionado:** C.3 Monitoring & Observability (Fase C) — estos items lo adelantan.
 
 ---
 
@@ -651,10 +665,10 @@ Cada KICKOFF doc tiene: especificación completa, timeline, dependencias, ejempl
 - [ ] Automated performance checks post-deploy
 
 ### C.3 Monitoring & Observability
-- [ ] **Sentry** — error tracking en producción (mayor gap actual)
-- [ ] Uptime monitoring
+- [x] **Sentry** — ✅ activo desde 2026-06-10 (errores + source maps + session replay)
+- [ ] Uptime monitoring → ver B.5.3 (UptimeRobot / Sentry Uptime)
 - [ ] Alertas Slack
-- [ ] PostHog — comportamiento de usuario + funnel NOVA AI
+- [ ] PostHog — comportamiento de usuario + funnel NOVA AI (B.5.3 Clarity es el primer paso gratis)
 
 ### C.4 Performance Optimization
 - [ ] next/image en todas las imágenes
