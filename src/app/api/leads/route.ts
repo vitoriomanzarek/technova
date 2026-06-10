@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, after } from 'next/server';
 import { z } from 'zod';
 import { Resend } from 'resend';
 import { db } from '@/db';
@@ -50,12 +50,16 @@ export async function POST(request: Request) {
       website_url:  website_url  ?? null,
     }).returning();
 
-    // 1b) Trigger background audit if the lead provided a website URL.
-    //     Runs for any project type that implies an existing site to audit.
+    // 1b) Trigger background audit after response is sent.
+    //     after() keeps the function alive past the HTTP response — required on Vercel
+    //     because fire-and-forget .catch() gets killed when the response is flushed.
     if (website_url && newLead) {
-      auditWebsite(newLead.id, website_url).catch(err =>
-        console.error(`[audit] async job failed for lead ${newLead.id}:`, err)
-      );
+      const leadId = newLead.id;
+      after(async () => {
+        await auditWebsite(leadId, website_url).catch(err =>
+          console.error(`[audit] async job failed for lead ${leadId}:`, err)
+        );
+      });
     }
 
     // 2) Emails en paralelo — ninguno bloquea la respuesta si falla.

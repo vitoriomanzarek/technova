@@ -43,111 +43,61 @@ function validateUrl(url: string): void {
 }
 
 async function extractSiteData(url: string): Promise<ExtractedSiteData> {
-  // Dynamic import so the module can load in serverless without bundling issues at build time
-  const puppeteer = await import('puppeteer');
-  const browser = await puppeteer.default.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+  const start = Date.now();
+
+  const response = await fetch(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (compatible; TechNova-Audit/1.0; +https://tech-nova.mx)',
+      'Accept': 'text/html,application/xhtml+xml',
+    },
+    redirect: 'follow',
+    signal: AbortSignal.timeout(15_000),
   });
 
-  try {
-    const page = await browser.newPage();
-    await page.setUserAgent(
-      'Mozilla/5.0 (compatible; TechNova-Audit/1.0; +https://tech-nova.mx)'
-    );
-    page.setDefaultNavigationTimeout(60_000);
-
-    const start = Date.now();
-    await page.goto(url, { waitUntil: 'networkidle2' });
-    // Extra settle time for JS-heavy sites
-    await new Promise(r => setTimeout(r, 3_000));
-    const loadTimeMs = Date.now() - start;
-
-    const data = await page.evaluate(() => {
-      const getMeta = (name: string) =>
-        (document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null)?.content ??
-        (document.querySelector(`meta[property="${name}"]`) as HTMLMetaElement | null)?.content ??
-        null;
-
-      const scripts = Array.from(document.querySelectorAll('script[src]'))
-        .map(s => (s as HTMLScriptElement).src);
-      const inlineScripts = Array.from(document.querySelectorAll('script:not([src])'))
-        .map(s => s.textContent ?? '');
-      const allScriptText = [...scripts, ...inlineScripts].join(' ');
-
-      const images = Array.from(document.querySelectorAll('img'));
-
-      const links = Array.from(document.querySelectorAll('a[href]'))
-        .map(a => ((a as HTMLAnchorElement).href ?? '').toLowerCase());
-
-      return {
-        title: document.title || null,
-        metaDescription: getMeta('description'),
-        hasViewportMeta: !!document.querySelector('meta[name="viewport"]'),
-        hasCharset: !!document.querySelector('meta[charset]'),
-        hasDoctype: document.doctype !== null,
-        htmlLang: document.documentElement.getAttribute('lang'),
-        h1Count: document.querySelectorAll('h1').length,
-        h2Count: document.querySelectorAll('h2').length,
-        h3Count: document.querySelectorAll('h3').length,
-        formCount: document.querySelectorAll('form').length,
-        totalImages: images.length,
-        imagesWithoutAlt: images.filter(img => !img.getAttribute('alt')).length,
-        hasGA4: allScriptText.includes('gtag') || allScriptText.includes('G-') || allScriptText.includes('googletagmanager'),
-        hasMetaPixel: allScriptText.includes('fbq') || allScriptText.includes('facebook.net/en_US/fbevents'),
-        hasCookiePolicyLink: links.some(href =>
-          href.includes('privacidad') ||
-          href.includes('privacy') ||
-          href.includes('cookie') ||
-          href.includes('aviso-legal')
-        ),
-      };
-    });
-
-    const isHttps = url.startsWith('https://');
-
-    // Core Web Vitals via PerformanceObserver are async — best-effort
-    let coreWebVitals = { lcp: null as number | null, fid: null as number | null, cls: null as number | null };
-    try {
-      const vitals = await page.evaluate(() => {
-        return new Promise<{ lcp: number | null; cls: number | null }>((resolve) => {
-          let lcp: number | null = null;
-          let cls: number | null = null;
-          const lcpObs = new PerformanceObserver(list => {
-            const entries = list.getEntries();
-            if (entries.length) lcp = entries[entries.length - 1].startTime;
-          });
-          const clsObs = new PerformanceObserver(list => {
-            list.getEntries().forEach(e => {
-              // @ts-ignore
-              cls = (cls ?? 0) + (e.value ?? 0);
-            });
-          });
-          try { lcpObs.observe({ type: 'largest-contentful-paint', buffered: true }); } catch {}
-          try { clsObs.observe({ type: 'layout-shift', buffered: true }); } catch {}
-          setTimeout(() => resolve({ lcp, cls }), 2000);
-        });
-      });
-      coreWebVitals = { ...vitals, fid: null };
-    } catch {
-      // Core Web Vitals not available — leave as null
-    }
-
-    return {
-      url,
-      loadTimeMs,
-      isHttps,
-      coreWebVitals,
-      // Lighthouse scores: not running full Lighthouse (requires separate CLI/API), set null
-      lighthousePerformance: null,
-      lighthouseAccessibility: null,
-      lighthouseBestPractices: null,
-      lighthouseSeo: null,
-      ...data,
-    };
-  } finally {
-    await browser.close();
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status} al obtener ${url}`);
   }
+
+  const html = await response.text();
+  const loadTimeMs = Date.now() - start;
+
+  const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]
+    ?.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim() ?? null;
+
+  const metaDescription =
+    html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)/i)?.[1]?.trim() ??
+    html.match(/<meta[^>]+content=["']([^"']*)[^>]+name=["']description["']/i)?.[1]?.trim() ??
+    null;
+
+  const htmlLang = html.match(/<html[^>]+lang=["']([^"']+)["']/i)?.[1] ?? null;
+
+  const imgTags = [...html.matchAll(/<img([^>]*)/gi)].map(m => m[1]);
+
+  return {
+    url,
+    loadTimeMs,
+    isHttps: url.startsWith('https://'),
+    title,
+    metaDescription,
+    htmlLang,
+    hasViewportMeta: /<meta[^>]+name=["']viewport["']/i.test(html),
+    hasCharset: /<meta[^>]+charset/i.test(html),
+    hasDoctype: /<!doctype\s+html/i.test(html),
+    h1Count: (html.match(/<h1[\s>]/gi) ?? []).length,
+    h2Count: (html.match(/<h2[\s>]/gi) ?? []).length,
+    h3Count: (html.match(/<h3[\s>]/gi) ?? []).length,
+    formCount: (html.match(/<form[\s>]/gi) ?? []).length,
+    totalImages: imgTags.length,
+    imagesWithoutAlt: imgTags.filter(attrs => !/alt=["'][^"']+["']/.test(attrs)).length,
+    hasGA4: /gtag\s*\(|G-[A-Z0-9]{6,}|googletagmanager\.com/i.test(html),
+    hasMetaPixel: /fbq\s*\(|facebook\.net\/en_US\/fbevents/i.test(html),
+    hasCookiePolicyLink: /href=["'][^"']*(?:privacidad|privacy|cookie|aviso-legal)[^"']*["']/i.test(html),
+    coreWebVitals: { lcp: null, fid: null, cls: null },
+    lighthousePerformance: null,
+    lighthouseAccessibility: null,
+    lighthouseBestPractices: null,
+    lighthouseSeo: null,
+  };
 }
 
 function parseClaudeJson(raw: string): AuditReport {
