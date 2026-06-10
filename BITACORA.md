@@ -1567,3 +1567,37 @@ POST /api/leads (website_url)
 - Alertas de Sentry por email → configurar en sentry.io UI
 - Stripe test → live keys cuando vayan a producción real
 - NOVA AI chat (Fase B.3 — Jul-Aug 2026)
+
+---
+
+## ✅ SESSION 2026-06-10 (2): Morning Brief Diario — Health + Insights Automáticos
+
+**Duration:** ~45 min
+**Owner:** Claude Code Agent
+**Status:** ✅ COMPLETADO — Cron diario funcionando, email de prueba entregado
+
+### Qué se hizo
+
+Vic pidió una rutina diaria que revise salud del sitio + actividad + UX/funnel. Se construyó el **Morning Brief** (preview de B.5 Dashboard & Autonomía):
+
+**Hallazgo previo:** los 3 cron routes existentes (`proposal-timeout`, `email-automation`, `second-payment-reminder`) **nunca corrieron** — no existía `vercel.json` con schedules.
+
+**Archivos nuevos:**
+- `src/lib/jobs/daily-digest.ts` — 3 capas: system checks (HTTP + DB + env), actividad 24h (leads/audits/propuestas/pagos/emails/funnel), insights generados por Claude Haiku
+- `src/lib/emails/dailyDigestEmail.ts` — template HTML del brief
+- `src/app/api/cron/daily/route.ts` — orquestador: corre jobs de negocio + digest (maxDuration 300s)
+- `vercel.json` — crons: `/api/cron/daily` 13:00 UTC (7am CDMX), `/api/cron/email-automation` 16:00 UTC (límite Hobby: 2 crons)
+
+**Env var nueva:** `CRON_SECRET` en Vercel (Vercel la manda como Bearer token automáticamente).
+
+### Test E2E en producción
+
+```
+GET /api/cron/daily?token=... →
+{ success: true, emailSent: true, salud: "amarillo",
+  systems: 5/5 OK (homepage 195ms, webhook, sitemap, DB 21ms, env 4/4) }
+```
+
+### Qué incluye el email diario (7am CDMX)
+
+🚦 Sistemas · 📊 Actividad 24h · 📥 Propuestas esperando a Vic · 🔻 Funnel por status · 📧 Open/bounce rate · 💡 Alertas + recomendaciones UX de Claude
