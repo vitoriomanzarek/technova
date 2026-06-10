@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 const GTM_ID = "GTM-55RLL2LW";
 const GA4_ID = "G-N3B58MJZVY";
 const META_PIXEL_ID = "1471969730606755";
+const CLARITY_ID = "x4y36nosox";
 
 export default function RootLayout({
   children,
@@ -58,6 +59,14 @@ s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '${META_PIXEL_ID}');
 fbq('track', 'PageView');`}
+        </Script>
+        {/* Microsoft Clarity — heatmaps + session recordings */}
+        <Script id="ms-clarity" strategy="afterInteractive">
+          {`(function(c,l,a,r,i,t,y){
+c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "${CLARITY_ID}");`}
         </Script>
       </head>
       <body className={`${inter.className} bg-dark text-white font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden`}>
