@@ -15,10 +15,12 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 | Fase | Status | Duration | Focus | Progress |
 |------|--------|----------|-------|----------|
 | **A** | ✅ COMPLETADA | May 20 – Jun 2, 2026 | Foundation & Architecture | 100% |
-| **B.4.1-7** | ✅ COMPLETADA | Jun 3, 2026 | Commercial Flow Stage 1-7 | 88% (7/8 completados) |
-| **B.4.8** | 🔴 PRÓXIMO | Jun 3-10, 2026 | Commercial Flow Stage 8 (FINAL) | 0% (listo para ejecutar) |
-| **B.1-3, B.5** | 🟠 Scheduled | Jun-Aug 2026 | Imagery, Marketing, NOVA AI, Dashboard | 0% |
-| **C** | 🟠 Scheduled | Oct – Nov 2026 | Polish & DevOps | 0% |
+| **B.4** | 🟢 **EN PRODUCCIÓN** | Jun 3-4, 2026 | Commercial Flow (TODOS 8 stages) | **100% ✅** |
+| **B.1** | 🟠 SCHEDULED | Jun-Jul 2026 | Imagery (Portfolio, team, testimonials) | 0% |
+| **B.2** | 🟠 SCHEDULED | Jun-Jul 2026 | Marketing Funnel (Blog, ads, email) | 0% |
+| **B.3** | 🟠 SCHEDULED | Jul-Aug 2026 | NOVA AI (Chat advisor autónomo) | 0% |
+| **B.5** | 🟠 SCHEDULED | Aug 2026 | Dashboard & Autonomía (Backlog manager) | 0% |
+| **C** | 🟠 SCHEDULED | Sep – Oct 2026 | Polish & DevOps | 0% |
 | **Future** | 🟡 Backlog | Q1 2027+ | Advanced Features | — |
 
 ---

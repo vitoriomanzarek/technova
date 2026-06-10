@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   // Los dashboards internos leen estos markdown de disco en runtime. Sin esto,
   // el file tracing de Vercel no los incluiría en el bundle serverless.
   outputFileTracingIncludes: {
-    '/admin/project-status': ['./docs/BITACORA.md', './DECISION_LOG.md'],
+    '/admin/project-status': ['./BITACORA.md', './DECISION_LOG.md'],
     '/internal/architecture': ['./DECISION_LOG.md'],
   },
   async headers() {

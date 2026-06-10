@@ -83,6 +83,24 @@ Estos 11 documentos cubren toda la especificación técnica. Consultar cuando ne
 - `COMPONENTS_LIBRARY.md` — Catálogo de componentes React reales
 - `ONBOARDING_DEVELOPER.md` — Setup local para developers nuevos
 
+### Ejecución de Prompts — Reporte Automático
+
+**Siempre que se ejecute un archivo de la carpeta `prompts/`:**
+
+1. Leer el archivo directamente desde disco (no depender del clipboard)
+2. Crear un reporte en `reports/` con el nombre: `<PROMPT_NAME>_REPORT.md`
+3. El reporte debe incluir:
+   - **Resumen ejecutivo** — qué hace el prompt y su estado
+   - **Tabla de áreas/tareas cubiertas** con acción requerida
+   - **Checklist completo** listo para ejecutar
+   - **Umbrales / criterios** (si aplica)
+   - **Notas de implementación** — advertencias, dependencias, cómo testear
+4. Si el prompt ya tiene un reporte anterior en `reports/`, actualizarlo en vez de crear uno nuevo
+
+> **Por qué:** El clipboard se sobreescribe fácilmente. El archivo en `reports/` garantiza que el output del prompt no se pierda y queda como registro auditadle.
+
+---
+
 ### Al cerrar sesión
 
 Antes de hacer el commit final de cualquier sesión, verificar:

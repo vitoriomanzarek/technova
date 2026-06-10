@@ -62,7 +62,7 @@ export type ProjectStatus = {
   generatedAt: string;
 };
 
-const BITACORA_PATH = path.join(process.cwd(), 'docs', 'BITACORA.md');
+const BITACORA_PATH = path.join(process.cwd(), 'BITACORA.md');
 
 // Nombres de fase (los títulos descriptivos viven en los kickoff docs, no en
 // BITACORA). El status, fechas y tareas se derivan de los eventos parseados.
