@@ -147,12 +147,11 @@ Estas tareas son rápidas pero afectan la operación del día a día:
 **Acción:** Gmail → Settings → Filters → From: `sofia@tech-nova.mx` + subject "Nuevo lead" → label  
 **Tiempo estimado:** ~15 min
 
-### OP-4: Stripe live mode 🟡
-**Status:** 🟡 BLOQUEADO EN STRIPE  
-**Impacto:** Alto — sin esto no se puede cobrar en producción  
-**Descripción:** KYC pendiente en Stripe dashboard. Hoy está en test mode.  
-**Acción:** Completar KYC en Stripe → activar live mode → actualizar keys en Vercel  
-**Tiempo estimado:** Depende de Stripe (1-3 días hábiles)
+### OP-4: Stripe live mode ✅
+**Status:** ✅ RESUELTO (2026-06-11) — producción cobra con llaves LIVE  
+**Detalle:** KYC aprobado en cuenta `acct_1TPB2oLKfaFU4dyj` (charges_enabled ✓). Webhook live `we_1TgzDd...` registrado. Llaves live en Vercel + redeploy. Sesiones `cs_live_` verificadas.  
+**Nota:** `payouts_enabled` se activa solo (retención inicial estándar). Existe una 2ª cuenta Stripe vieja (`acct_1TPB37Lk...`) que quedó solo para test/dev local.  
+**Pendiente menor:** pago real de validación + reembolso (en curso)
 
 ### OP-5: Template de diagnóstico manual ✅
 **Status:** ✅ RESUELTO (2026-06-02)  

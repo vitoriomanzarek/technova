@@ -1660,3 +1660,26 @@ GET /api/cron/daily?token=... →
 ### Para pasar a producción (cuando Vic decida)
 1. Vic: formulario de activación en dashboard.stripe.com (RFC, CLABE, INE)
 2. Claude: swap a llaves live en Vercel + registrar webhook live + nuevo STRIPE_WEBHOOK_SECRET + redeploy + pago real de prueba con reembolso
+
+---
+
+## ✅ SESSION 2026-06-11 (2): STRIPE LIVE MODE — TechNova puede cobrar dinero real
+
+**Owner:** Vic (activación KYC) + Claude (switch técnico)
+**Status:** ✅ Switch completo — pendiente solo pago real de validación + reembolso
+
+### Hallazgo importante: DOS cuentas de Stripe
+- Cuenta test original: `acct_1TPB37Lk0zEvx0Oq` (KYC nunca completado ahí)
+- Cuenta LIVE activada: `acct_1TPB2oLKfaFU4dyj` ("Technova", MX/MXN) — **ésta es la buena**
+- `charges_enabled: true` ✓ — `payouts_enabled: false` temporal (retención inicial estándar de cuentas nuevas, sin requisitos pendientes, se activa solo)
+
+### Switch ejecutado
+1. Webhook LIVE registrado vía API: `we_1TgzDdLKfaFU4dyj1ceEZsBo` → `tech-nova.mx/api/checkout/webhook` (6 eventos: checkout completed/expired, PI succeeded/failed, refund, dispute)
+2. Vercel production actualizado: `STRIPE_SECRET_KEY` → sk_live, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` → pk_live, `STRIPE_WEBHOOK_SECRET` → whsec del webhook live
+3. Redeploy + verificado: `/api/checkout` genera sesiones `cs_live_` ✓
+
+### Pendiente
+- [ ] Pago real de $50 MXN (Vic) → verificar orden paid vía webhook live → reembolso por API
+
+### Nota local dev
+- `.env` local conserva las llaves TEST de la cuenta vieja — correcto para desarrollo; producción usa live.

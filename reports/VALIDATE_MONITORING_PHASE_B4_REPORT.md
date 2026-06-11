@@ -14,7 +14,7 @@
 | Leads API | ❌ 500 constante | ✅ **200 OK** — schema migrado a prod DB |
 | Admin Dashboard | ❌ 503 / 500 | ✅ **200 OK** — token + path `BITACORA.md` corregidos |
 | Rate Limiting | ⚠️ Degradado | ✅ **Activo** — Upstash confirmado, 429 a partir de req 6 |
-| Stripe | ❌ Keys ausentes | ✅ **FUNCIONA** — checkout session creada en vivo (test mode; live keys = OP-4 KYC Vic) |
+| Stripe | ❌ Keys ausentes | ✅ **LIVE MODE (2026-06-11)** — KYC aprobado, llaves live en Vercel, webhook live registrado, sesiones cs_live_ verificadas |
 | Neon DB | ✅ Healthy | ✅ **Healthy** |
 | Resend | ✅ Configurado | ✅ **Configurado** + emails confirmed (notified:true) |
 | Sentry | ❌ Inactivo | ✅ **ACTIVO** — DSN + source maps + alerta email probada E2E (regla 651693) |
@@ -25,7 +25,7 @@
 **RESULTADO FINAL: 26/27 checkpoints — SISTEMA OPERATIVO COMPLETO.**
 
 **Únicos pendientes reales (intencionales, no fallas):**
-1. Stripe live keys — requiere KYC de Vic en dashboard de Stripe (OP-4). Hoy en test mode: los pagos se simulan, clientes reales aún no pueden pagar.
+1. ~~Stripe live keys~~ → ✅ RESUELTO 2026-06-11: live mode activo, TechNova puede cobrar dinero real.
 2. Alerta de Stripe disputes — TODO en `src/app/api/checkout/webhook/route.ts:180`.
 
 ---
