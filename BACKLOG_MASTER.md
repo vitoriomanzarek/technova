@@ -153,6 +153,15 @@ Estas tareas son rápidas pero afectan la operación del día a día:
 **Nota:** `payouts_enabled` se activa solo (retención inicial estándar). Existe una 2ª cuenta Stripe vieja (`acct_1TPB37Lk...`) que quedó solo para test/dev local.  
 **Pendiente menor:** pago real de validación + reembolso (en curso)
 
+### OP-6: Validaciones pendientes — HACER MAÑANA (2026-06-11) 🔴
+**Status:** 🔴 PROGRAMADO para mañana  
+**Contexto:** Sesión 2026-06-10/11 cerrada con estos cabos sueltos. Los recordatorios cron de Claude murieron al cerrar la sesión — este item es el respaldo.
+
+- [ ] **Pago real de validación live** — Vic paga $50 MXN con tarjeta real (Claude genera URL nueva si la anterior expiró) → Claude verifica orden `paid` vía webhook live → reembolso inmediato por API. Cierra la validación de Stripe live mode.
+- [ ] **Verificar eventos custom** — En GA4 (G-N3B58MJZVY): confirmar que aparecen `cta_click`, `form_start`, `form_submit`, `wizard_start`. En Clarity (x4y36nosox): confirmar Smart Events filtrables. Si no hay datos, hacer visita de prueba al sitio.
+- [ ] **GA4 key event** — marcar `form_submit` como key event (Admin → Eventos) cuando ya liste el evento (~24h post-deploy).
+- [ ] **Clarity (si no se ha hecho)** — suscribirse al Weekly Digest + conectar integración nativa con GA4.
+
 ### OP-5: Template de diagnóstico manual ✅
 **Status:** ✅ RESUELTO (2026-06-02)  
 **Archivo:** `docs/OP-5-AUDIT-TEMPLATE.md`  
