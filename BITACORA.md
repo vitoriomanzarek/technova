@@ -1797,3 +1797,54 @@ Ciclo: Planear → `prompts/<TASK>.prompt.md` → Claude Code ejecuta → `repor
 - Vic: `npx vitest run` local → confirmar 13 suites verdes
 - Commit `security(SEC-4,SEC-5): anti-enumeración + tests del flujo de pago` + push
 - Confirmar aleatoriedad de UUIDs (sin reporte, queda por revisar el schema)
+
+---
+
+## ✅ SESSION 2026-06-13 (continuación): Cierre formal SEC-4 + SEC-5
+
+**Owner:** Vic (Ejecutor — testing manual) + Claude Cowork (verificación y cierre)
+**Status:** ✅ SPRINT SEC CERRADO (SEC-4 + SEC-5)
+
+### Testing manual ejecutado por Vic
+
+5/5 tests pasan — reporte completo en `reports/SEC4_5_MANUAL_TESTING_REPORT.md`:
+
+| Test | Resultado |
+|------|-----------|
+| POST /api/leads | ✅ HTTP 200 `{"success":true,"notified":true}` |
+| Rate limit 429 | ✅ Requests 21+ → 429 (Upstash operativo) |
+| 404 genérico checkout (4 endpoints) | ✅ `{"success":false,"error":"Not found"}` |
+| 404 genérico proposals PDF | ✅ HTTP 404 genérico |
+| Webhook sin rate limit | ✅ 25×400, nunca 429 |
+
+**Hallazgo menor (no bug):** `/pay` y `/request-changes` son POST-only. GET devuelve 405 vacío (Next.js estándar — no filtra estado). Guía de testing actualizada para usar POST en esos endpoints.
+
+**Entorno:** vars en `.env` (no `.env.local`); Next.js las carga igual. PowerShell para levantar el server.
+
+### Verificación Cowork — criterios de cierre
+
+- ✅ Reporte de ejecución (`SEC-4_5_HARDENING_REPORT.md`) generado y revisado
+- ✅ Reporte de testing manual (`SEC4_5_MANUAL_TESTING_REPORT.md`) revisado
+- ✅ 13 suites / 115 tests confirmados verdes (por agente + testing manual)
+- ✅ UUIDs confirmados criptográficamente seguros (UUID v4, `gen_random_uuid()`)
+- ✅ BACKLOG_MASTER: SEC-4 y SEC-5 marcados ✅ DONE
+- ⚠️ Commit pendiente: Vic debe hacer `git commit + push` de los cambios SEC-4/5 (siguen en working tree)
+
+### Commit pendiente (acción para Vic)
+
+```bash
+git add -A
+git commit -m "security(SEC-4,SEC-5): anti-enumeración + tests del flujo de pago"
+git push origin main
+```
+
+### Estado del sprint SEC
+
+| Item | Status |
+|------|--------|
+| SEC-1: Auth endpoints internos | ✅ DONE (commit aa2e1e7) |
+| SEC-2: Crons CRON_SECRET | ✅ DONE (commit aa2e1e7) |
+| SEC-3: Rotación de claves | ✅ DONE (acción Vic) |
+| SEC-4: Anti-enumeración + rate limit | ✅ DONE (2026-06-13) |
+| SEC-5: Tests flujo de pago | ✅ DONE (2026-06-13) |
+| SEC-6: Consolidación documental | 🔴 NO INICIADO (baja prioridad, no bloqueante) |

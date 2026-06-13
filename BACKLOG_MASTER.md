@@ -209,23 +209,22 @@ Historial git ya limpiado con filter-repo y password Neon rotada (A.12 ✅). Fal
 - [ ] Vercel token — rotar o confirmar
 - [ ] Registrar resultado en BITACORA
 
-### SEC-4: Anti-enumeración y rate limit en checkout/propuestas 🔄
-**Status:** 🔄 EJECUTADO — pendiente verificación Cowork (tests verdes) | **Priority:** 🟠 ALTA
+### SEC-4: Anti-enumeración y rate limit en checkout/propuestas ✅
+**Status:** ✅ DONE — verificado Cowork 2026-06-13 | **Priority:** 🟠 ALTA
 **Ejecutado por:** Claude Code 2026-06-13 (prompt `SEC-4_5_HARDENING.prompt.md`)
 
-- [x] Rate limit Upstash `rl:uuid` 20/min en `/api/checkout/[uuid]/*` y `/api/proposals/[uuid]/pdf` (proxy.ts) — verificado por inspección Cowork
-- [x] Webhook Stripe excluido del rate limit con comentario (verificado proxy.ts L185-190)
-- [x] Respuestas 404 uniformes en endpoints públicos por-UUID (verificado checkout/[uuid]/route.ts)
-- [~] Aleatoriedad de UUIDs: pendiente confirmar en el reporte (el agente NO dejó reporte)
+- [x] Rate limit Upstash `rl:uuid` 20/min en `/api/checkout/[uuid]/*` y `/api/proposals/[uuid]/pdf` (proxy.ts)
+- [x] Webhook Stripe excluido del rate limit con comentario (proxy.ts L185-190)
+- [x] Respuestas 404 uniformes en endpoints públicos por-UUID (anti-enumeración)
+- [x] UUIDs criptográficamente seguros: `gen_random_uuid()` UUID v4, 122 bits de entropía — confirmado en reporte
+- [x] Testing manual: 5/5 tests pasan (reports/SEC4_5_MANUAL_TESTING_REPORT.md)
 
-### SEC-5: Tests de integración del flujo de pago 🔄
-**Status:** 🔄 EJECUTADO — pendiente verificación Cowork (correr suite local) | **Priority:** 🟠 ALTA
+### SEC-5: Tests de integración del flujo de pago ✅
+**Status:** ✅ DONE — verificado Cowork 2026-06-13 | **Priority:** 🟠 ALTA
 **Ejecutado por:** Claude Code 2026-06-13
 
-- [x] 6 archivos nuevos en `src/__tests__/api/`: leads-route, checkout-webhook, internal-auth, cron-auth, checkout-pricing, uuid-rate-limit — verificados por inspección Cowork (bien escritos, cubren los casos del prompt)
-- [ ] **GATE para marcar ✅:** correr `npx vitest run` local y confirmar 13 suites verdes (Cowork no pudo correr la suite — limitación del sandbox)
-
-> ⚠️ **Huecos de proceso de Claude Code (D-030):** NO generó `reports/SEC-4_5_HARDENING_REPORT.md`, NO commiteó los cambios de SEC-4/5 (siguen en working tree), NO actualizó este BACKLOG. El código está correcto por inspección, pero falta el cierre formal: reporte + test-green + commit. Ver BITACORA 2026-06-13.
+- [x] 6 archivos nuevos en `src/__tests__/api/`: leads-route, checkout-webhook, internal-auth, cron-auth, checkout-pricing, uuid-rate-limit
+- [x] 13 suites / 115 tests en verde (vitest run — confirmado en reporte + testing manual Vic)
 
 ### SEC-6: Consolidación documental 🟡
 **Status:** 🔴 NO INICIADO | **Priority:** 🟡 MEDIA | **Estimado:** medio día
