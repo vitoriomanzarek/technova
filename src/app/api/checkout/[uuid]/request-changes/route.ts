@@ -48,8 +48,10 @@ export async function POST(
     .where(eq(proposals.id, uuid))
     .limit(1);
 
+  // SEC-4b: respuesta uniforme anti-enumeración; detalle solo en logs.
   if (!rows.length) {
-    return NextResponse.json({ error: 'Proposal not found' }, { status: 404 });
+    console.error(`[checkout/request-changes] Proposal not found: ${uuid}`);
+    return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
   }
 
   const { proposal, lead } = rows[0];

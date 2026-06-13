@@ -19,8 +19,10 @@ export async function GET(
     .where(eq(proposals.id, uuid))
     .limit(1);
 
+  // SEC-4b: respuesta uniforme anti-enumeración; detalle solo en logs.
   if (!rows.length || !rows[0].lead) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    console.error(`[proposals/pdf] Proposal or lead not found: ${uuid}`);
+    return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
   }
 
   const { proposal, lead, audit } = rows[0];

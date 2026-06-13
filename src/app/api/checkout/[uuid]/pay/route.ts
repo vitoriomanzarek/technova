@@ -47,17 +47,17 @@ export async function POST(
     .where(eq(proposals.id, uuid))
     .limit(1);
 
+  // SEC-4b: respuesta uniforme para "no existe" y "no disponible" (anti-enumeración).
   if (!rows.length) {
-    return NextResponse.json({ error: 'Proposal not found' }, { status: 404 });
+    console.error(`[checkout/pay] Proposal not found: ${uuid}`);
+    return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
   }
 
   const { proposal, lead } = rows[0];
   const allowedStatuses = ['client_reviewing', 'approved', 'modified'];
   if (!allowedStatuses.includes(proposal.status)) {
-    return NextResponse.json(
-      { error: `Cannot pay for proposal with status "${proposal.status}"` },
-      { status: 422 }
-    );
+    console.error(`[checkout/pay] Cannot pay for proposal ${uuid} with status "${proposal.status}"`);
+    return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
   }
 
   const amountMxn = Math.round(total_mxn * (payment_percentage / 100));

@@ -16,8 +16,11 @@ export async function GET(
     .where(eq(proposals.id, uuid))
     .limit(1);
 
+  // SEC-4b: respuesta uniforme para "no existe" y "no disponible" — distinguirlas
+  // permitiría enumerar UUIDs válidos. El detalle va a logs, nunca al response.
   if (!rows.length) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    console.error(`[checkout] Proposal not found: ${uuid}`);
+    return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
   }
 
   const { proposal, lead } = rows[0];
@@ -25,10 +28,8 @@ export async function GET(
   // Only allow checkout for proposals that have been sent to client
   const allowedStatuses = ['client_reviewing', 'approved', 'modified', 'client_requesting_changes'];
   if (!allowedStatuses.includes(proposal.status)) {
-    return NextResponse.json(
-      { error: `Proposal not ready for checkout (status: ${proposal.status})` },
-      { status: 422 }
-    );
+    console.error(`[checkout] Proposal ${uuid} not ready for checkout (status: ${proposal.status})`);
+    return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
   }
 
   return NextResponse.json({

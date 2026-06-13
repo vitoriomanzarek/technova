@@ -44,6 +44,18 @@ const checkoutLimiter = redis
     })
   : null;
 
+const uuidLimiter = redis
+  ? new Ratelimit({
+      redis,
+      // SEC-4a (2026-06-12): 20 requests por IP por minuto en los endpoints
+      // públicos por-UUID. Generoso para un cliente legítimo navegando su
+      // checkout, pero mata scripts de enumeración de UUIDs.
+      limiter: Ratelimit.slidingWindow(20, '1 m'),
+      prefix: 'rl:uuid',
+      analytics: true,
+    })
+  : null;
+
 function getClientIp(request: NextRequest): string {
   // Vercel pone la IP real en x-forwarded-for; tomamos el primer valor.
   const forwarded = request.headers.get('x-forwarded-for');
@@ -170,9 +182,20 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // SEC-4a: el webhook de Stripe NUNCA lleva rate limit. Stripe reintenta
+  // entregas desde sus propias IPs (compartidas entre muchos clientes); un 429
+  // perdería eventos de pago reales. Su auth es la firma HMAC del body, no IP.
+  if (path === '/api/checkout/webhook') {
+    return NextResponse.next();
+  }
+
   let limiter: Ratelimit | null = null;
   if (path === '/api/leads') limiter = leadsLimiter;
   else if (path === '/api/checkout') limiter = checkoutLimiter;
+  // SEC-4a: endpoints públicos por-UUID (/api/checkout/[uuid]/*, /api/proposals/[uuid]/pdf).
+  // /api/proposals/generate no llega aquí — el gate admin de arriba lo intercepta antes.
+  else if (path.startsWith('/api/checkout/') || path.startsWith('/api/proposals/'))
+    limiter = uuidLimiter;
   else return NextResponse.next(); // matcher de abajo debería evitar esto pero por si acaso.
 
   // Sin config de Upstash → dejar pasar (degrade gracefully).
@@ -228,12 +251,14 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     '/api/leads',
-    '/api/checkout',
+    // ':path*' = cero o más segmentos → cubre también '/api/checkout' exacto
+    // (limiter 3/min) y sus sub-rutas por-UUID (limiter 20/min, SEC-4a).
+    '/api/checkout/:path*',
+    '/api/proposals/:path*',
     '/admin/:path*',
     '/internal/:path*',
     '/api/admin/:path*',
     '/cliente/:path*',
     '/api/audits/create',
-    '/api/proposals/generate',
   ],
 };

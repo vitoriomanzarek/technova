@@ -209,23 +209,23 @@ Historial git ya limpiado con filter-repo y password Neon rotada (A.12 ✅). Fal
 - [ ] Vercel token — rotar o confirmar
 - [ ] Registrar resultado en BITACORA
 
-### SEC-4: Anti-enumeración y rate limit en checkout/propuestas 🟠
-**Status:** 🔴 NO INICIADO | **Priority:** 🟠 ALTA | **Estimado:** medio día
+### SEC-4: Anti-enumeración y rate limit en checkout/propuestas 🔄
+**Status:** 🔄 EJECUTADO — pendiente verificación Cowork (tests verdes) | **Priority:** 🟠 ALTA
+**Ejecutado por:** Claude Code 2026-06-13 (prompt `SEC-4_5_HARDENING.prompt.md`)
 
-- [ ] Rate limit Upstash en `/api/checkout/[uuid]/*` y `/propuesta/[uuid]`
-- [ ] Verificar que los UUIDs sean v4 aleatorios (no secuenciales/predecibles)
-- [ ] Respuestas 404 uniformes (no filtrar existencia de recursos)
+- [x] Rate limit Upstash `rl:uuid` 20/min en `/api/checkout/[uuid]/*` y `/api/proposals/[uuid]/pdf` (proxy.ts) — verificado por inspección Cowork
+- [x] Webhook Stripe excluido del rate limit con comentario (verificado proxy.ts L185-190)
+- [x] Respuestas 404 uniformes en endpoints públicos por-UUID (verificado checkout/[uuid]/route.ts)
+- [~] Aleatoriedad de UUIDs: pendiente confirmar en el reporte (el agente NO dejó reporte)
 
-### SEC-5: Tests de integración del flujo de pago 🟠
-**Status:** 🔴 NO INICIADO | **Priority:** 🟠 ALTA | **Estimado:** 2-3 días
+### SEC-5: Tests de integración del flujo de pago 🔄
+**Status:** 🔄 EJECUTADO — pendiente verificación Cowork (correr suite local) | **Priority:** 🟠 ALTA
+**Ejecutado por:** Claude Code 2026-06-13
 
-Cobertura actual ~6% (7 archivos de test, solo lógica pura). El flujo lead→pago cobra dinero real sin un solo test de endpoint.
+- [x] 6 archivos nuevos en `src/__tests__/api/`: leads-route, checkout-webhook, internal-auth, cron-auth, checkout-pricing, uuid-rate-limit — verificados por inspección Cowork (bien escritos, cubren los casos del prompt)
+- [ ] **GATE para marcar ✅:** correr `npx vitest run` local y confirmar 13 suites verdes (Cowork no pudo correr la suite — limitación del sandbox)
 
-- [ ] Tests de `/api/leads` (validación, rate limit, dispatch de emails)
-- [ ] Tests de `/api/checkout` + webhook Stripe (firma, idempotencia, transiciones de orden)
-- [ ] Tests de `/api/proposals/*` (auth nueva de SEC-1 incluida)
-- [ ] Tests del catalog.ts (cálculo de precios + 20% PM fee)
-- [ ] Meta: path crítico lead→pago cubierto (no perseguir % global)
+> ⚠️ **Huecos de proceso de Claude Code (D-030):** NO generó `reports/SEC-4_5_HARDENING_REPORT.md`, NO commiteó los cambios de SEC-4/5 (siguen en working tree), NO actualizó este BACKLOG. El código está correcto por inspección, pero falta el cierre formal: reporte + test-green + commit. Ver BITACORA 2026-06-13.
 
 ### SEC-6: Consolidación documental 🟡
 **Status:** 🔴 NO INICIADO | **Priority:** 🟡 MEDIA | **Estimado:** medio día

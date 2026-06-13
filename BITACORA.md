@@ -1767,3 +1767,33 @@ Ciclo: Planear → `prompts/<TASK>.prompt.md` → Claude Code ejecuta → `repor
 - Las carpetas `prompts/` y `reports/` ya existían con convenciones probadas (8 prompts de B.4 ejecutados así) — se conservan tal cual, no se creó "reportes/"
 - Regla central: **nada es DONE sin reporte verificado por Cowork**
 - Documentado en: CLAUDE.md (sección nueva al inicio) + DECISION_LOG.md (D-030)
+
+---
+
+## 🔍 SESSION 2026-06-13: Verificación SEC-4/5 (primer ciclo bajo D-030)
+
+**Owner:** Claude Cowork (verificador)
+**Status:** 🔄 Código correcto por inspección — pendiente cierre formal (reporte + test-green + commit)
+
+### Qué hizo Claude Code (prompt SEC-4_5_HARDENING)
+- Paso 0 OK: commit `aa2e1e7` (SEC-1/2 + docs) pusheado, index.lock resuelto
+- SEC-4: limiter `rl:uuid` 20/min en endpoints por-UUID, webhook excluido, 404 uniformes
+- SEC-5: 6 archivos de test en `src/__tests__/api/`
+
+### Verificación Cowork (por inspección de código)
+- `proxy.ts`: limiter uuid + exclusión webhook (L185-198) ✅ correcto
+- `checkout/[uuid]/route.ts`: 404 uniforme con detalle solo a logs ✅
+- `cron-auth.test.ts` y demás: bien escritos, cubren los casos del prompt ✅
+- **No pude correr `npx vitest run`**: el sandbox de Cowork no ejecuta los binarios nativos (bus error) y el mount entregó archivos desincronizados (tsc reportó errores fantasma en next-env.d.ts y archivos intactos). La verificación de tests verdes la debe hacer Vic local.
+
+### Huecos de proceso de Claude Code (incumple D-030)
+1. ❌ NO generó `reports/SEC-4_5_HARDENING_REPORT.md` (el prompt lo exigía)
+2. ❌ NO commiteó los cambios SEC-4/5 (siguen en working tree sin commit)
+3. ❌ NO actualizó BACKLOG_MASTER (lo hizo Cowork)
+
+→ Acción correctiva: el próximo prompt debe re-enfatizar reporte + commit como Definition of Done bloqueante. Considerar añadir a prompts/README un recordatorio.
+
+### Pendiente para cerrar SEC-4/5 (gate para ✅)
+- Vic: `npx vitest run` local → confirmar 13 suites verdes
+- Commit `security(SEC-4,SEC-5): anti-enumeración + tests del flujo de pago` + push
+- Confirmar aleatoriedad de UUIDs (sin reporte, queda por revisar el schema)
