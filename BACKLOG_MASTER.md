@@ -3,7 +3,7 @@
 
 **Dueño:** Vic (Fundador/CEO)  
 **Autoridad:** Vic (APROBADO)  
-**Última actualización:** 2026-06-03 ← sincronizado con realidad (B.4.1-4 COMPLETADOS)  
+**Última actualización:** 2026-06-12 ← auditoría general del proyecto → nuevo sprint SEC (hardening) priorizado antes de B.1-B.3  
 **Status:** 🟢 MASTER REFERENCE DOCUMENT
 
 ---
@@ -16,6 +16,7 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 |------|--------|----------|-------|----------|
 | **A** | ✅ COMPLETADA | May 20 – Jun 2, 2026 | Foundation & Architecture | 100% |
 | **B.4** | 🟢 **EN PRODUCCIÓN** | Jun 3-4, 2026 | Commercial Flow (TODOS 8 stages) | **100% ✅** |
+| **SEC** | 🔴 **PRÓXIMO — BLOQUEANTE** | Jun 2026 (~1 semana) | Sprint Hardening (auth, crons, tests de pago) | 0% |
 | **B.1** | 🟠 SCHEDULED | Jun-Jul 2026 | Imagery (Portfolio, team, testimonials) | 0% |
 | **B.2** | 🟠 SCHEDULED | Jun-Jul 2026 | Marketing Funnel (Blog, ads, email) | 0% |
 | **B.3** | 🟠 SCHEDULED | Jul-Aug 2026 | NOVA AI (Chat advisor autónomo) | 0% |
@@ -166,6 +167,73 @@ Estas tareas son rápidas pero afectan la operación del día a día:
 **Status:** ✅ RESUELTO (2026-06-02)  
 **Archivo:** `docs/OP-5-AUDIT-TEMPLATE.md`  
 **Contenido:** Checklist 17 puntos, scoring 0-100, template email, 3 ejemplos reales, gotchas operativos. Decisión D-028: .md en repo (no Google Doc).
+
+---
+
+## 🔴 SEC: SPRINT DE HARDENING (Auditoría 2026-06-12) — BLOQUEANTE ANTES DE B.1-B.3
+
+**Origen:** Auditoría general del proyecto (2026-06-12). Hallazgo central: el flujo comercial está completo y cobrando en LIVE, pero varios endpoints internos quedaron sin autenticación y la cobertura de tests (~6%) no protege el path que mueve dinero real.  
+**Decisión:** D-029 — hardening antes de invertir en tráfico (B.2 ads traería atacantes además de clientes).  
+**Estimado total:** ~1 semana  
+**Owner:** Claude Code + Vic
+
+### SEC-1: Autenticación en endpoints internos ✅
+**Status:** ✅ COMPLETADO (2026-06-12) | **Priority:** 🔴 CRÍTICA
+
+Verificado en auditoría: `/api/proposals/generate` tenía Zod pero cero auth — cualquiera con la URL disparaba llamadas a Claude API (DoS económico). Mismo patrón en `/api/audits/create` (IDOR).
+
+- [x] Inventario completo de las 23 rutas API clasificadas: pública / admin / interna
+- [x] `/api/proposals/generate` — protegido vía gate admin en `src/proxy.ts` (requiere `x-admin-token`)
+- [x] `/api/audits/create` — ídem (ambos añadidos al matcher del proxy)
+- [x] Verificado: el pipeline real invoca `auditWebsite()`/`generateProposal()` como función directa — nada interno depende de estas rutas por HTTP, cero breaking changes
+- [x] Resto de rutas revisadas: públicas son intencionales (leads, checkout, webhooks con firma) — `/api/proposals/[uuid]/pdf` queda para SEC-4 (anti-enumeración)
+
+### SEC-2: Proteger crons con CRON_SECRET ✅
+**Status:** ✅ COMPLETADO (2026-06-12) | **Priority:** 🔴 CRÍTICA
+
+Matiz vs auditoría: los 4 crons SÍ tenían check, pero **fail-open** (sin env vars pasaba cualquiera) y comparación no constant-time.
+
+- [x] Helper compartido `src/lib/cron-auth.ts` — **fail-closed** (503 sin secret, 401 sin match), constant-time
+- [x] 4 cron routes migradas (daily, email-automation, proposal-timeout, second-payment-reminder)
+- [x] Eliminado `?token=` por query param (quedaba en logs de Vercel); acepta `Authorization: Bearer CRON_SECRET` (Vercel lo manda solo) o `x-admin-token` para triggers manuales
+- [ ] **Vic post-deploy:** confirmar que `CRON_SECRET` existe en Vercel production (el Morning Brief llega → casi seguro sí) y que el cron de las 7am sigue llegando al día siguiente
+
+### SEC-3: Confirmar rotación de claves expuestas 🔴
+**Status:** 🔴 NO INICIADO | **Priority:** 🔴 CRÍTICA | **Estimado:** 1-2 h
+
+Historial git ya limpiado con filter-repo y password Neon rotada (A.12 ✅). Falta confirmar el resto de claves que vivieron en el `.env` commiteado:
+
+- [ ] Resend API key — rotar o confirmar rotación
+- [ ] Stripe keys test (cuenta vieja) — rotar o confirmar
+- [ ] Upstash Redis token — rotar o confirmar
+- [ ] Vercel token — rotar o confirmar
+- [ ] Registrar resultado en BITACORA
+
+### SEC-4: Anti-enumeración y rate limit en checkout/propuestas 🟠
+**Status:** 🔴 NO INICIADO | **Priority:** 🟠 ALTA | **Estimado:** medio día
+
+- [ ] Rate limit Upstash en `/api/checkout/[uuid]/*` y `/propuesta/[uuid]`
+- [ ] Verificar que los UUIDs sean v4 aleatorios (no secuenciales/predecibles)
+- [ ] Respuestas 404 uniformes (no filtrar existencia de recursos)
+
+### SEC-5: Tests de integración del flujo de pago 🟠
+**Status:** 🔴 NO INICIADO | **Priority:** 🟠 ALTA | **Estimado:** 2-3 días
+
+Cobertura actual ~6% (7 archivos de test, solo lógica pura). El flujo lead→pago cobra dinero real sin un solo test de endpoint.
+
+- [ ] Tests de `/api/leads` (validación, rate limit, dispatch de emails)
+- [ ] Tests de `/api/checkout` + webhook Stripe (firma, idempotencia, transiciones de orden)
+- [ ] Tests de `/api/proposals/*` (auth nueva de SEC-1 incluida)
+- [ ] Tests del catalog.ts (cálculo de precios + 20% PM fee)
+- [ ] Meta: path crítico lead→pago cubierto (no perseguir % global)
+
+### SEC-6: Consolidación documental 🟡
+**Status:** 🔴 NO INICIADO | **Priority:** 🟡 MEDIA | **Estimado:** medio día
+
+- [ ] Consolidar COMMERCIAL_FLOW.md vs COMMERCIAL_FLOW_v2_FINAL.md en uno solo (archivar el otro en docs/archive/)
+- [ ] Actualizar docs/technical/ donde dice "rate limiting TODO" (ya implementado en proxy.ts)
+- [ ] Actualizar CLAUDE.md con referencias actuales
+- [ ] Mover docs históricos de raíz (PHASE1-4_KICKOFF, TODAY_SUMMARY, etc.) a docs/archive/
 
 ---
 

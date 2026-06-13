@@ -126,7 +126,17 @@ export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Gate de dashboards internos y APIs admin antes que cualquier otra cosa.
-  if (path.startsWith('/admin') || path.startsWith('/internal') || path.startsWith('/api/admin')) {
+  // SEC-1 (2026-06-12): /api/audits/create y /api/proposals/generate son triggers
+  // internos (el pipeline real los invoca como función directa, no por HTTP).
+  // Expuestos sin auth permitían DoS económico (Claude API) e IDOR. Ahora
+  // requieren x-admin-token, igual que /api/admin/*.
+  if (
+    path.startsWith('/admin') ||
+    path.startsWith('/internal') ||
+    path.startsWith('/api/admin') ||
+    path === '/api/audits/create' ||
+    path === '/api/proposals/generate'
+  ) {
     return handleAdminAuth(request);
   }
 
@@ -216,5 +226,14 @@ export async function proxy(request: NextRequest) {
 // Matcher restringe el middleware a los endpoints rate-limited + dashboards
 // internos. Otros paths (pages públicas, otros API routes) no pagan overhead.
 export const config = {
-  matcher: ['/api/leads', '/api/checkout', '/admin/:path*', '/internal/:path*', '/api/admin/:path*', '/cliente/:path*'],
+  matcher: [
+    '/api/leads',
+    '/api/checkout',
+    '/admin/:path*',
+    '/internal/:path*',
+    '/api/admin/:path*',
+    '/cliente/:path*',
+    '/api/audits/create',
+    '/api/proposals/generate',
+  ],
 };

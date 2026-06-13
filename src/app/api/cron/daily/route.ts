@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireCronAuth } from '@/lib/cron-auth';
 import { runProposalTimeoutJob } from '@/lib/jobs/proposal-timeout-job';
 import { runSecondPaymentJob } from '@/lib/jobs/second-payment-job';
 import { runDailyDigest } from '@/lib/jobs/daily-digest';
@@ -16,13 +17,9 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
 export async function GET(request: Request) {
-  const cronSecret = process.env.CRON_SECRET ?? process.env.ADMIN_DASHBOARD_TOKEN;
-  const token = request.headers.get('authorization')?.replace('Bearer ', '')
-    ?? new URL(request.url).searchParams.get('token');
-
-  if (cronSecret && token !== cronSecret) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  // SEC-2 (2026-06-12): auth fail-closed centralizada en src/lib/cron-auth.ts
+  const unauthorized = requireCronAuth(request);
+  if (unauthorized) return unauthorized;
 
   const jobResults: Record<string, unknown> = {};
 

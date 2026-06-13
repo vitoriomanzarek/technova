@@ -1683,3 +1683,87 @@ GET /api/cron/daily?token=... →
 
 ### Nota local dev
 - `.env` local conserva las llaves TEST de la cuenta vieja — correcto para desarrollo; producción usa live.
+
+---
+
+## 🔍 SESSION 2026-06-12: Auditoría General del Proyecto + Sprint SEC priorizado
+
+**Owner:** Claude (auditoría) + Vic (decisión)
+**Status:** ✅ Auditoría completa — plan de hardening aprobado e integrado al backlog
+
+### Qué se hizo
+1. **Auditoría general** (docs + código + git + tests + seguridad). Veredicto: 7/10 — visión, proceso documental y flujo comercial excelentes; ejecución técnica con huecos de seguridad serios.
+2. **Hallazgos críticos (verificados en código):**
+   - `/api/proposals/generate` y `/api/audits/create` sin autenticación → DoS económico (Claude API) e IDOR
+   - `/api/cron/*` sin token de protección
+   - Cobertura de tests ~6% (7 archivos), cero tests de endpoints — con Stripe LIVE cobrando
+   - Enumeración posible en `/api/checkout/[uuid]` sin rate limit
+   - Pendiente confirmar rotación de claves del incidente `.env` (Neon ya rotada; Resend/Stripe test/Upstash/Vercel sin confirmar)
+3. **Hallazgos menores:** COMMERCIAL_FLOW.md vs v2_FINAL duplicados, docs/technical con "rate limiting TODO" ya implementado, CLAUDE.md desactualizado, docs históricos en raíz.
+4. **Positivo confirmado:** historial git limpiado con filter-repo ✓, Zod en endpoints principales ✓, middleware admin/cliente ✓, stack y arquitectura sólidos ✓.
+
+### Decisiones tomadas
+- **D-029:** Sprint SEC de hardening (~1 semana) BLOQUEANTE antes de B.1-B.3. Razón: B.2 (ads) traería tráfico hostil además de clientes; no se invierte en tráfico con endpoints abiertos.
+
+### Cambios en docs
+- BACKLOG_MASTER.md: nueva sección SEC (SEC-1 a SEC-6) + fila en executive summary
+- DECISION_LOG.md: D-029 añadida
+- BITACORA.md: esta entrada
+
+### Next steps (orden)
+1. SEC-1 + SEC-2 (auth endpoints + crons) — mayor riesgo, menor esfuerzo
+2. SEC-3 (rotación de claves — requiere a Vic en dashboards)
+3. OP-6 (validaciones Stripe live + GA4/Clarity — sigue pendiente)
+4. SEC-4 + SEC-5 (anti-enumeración + tests de pago)
+5. SEC-6 (consolidación documental)
+6. Desbloquea → Fase B.1/B.2
+
+---
+
+## 🔒 SESSION 2026-06-12 (2): SEC-1 + SEC-2 implementados
+
+**Owner:** Claude (código) + Vic (deploy)
+**Status:** ✅ Código completo, tsc limpio — pendiente commit + deploy + verificación post-deploy
+
+### SEC-1 — Auth en endpoints internos ✅
+- `/api/audits/create` y `/api/proposals/generate` añadidos al gate admin de `src/proxy.ts` (matcher + check) → ahora requieren `x-admin-token`
+- Verificado antes de tocar: el pipeline los invoca como función directa (`auditWebsite()` desde /api/leads), NO por HTTP → cero breaking changes
+
+### SEC-2 — Crons fail-closed ✅
+- Matiz: los crons SÍ tenían check pero fail-open (sin env vars pasaba cualquiera) y comparación `!==` no constant-time
+- Nuevo `src/lib/cron-auth.ts`: fail-closed (503/401), constant-time, acepta `Bearer CRON_SECRET` o header `x-admin-token`
+- 4 rutas migradas; eliminado `?token=` por query (los URLs quedan en logs de Vercel)
+
+### Verificación
+- `tsc --noEmit` ✅ limpio
+- vitest no corre en el sandbox de Claude (binarios nativos de Windows, bus error) → **Vic: correr `npx vitest run` local antes de deploy**. Ningún test existente toca los archivos modificados.
+- Nota operativa: sync de archivos del sandbox dejó `src/proxy.ts` truncado a media sesión; se reescribió completo (contenido verificado, CRLF preservado)
+
+### Pendiente para Vic
+1. Borrar `.git/index.lock` huérfano (Claude no puede commitear por eso) → commit + push
+2. `npx vitest run` local
+3. Deploy + confirmar `CRON_SECRET` en Vercel production
+4. Al día siguiente: verificar que el Morning Brief de las 7am sigue llegando (prueba de que el cron pasa la auth nueva)
+
+### Archivos tocados
+`src/proxy.ts`, `src/lib/cron-auth.ts` (nuevo), `src/app/api/cron/{daily,email-automation,proposal-timeout,second-payment-reminder}/route.ts`, `BACKLOG_MASTER.md`
+
+---
+
+## 🏛️ SESSION 2026-06-12 (3): Sistema Operativo de Trabajo formalizado (D-030)
+
+**Owner:** Vic (decisión) + Claude Cowork (documentación)
+**Status:** ✅ Activo
+
+### Qué se estableció
+Modelo de 3 roles, ahora regla obligatoria en CLAUDE.md:
+- **Vic (CEO):** decide, aprueba, acciones manuales
+- **Cowork (Arquitecto/Admin):** planea, escribe prompts, verifica reportes, mantiene docs
+- **Claude Code (Ejecutor):** implementa los prompts, genera reporte
+
+Ciclo: Planear → `prompts/<TASK>.prompt.md` → Claude Code ejecuta → `reports/<TASK>_REPORT.md` → Cowork verifica → ✅ en BACKLOG.
+
+### Notas
+- Las carpetas `prompts/` y `reports/` ya existían con convenciones probadas (8 prompts de B.4 ejecutados así) — se conservan tal cual, no se creó "reportes/"
+- Regla central: **nada es DONE sin reporte verificado por Cowork**
+- Documentado en: CLAUDE.md (sección nueva al inicio) + DECISION_LOG.md (D-030)

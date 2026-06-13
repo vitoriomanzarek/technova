@@ -17,7 +17,8 @@ Cada prompt es **COMPLETO Y AUTÓNOMO** — el agente no necesita contexto adici
 | `B.4.5_ECOMMERCE_DINAMICO.prompt.md` | B.4.5 | ✅ EJECUTADO | Checkout dinámico (cliente refina) |
 | `B.4.6_INTEGRACION_STRIPE.prompt.md` | B.4.6 | ✅ EJECUTADO | Contrato + pago 50%+50% |
 | `B.4.7_ONBOARDING.prompt.md` | B.4.7 | ✅ EJECUTADO | Dashboard cliente post-pago |
-| `B.4.8_CRM_WORKFLOWS.prompt.md` | B.4.8 | 🔴 PRÓXIMO | CRM + email workflows (FINAL) |
+| `B.4.8_CRM_WORKFLOWS.prompt.md` | B.4.8 | ✅ EJECUTADO | CRM + email workflows (FINAL) |
+| `SEC-4_5_HARDENING.prompt.md` | SEC-4/5 | 🔴 PRÓXIMO | Anti-enumeración + tests flujo de pago (auditoría D-029) |
 
 ---
 

@@ -1307,6 +1307,42 @@ Para "Auditoría Web Express" se conserva el flujo personalizado de Sofía (D-00
 
 ---
 
+### D-029: Sprint SEC de hardening bloqueante antes de B.1-B.3
+**Fecha:** 2026-06-12 | **Dueño:** Vic | **Status:** 🔴 APROBADO — EN BACKLOG (sección SEC)
+
+**Decisión:** Ejecutar un sprint de seguridad (~1 semana) ANTES de continuar con Fase B.1 (Imagery), B.2 (Marketing) y B.3 (NOVA AI).
+
+**Contexto:** Auditoría general 2026-06-12 encontró endpoints internos sin auth (`/api/proposals/generate`, `/api/audits/create`), crons públicos, ~6% cobertura de tests y rotación de claves sin confirmar — con Stripe ya cobrando en LIVE.
+
+**Por qué ahora:** B.2 invierte dinero en atraer tráfico; más tráfico = más exposición de los endpoints abiertos. Cada llamada no autenticada a proposals/generate cuesta dinero (Claude API). El costo de arreglar es ~1 semana; el costo de un incidente con pagos live es reputacional y económico.
+
+**Alternativas descartadas:**
+- ❌ Hardening en paralelo con B.1/B.2 — divide foco y B.2 amplifica el riesgo justo mientras se mitiga
+- ❌ Dejarlo para Fase C (Security Hardening C.6) — C está a 4 meses; inaceptable con pagos live
+
+**Alcance:** SEC-1 a SEC-6 en BACKLOG_MASTER.md.
+
+**KPI de éxito:** 0 endpoints internos sin auth, crons con CRON_SECRET, claves rotadas confirmadas, path lead→pago con tests de integración.
+
+---
+
+### D-030: Sistema operativo de trabajo — Cowork planea, Claude Code ejecuta
+**Fecha:** 2026-06-12 | **Dueño:** Vic | **Status:** ✅ ACTIVO (documentado en CLAUDE.md)
+
+**Decisión:** Formalizar el modelo de trabajo en 3 roles: Vic (CEO, decide/aprueba), Claude en Cowork (Arquitecto/Admin: planea, escribe prompts, verifica reportes, mantiene docs), Claude Code (Ejecutor: implementa, reporta).
+
+**Ciclo:** Planear (Cowork) → Prompt en `prompts/` → Ejecutar (Claude Code) → Reporte en `reports/` → Verificar (Cowork) → ✅ en BACKLOG.
+
+**Por qué:** El patrón ya funcionaba informalmente en B.4 (8 prompts ejecutados con éxito) pero no estaba escrito como regla — cualquier agente nuevo lo desconocía. Formalizarlo garantiza: separación planeación/ejecución, evidencia auditable (reportes), y que nada se marque DONE sin verificación independiente.
+
+**Reglas clave:** nada es DONE sin reporte verificado por Cowork; prompts completos y autónomos (9 secciones de prompts/README.md); carpetas oficiales `prompts/` y `reports/`; excepción para cambios menores de docs/config que Cowork hace directo con registro en BITACORA.
+
+**Alternativas descartadas:**
+- ❌ Cowork ejecuta todo — mezcla planeación y ejecución, sin verificación independiente
+- ❌ Sistema informal (status quo) — se pierde al cambiar de sesión/agente
+
+---
+
 ## 🔗 REFERENCIAS
 
 **Documentación relacionada:**
@@ -1320,6 +1356,6 @@ Para "Auditoría Web Express" se conserva el flujo personalizado de Sofía (D-00
 
 ---
 
-**Última actualización:** 2026-05-23  
+**Última actualización:** 2026-06-12  
 **Próxima revisión:** Cuando se tome decisión nueva  
 **Owner:** Vic (Estrategia) + Equipo TechNova

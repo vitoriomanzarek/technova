@@ -2,6 +2,45 @@
 
 ---
 
+## 🏛️ Sistema Operativo de Trabajo — Roles y Ciclo (OBLIGATORIO)
+
+> Establecido por Vic el 2026-06-12 (D-030). Define CÓMO se trabaja en TechNova.
+> Cualquier agente que entre a este proyecto debe operar bajo este sistema.
+
+### Roles
+
+| Rol | Quién | Responsabilidad |
+|-----|-------|-----------------|
+| **CEO** | Vic | Decide, aprueba planes y prompts, ejecuta acciones manuales (dashboards, pagos, env vars) |
+| **ARQUITECTO / ADMIN** | Claude en **Cowork** | Planea con Vic, escribe los prompts de ejecución, **verifica los reportes**, mantiene los docs críticos (BACKLOG, BITACORA, DECISION_LOG) |
+| **EJECUTOR** | **Claude Code** | Ejecuta los prompts (código), genera el reporte de ejecución |
+
+**Regla de oro:** en Cowork se PLANEA, Claude Code EJECUTA. Cowork no implementa features; Claude Code no toma decisiones de arquitectura ni reprioriza el backlog.
+
+### Ciclo de trabajo (5 pasos)
+
+```
+1. PLANEAR   (Cowork + Vic)     → decisiones a DECISION_LOG, items a BACKLOG_MASTER
+2. PROMPT    (Cowork escribe)   → prompts/<TASK_ID>_<NOMBRE>.prompt.md
+3. EJECUTAR  (Vic → Claude Code) → Vic pasa el prompt a Claude Code, que implementa
+4. REPORTAR  (Claude Code)      → reports/<NOMBRE>_REPORT.md (usar reports/REPORT_TEMPLATE.md)
+5. VERIFICAR (Cowork)           → lee el reporte, valida vs Definition of Done
+                                   (inspeccionando código si hace falta) y solo entonces
+                                   marca ✅ en BACKLOG_MASTER + entrada en BITACORA.
+                                   Si hay gaps → prompt de corrección (vuelve al paso 2).
+```
+
+### Reglas del sistema
+
+- **Nada se marca ✅ DONE en BACKLOG_MASTER sin reporte verificado por Cowork.** El reporte de Claude Code es la evidencia; la verificación de Cowork es el cierre.
+- Cada prompt debe ser **completo y autónomo** (Claude Code no tiene el contexto de la sesión de planeación). Estructura de 9 secciones definida en `prompts/README.md`: Objetivo, Entregables, Tech Stack, Setup, Checklist QA, Referencias, Definition of Done, Cómo Reportar, Tips & Gotchas.
+- Todo prompt DEBE incluir la instrucción de generar su reporte en `reports/` antes de terminar.
+- Carpetas oficiales: **`prompts/`** y **`reports/`** (en inglés — convención ya existente, no crear "reportes/").
+- **Excepción — cambios menores:** Cowork puede ejecutar directamente ediciones de documentación, config trivial o hotfixes puntuales, registrándolos en BITACORA. Ante la duda, se escribe prompt.
+- **Los prompts se entregan listos para copiar y pegar en Claude Code.** Toda acción local automatizable (git — incluyendo limpiar locks huérfanos —, instalar dependencias, correr tests, builds) va DENTRO del prompt para que la haga Claude Code. A Vic solo le quedan acciones que requieren sus credenciales o dashboards externos (Vercel, Stripe, Resend, GA4, pagos).
+
+---
+
 ## 📋 Reglas de Documentación — Obligatorias
 
 Estas reglas se aplican en TODAS las sesiones de trabajo, sin excepción.
