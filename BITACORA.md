@@ -1848,3 +1848,35 @@ git push origin main
 | SEC-4: Anti-enumeración + rate limit | ✅ DONE (2026-06-13) |
 | SEC-5: Tests flujo de pago | ✅ DONE (2026-06-13) |
 | SEC-6: Consolidación documental | 🔴 NO INICIADO (baja prioridad, no bloqueante) |
+
+---
+
+## 🖥️ SESSION 2026-06-14: Dashboard /internal/project-status + reconciliación de docs
+
+**Owner:** Vic (CEO) + Claude Code (Ejecutor)
+**Status:** ✅ COMPLETED — página nueva en producción del repo, docs reconciliados
+
+### Qué hizo Claude Code (prompt INTERNAL_PROJECT_STATUS)
+
+Nueva página interna `/internal/project-status`: dashboard visual que lee en vivo
+BACKLOG_MASTER.md, BITACORA.md y DECISION_LOG.md y los presenta en 7 paneles. Mismo
+patrón que `/internal/architecture` (server component force-dynamic, parsers fs+regex,
+sin dependencias nuevas, gate ADMIN_DASHBOARD_TOKEN existente).
+
+- Archivos nuevos: `src/lib/backlog-parser.ts`, `src/app/internal/project-status/page.tsx`, y 5 componentes en `src/components/internal/` (ProjectStatusDashboard, PhaseProgressCard, BacklogItemList, SprintStatusPanel, NextStepsBanner).
+- Modificados: `src/lib/bitacora-parser.ts` (añadido `parseSessions` para el formato `## … SESSION` actual — el parser viejo solo leía `## [fecha] -`) y link de nav en `architecture/page.tsx`.
+- Reporte: `reports/INTERNAL_PROJECT_STATUS_REPORT.md`.
+- Verificación: `tsc --noEmit` 0 errores, `npm run build` exit 0, render real con token → HTTP 200 con los 7 paneles, sin token → 401.
+
+### Reconciliación de docs (instrucción de Vic)
+
+Claude Code detectó al construir el dashboard que los docs estaban desincronizados:
+
+1. **Conflicto SEC-3:** BACKLOG decía `🔴 NO INICIADO`, BITACORA (cierre formal 2026-06-13) decía `✅ DONE (acción Vic)`. Se alineó BACKLOG a la versión más reciente → SEC-3 ✅ DONE, 4 sub-items marcados. Nota de reversa dejada por si alguna clave no se rotó.
+2. **Tabla resumen stale:** la fila SEC decía `🔴 PRÓXIMO — BLOQUEANTE … 0%` cuando ya iban 5/6. Actualizada a `🟡 EN PROGRESO … 83%`.
+3. **Fecha "Última actualización"** del BACKLOG → 2026-06-14.
+
+### Estado del sprint SEC (post-reconciliación)
+
+5/6 = **83%**. Solo queda **SEC-6** (consolidación documental, 🟡 MEDIA, no bloqueante).
+Con SEC-1..5 cerrados, el sprint de hardening está efectivamente completo para el gate de Fase B.

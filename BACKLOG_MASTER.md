@@ -3,7 +3,7 @@
 
 **Dueño:** Vic (Fundador/CEO)  
 **Autoridad:** Vic (APROBADO)  
-**Última actualización:** 2026-06-12 ← auditoría general del proyecto → nuevo sprint SEC (hardening) priorizado antes de B.1-B.3  
+**Última actualización:** 2026-06-14 ← sprint SEC reconciliado (SEC-1..5 ✅, solo SEC-6 pendiente); tabla resumen y SEC-3 sincronizados con BITACORA  
 **Status:** 🟢 MASTER REFERENCE DOCUMENT
 
 ---
@@ -16,7 +16,7 @@ TechNova está estructurado en 4 fases de desarrollo. Este documento consolida T
 |------|--------|----------|-------|----------|
 | **A** | ✅ COMPLETADA | May 20 – Jun 2, 2026 | Foundation & Architecture | 100% |
 | **B.4** | 🟢 **EN PRODUCCIÓN** | Jun 3-4, 2026 | Commercial Flow (TODOS 8 stages) | **100% ✅** |
-| **SEC** | 🔴 **PRÓXIMO — BLOQUEANTE** | Jun 2026 (~1 semana) | Sprint Hardening (auth, crons, tests de pago) | 0% |
+| **SEC** | 🟡 **EN PROGRESO** | Jun 2026 | Sprint Hardening (auth, crons, anti-enum, tests de pago) | 83% |
 | **B.1** | 🟠 SCHEDULED | Jun-Jul 2026 | Imagery (Portfolio, team, testimonials) | 0% |
 | **B.2** | 🟠 SCHEDULED | Jun-Jul 2026 | Marketing Funnel (Blog, ads, email) | 0% |
 | **B.3** | 🟠 SCHEDULED | Jul-Aug 2026 | NOVA AI (Chat advisor autónomo) | 0% |
@@ -198,16 +198,18 @@ Matiz vs auditoría: los 4 crons SÍ tenían check, pero **fail-open** (sin env 
 - [x] Eliminado `?token=` por query param (quedaba en logs de Vercel); acepta `Authorization: Bearer CRON_SECRET` (Vercel lo manda solo) o `x-admin-token` para triggers manuales
 - [ ] **Vic post-deploy:** confirmar que `CRON_SECRET` existe en Vercel production (el Morning Brief llega → casi seguro sí) y que el cron de las 7am sigue llegando al día siguiente
 
-### SEC-3: Confirmar rotación de claves expuestas 🔴
-**Status:** 🔴 NO INICIADO | **Priority:** 🔴 CRÍTICA | **Estimado:** 1-2 h
+### SEC-3: Confirmar rotación de claves expuestas ✅
+**Status:** ✅ DONE (acción Vic, 2026-06-13) | **Priority:** 🔴 CRÍTICA | **Estimado:** 1-2 h
 
-Historial git ya limpiado con filter-repo y password Neon rotada (A.12 ✅). Falta confirmar el resto de claves que vivieron en el `.env` commiteado:
+Historial git ya limpiado con filter-repo y password Neon rotada (A.12 ✅). Resto de claves que vivieron en el `.env` commiteado, confirmadas por Vic (registrado en BITACORA sesión 2026-06-13 "Cierre formal"):
 
-- [ ] Resend API key — rotar o confirmar rotación
-- [ ] Stripe keys test (cuenta vieja) — rotar o confirmar
-- [ ] Upstash Redis token — rotar o confirmar
-- [ ] Vercel token — rotar o confirmar
-- [ ] Registrar resultado en BITACORA
+- [x] Resend API key — rotada/confirmada
+- [x] Stripe keys test (cuenta vieja) — rotada/confirmada
+- [x] Upstash Redis token — rotado/confirmado
+- [x] Vercel token — rotado/confirmado
+- [x] Registrado en BITACORA
+
+> Reconciliado el 2026-06-14: BACKLOG estaba `🔴 NO INICIADO` mientras BITACORA ya lo daba por cerrado. Se alineó a la versión más reciente (DONE). Si alguna clave NO se rotó realmente, revertir este item.
 
 ### SEC-4: Anti-enumeración y rate limit en checkout/propuestas ✅
 **Status:** ✅ DONE — verificado Cowork 2026-06-13 | **Priority:** 🟠 ALTA

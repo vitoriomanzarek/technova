@@ -327,6 +327,90 @@ export function computeVelocity(
   };
 }
 
+// ---------------------------------------------------------------------------
+// Parser del formato de sesiones actual ("## <emoji> SESSION <fecha>: título").
+// El parser de arriba reconoce el formato viejo "## [fecha] - título"; este
+// reconoce las entradas de sesión que se usan hoy para el Panel "última sesión".
+// ---------------------------------------------------------------------------
+
+export type BitacoraSession = {
+  date: string; // "2026-06-13"
+  title: string;
+  status: EventStatus;
+  statusLabel: string;
+  owner: string | null;
+  summary: string;
+};
+
+const SESSION_HEADER =
+  /^##\s+.*?SESSION\s+(\d{4}-\d{2}-\d{2})(?:\s*\([^)]*\))?\s*:?\s*(.*)$/i;
+
+/** Parsea las entradas con formato `## … SESSION <fecha>: <título>`. */
+export function parseSessions(markdown: string): BitacoraSession[] {
+  const lines = markdown.split(/\r?\n/);
+  const sessions: BitacoraSession[] = [];
+  let current: BitacoraSession | null = null;
+  const summaryLines: string[] = [];
+
+  const flush = () => {
+    if (!current) return;
+    current.summary = summaryLines.join(' ').replace(/\s+/g, ' ').trim().slice(0, 320);
+    sessions.push(current);
+  };
+
+  for (const line of lines) {
+    const header = line.match(SESSION_HEADER);
+    if (header) {
+      flush();
+      summaryLines.length = 0;
+      current = {
+        date: header[1],
+        title: header[2].replace(/[*#]/g, '').trim() || 'Sesión',
+        status: 'in-progress',
+        statusLabel: '',
+        owner: null,
+        summary: '',
+      };
+      continue;
+    }
+    if (!current) continue;
+
+    const statusLine = line.match(/^\*\*Status:\*\*\s*(.*)$/i);
+    if (statusLine && !current.statusLabel) {
+      current.status = classifyStatus(statusLine[1]);
+      current.statusLabel = stripStatusEmoji(statusLine[1]);
+      continue;
+    }
+    const ownerLine = line.match(/^\*\*Owner:\*\*\s*(.*)$/i);
+    if (ownerLine) {
+      current.owner = ownerLine[1].replace(/\*\*/g, '').trim() || null;
+      continue;
+    }
+
+    // Cuerpo del resumen: ignora metadata, separadores y subtítulos.
+    if (
+      summaryLines.length < 4 &&
+      line.trim() &&
+      !/^\*\*\w+.*:\*\*/.test(line) &&
+      !/^[-=#>|]/.test(line.trim())
+    ) {
+      summaryLines.push(line.replace(/[*`]/g, '').trim());
+    }
+  }
+  flush();
+  return sessions;
+}
+
+/** Devuelve las últimas `n` sesiones (más reciente primero). Fallback [] en prod. */
+export async function getRecentSessionsSafe(n = 3): Promise<BitacoraSession[]> {
+  try {
+    const markdown = await readFile(BITACORA_PATH, 'utf8');
+    return parseSessions(markdown).slice(-n).reverse();
+  } catch {
+    return [];
+  }
+}
+
 /** Lee BITACORA.md de disco y devuelve el estado completo del proyecto. */
 export async function getProjectStatus(): Promise<ProjectStatus> {
   const markdown = await readFile(BITACORA_PATH, 'utf8');

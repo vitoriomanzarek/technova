@@ -70,6 +70,14 @@ export default async function ArchitecturePage() {
           Stack, flujos e integraciones del sistema. Punto de entrada para
           developers nuevos.
         </p>
+        <nav className="mt-3 text-xs">
+          <a
+            href="/internal/project-status"
+            className="text-cyan-300 hover:text-cyan-200"
+          >
+            Project Status Dashboard →
+          </a>
+        </nav>
       </header>
 
       <Section title="🛠️ Tech Stack">
